@@ -125,7 +125,25 @@ A classic, widely recognized AVIRIS dataset over Northwestern Indiana, USA, capt
 To comprehensively evaluate the sample complexity threshold across different learning paradigms, we benchmarked several distinct model families. For classical baselines, we utilized Support Vector Machines (SVM) with an RBF kernel, and Light Gradient Boosting Machine (LightGBM) \cite{b27}, which relies on discrete node splitting based on variance reduction. For deep learning approaches, we evaluated 1D-CNNs for raw spectral extraction, Graph Convolutional Networks (GCN) for non-Euclidean representation, and HybridSN (3D-CNN) \cite{b15} for joint spatial-spectral extraction utilizing strong local inductive biases. Finally, for sequence modeling, we evaluated a standard ViT (ViT) relying on global Multi-Head Self-Attention, and a domain-specific SpectralFormer-inspired \cite{b8} architecture optimized for hyperspectral images via Group-Wise Spectral Embeddings.
 
 \subsection{Experimental Setup}
-To ensure reproducibility and manage the computational intensity of training modern deep sequence architectures and 3D-CNNs, all experiments were executed in a cloud-based GPU environment. Specifically, the entire pipeline was run on a Kaggle notebook instance accelerated by dual NVIDIA Tesla T4 GPUs (T4x2), providing 32 GB of total VRAM. To ensure rigorous comparative evaluation, statistical significance was assessed using a threshold of $\alpha = 0.05$. Prior to conducting paired t-tests, normality was verified; when violated, non-parametric alternatives (e.g., Wilcoxon Signed-Rank, Friedman Test) were employed. No multiple-comparison correction (e.g., Bonferroni) was applied to avoid overly conservative Type II error rates during this exploratory architectural benchmark. The deep learning models (ViT, HybridSN, CNNs, GCN) were implemented using PyTorch 2.1 with CUDA 12.1, while the classical ensembles were powered by LightGBM 4.0 and XGBoost 2.0. Memory management and explicit garbage collection routines were heavily utilized to prevent out-of-memory (OOM) errors during the iterative 10-seed evaluations. For the SpectralFormer-inspired implementation, we utilized a patch size of $15 \times 15$, an embedding dimension of 64, and 4 transformer layers. Models were trained for 100 epochs using the AdamW optimizer with a learning rate of 5e-4 and a cosine annealing learning rate scheduler.
+To ensure reproducibility and manage the computational intensity of training modern deep sequence architectures and 3D-CNNs, all experiments were executed in a cloud-based GPU environment. Specifically, the entire pipeline was run on a Kaggle notebook instance accelerated by dual NVIDIA Tesla T4 GPUs (T4x2), providing 32 GB of total VRAM. To ensure rigorous comparative evaluation, statistical significance was assessed using a threshold of $\alpha = 0.05$. Prior to conducting paired t-tests, normality was verified; when violated, non-parametric alternatives (e.g., Wilcoxon Signed-Rank, Friedman Test) were employed. No multiple-comparison correction (e.g., Bonferroni) was applied to avoid overly conservative Type II error rates during this exploratory architectural benchmark. The deep learning models (ViT, HybridSN, CNNs, GCN) were implemented using PyTorch 2.1 with CUDA 12.1, while the classical ensembles were powered by LightGBM 4.0 and XGBoost 2.0. Memory management and explicit garbage collection routines were heavily utilized to prevent out-of-memory (OOM) errors during the iterative 10-seed evaluations. For the SpectralFormer-inspired implementation, we utilized a patch size of $15 \times 15$, an embedding dimension of 64, and 4 transformer layers. Models were trained for 100 epochs. To ensure explicit reproducibility, all utilized hyperparameter settings are detailed in Table \ref{tab:hyperparams}.
+
+\begin{table}[h]
+\centering
+\caption{Optimization Hyperparameters}\label{tab:hyperparams}
+\begin{tabular}{lc}
+\toprule
+\textbf{Hyperparameter} & \textbf{Value} \\
+\midrule
+Optimizer & AdamW \\
+Learning Rate & $5 \times 10^{-4}$ \\
+LR Scheduler & Cosine Annealing \\
+Batch Size & 64 \\
+Weight Decay & $1 \times 10^{-4}$ \\
+Dropout Rate & $0.1$ \\
+Random Seeds & 10 Explicit Initializations \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \subsection{Rigorous Evaluation Protocol and Leakage Prevention}
 A critical flaw in historical HSI classification literature is spatial data leakage, where adjacent, highly correlated pixels are split randomly between training and testing sets, artificially inflating model accuracy. To ensure statistical integrity, we utilize a strict, leak-free 10-seed stratified sampling methodology. Crucially, patches extracted from the same physical region never appeared across training and testing partitions. Although 23,000 image patches were available, they originated from only six independent physical specimens. Consequently, the results primarily demonstrate algorithmic behavior under controlled laboratory conditions rather than full biological variability.
@@ -233,9 +251,9 @@ However, a distinct crossover point emerges between the 5\% and 10\% supervision
 
 \begin{figure*}[t]
     \centering
-    \includegraphics[width=0.32\textwidth]{Figure_Training_Curves_HybridSN_15pct.png}
-    \includegraphics[width=0.32\textwidth]{Figure_Training_Curves_ViT_15pct.png}
-    \includegraphics[width=0.32\textwidth]{Figure_Training_Curves_SpectralFormer_15pct.png}
+    \includegraphics[width=0.32\textwidth]{Figure_Training_Curves_HybridSN_5pct.png}
+    \includegraphics[width=0.32\textwidth]{Figure_Training_Curves_ViT_5pct.png}
+    \includegraphics[width=0.32\textwidth]{Figure_Training_Curves_SpectralFormer_5pct.png}
     \caption{Representative example of training and validation loss curves for HybridSN (left), ViT (center), and SpectralFormer-inspired (right) at the 15\% split. HybridSN converges robustly, while both Transformers exhibit extreme overfitting, suggesting that these heavily parameterized sequence models are highly susceptible to severe overfitting on small-scale spectral datasets.}
     \label{fig:training_curves}
 \end{figure*}
@@ -275,7 +293,7 @@ Finally, we tested the absolute quality of pre-trained representations via True 
 \begin{figure}[h]
     \centering
     \includegraphics[width=\columnwidth]{Figure_Ablation_LinearProbe.png}
-    \caption{Ablation 4: Linear Probe Classification (5\% Split). HybridSN transfers robust, linearly separable features (+15\% gain), while the evaluated transformer implementations completely fail to transfer generalized representations under this annotation regime.}
+    \caption{Ablation 4: Linear Probe Classification (5\% Split). HybridSN transfers robust, linearly separable features (+15\% gain), while the evaluated transformer implementations exhibited negligible transfer gains under this annotation regime.}
     \label{fig:ablation_probe}
 \end{figure}
 
@@ -357,7 +375,7 @@ To test the symmetry of this phenomenon, we reversed the domain hierarchy, attem
 \subsection{SHAP Analysis}
 A critical requirement for deploying HSI models in precision agriculture is ensuring they base decisions on physical realities, not dataset bias \cite{b35}. Following recent trends in remote sensing interpretability \cite{b21, b22}, our Explainable AI (SHAP) \cite{b25} analysis visually unpacks the logic of the LightGBM models across both data regimes. 
 
-As seen in Figure \ref{fig:shap_local}, the model heavily prioritizes Band 96, 156, and 97. These bands correspond approximately to spectral regions commonly associated with specific physical properties: regions near 900-1000 nm (often corresponding to Band 96/97) are generally correlated with water and moisture absorption features, while bands further into the Short-Wave Infrared (SWIR) region (like Band 156) are typically indicative of structural soil composition, clay content, and organic matter. This is consistent with known absorption regions, indicating that LightGBM anchors its predictions in physically meaningful spectroscopy rather than relying on spurious dataset-specific noise.
+As seen in Figure \ref{fig:shap_local}, the model heavily prioritizes Band 96, 156, and 97. These bands correspond approximately to spectral regions commonly associated with specific physical properties: regions near 900-1000 nm (often corresponding to Band 96/97) are generally correlated with water and moisture absorption features, while bands further into the Short-Wave Infrared (SWIR) region (like Band 156) are typically indicative of structural soil composition, clay content, and organic matter. This is consistent with physically meaningful spectral regions reported in previous studies, suggesting resilience against spurious dataset-specific noise.
 
 \begin{figure}[h]
     \centering
