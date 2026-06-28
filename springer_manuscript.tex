@@ -216,7 +216,7 @@ To test this, we executed a rigorous progression benchmark on the Indian Pines d
 
 \begin{figure*}[t]
     \centering
-    \includegraphics[width=\columnwidth]{Figure_FewShot_Curve.png}
+    \includegraphics[width=0.9\textwidth]{Figure_FewShot_Curve.png}
     \caption{Few-Shot robustness curve demonstrating the estimated crossover point at ~6.6\% training data, where the 3D-CNN (HybridSN) overcomes its data starvation and overtakes the pure spectral LightGBM ensemble. The newly added SpectralFormer-inspired model remains data-starved despite its inductive biases.}
     \label{fig:fewshot_curve}
 \end{figure*}
@@ -243,10 +243,11 @@ However, a distinct crossover point emerges between the 5\% and 10\% supervision
 
 \begin{figure*}[t]
     \centering
-    \includegraphics[width=0.32\textwidth]{Figure_Training_Curves_HybridSN_5pct.png}
-    \includegraphics[width=0.32\textwidth]{Figure_Training_Curves_ViT_5pct.png}
-    \includegraphics[width=0.32\textwidth]{Figure_Training_Curves_SpectralFormer_5pct.png}
-    \caption{Representative example of training and validation loss curves for HybridSN (left), ViT (center), and SpectralFormer-inspired (right) at the 15\% split. HybridSN converges robustly, while both Transformers exhibit extreme overfitting, suggesting that these heavily parameterized sequence models are highly susceptible to severe overfitting on small-scale spectral datasets.}
+    \includegraphics[width=0.48\textwidth]{Figure_Training_Curves_HybridSN_5pct.png}
+    \includegraphics[width=0.48\textwidth]{Figure_Training_Curves_ViT_5pct.png}\\
+    \vspace{1em}
+    \includegraphics[width=0.48\textwidth]{Figure_Training_Curves_SpectralFormer_5pct.png}
+    \caption{Representative example of training and validation loss curves for HybridSN (top-left), ViT (top-right), and SpectralFormer-inspired (bottom) at the 5\% split. HybridSN converges robustly, while both Transformers exhibit extreme overfitting, suggesting that these heavily parameterized sequence models are highly susceptible to severe overfitting on small-scale spectral datasets.}
     \label{fig:training_curves}
 \end{figure*}
 \subsection{Ablation Analysis: Deconstructing Data Starvation}
