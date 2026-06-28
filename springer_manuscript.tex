@@ -216,16 +216,8 @@ To test this, we executed a rigorous progression benchmark on the Indian Pines d
 
 \begin{figure*}[t]
     \centering
-    \begin{tikzpicture}
-        \node[inner sep=0pt] (image) at (0,0) {\includegraphics[width=\textwidth]{Figure_FewShot_Curve.png}};
-        \node[align=center, fill=white, draw=black, rounded corners, inner sep=8pt, font=\normalsize, anchor=south east] at (image.south east) [xshift=-1cm, yshift=2cm] {
-            \textbf{Crossover Point}\\
-            HybridSN overtakes LightGBM\\
-            Scratch $\rightarrow$ 4.85\%\\
-            Transfer $\rightarrow$ 4.25\%
-        };
-    \end{tikzpicture}
-    \caption{Few-Shot robustness curve demonstrating the crossover point at 10\% training data, where the 3D-CNN (HybridSN) overcomes its data starvation and overtakes the pure spectral LightGBM ensemble. The newly added SpectralFormer-inspired model remains data-starved despite its inductive biases.}
+    \includegraphics[width=\columnwidth]{Figure_FewShot_Curve.png}
+    \caption{Few-Shot robustness curve demonstrating the estimated crossover point at ~6.6\% training data, where the 3D-CNN (HybridSN) overcomes its data starvation and overtakes the pure spectral LightGBM ensemble. The newly added SpectralFormer-inspired model remains data-starved despite its inductive biases.}
     \label{fig:fewshot_curve}
 \end{figure*}
 
@@ -365,7 +357,7 @@ HybridSN & 20\% & $88.76 \pm 11.84$ & $96.82 \pm 0.43$ & \textbf{+8.06} & \textb
 
 As detailed in Table \ref{tab:transfer_ip_to_local} (class-wise metrics in Appendix \ref{sec:appendix}), the ViT exhibited a substantial improvement. Trained from scratch on the 1\% split, the ViT entirely failed to converge (35.12\%). However, when initialized with Indian Pines pre-trained weights, the exact same architecture achieved 71.92\% (an absolute gain of +36.80\%). At the 20\% split, the transfer gain exceeded +55\%. Except for pretrained initialization, all optimization settings were identical between scratch and transfer models. This strongly suggests that the evaluated transformer architectures are robust feature extractors in HSI, provided their self-attention matrices are initialized via hierarchical pre-training.
 
-Furthermore, this Positive transfer learning substantially shifted the Machine Learning crossover point. Trained from scratch, the 3D-CNN (HybridSN) only surpassed the LightGBM baseline when provided with 4.85\% of the dataset. With Transfer Learning, the HybridSN crossed over at a mere 4.25\% data availability (note that these exact crossover thresholds were estimated using piecewise linear interpolation between the empirically evaluated discrete data splits). These crossover points are interpolation estimates rather than directly observed training splits. By transferring foundational spectral representations, deep learning can effectively bridge the low-resource gap and beat classical tree-based ensembles even earlier.
+Furthermore, this Positive transfer learning substantially shifted the Machine Learning crossover point. Trained from scratch, the 3D-CNN (HybridSN) only surpassed the LightGBM baseline when provided with $\sim$6.6\% of the dataset. With Transfer Learning, the HybridSN crossed over at a mere 4.25\% data availability (note that these exact crossover thresholds were estimated using piecewise linear interpolation between the empirically evaluated discrete data splits). These crossover points are interpolation estimates rather than directly observed training splits. By transferring foundational spectral representations, deep learning can effectively bridge the low-resource gap and beat classical tree-based ensembles even earlier.
 
 \subsubsection{The Domain Gap and Negative Transfer (Local Soil (Micro) $\rightarrow$ Indian Pines (Macro))}
 To test the symmetry of this phenomenon, we reversed the domain hierarchy, attempting to pre-train on the Local UAV Soil dataset and fine-tune on the Indian Pines dataset. Our results revealed a severe instance of \textit{Negative transfer learning}. 
