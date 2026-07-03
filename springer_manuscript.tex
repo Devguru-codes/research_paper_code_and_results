@@ -95,28 +95,7 @@ A classic, widely recognized AVIRIS dataset over Northwestern Indiana, USA, capt
 
 \begin{figure*}[h]
 \centering
-\resizebox{0.9\textwidth}{!}{
-\begin{tikzpicture}[
-    node distance=1.5cm,
-    box/.style={draw, rectangle, rounded corners, fill=blue!10, text width=2.5cm, align=center, minimum height=1cm, font=\small\bfseries},
-    arrow/.style={->, >=stealth, thick}
-]
-    \node[box] (dataset) {Dataset\\Acquisition};
-    \node[box, right=of dataset] (patch) {Patch\\Extraction};
-    \node[box, right=of patch] (train) {Model\\Training};
-    \node[box, right=of train] (transfer) {Transfer\\Learning};
-    \node[box, right=of transfer] (eval) {Few-Shot\\Evaluation};
-    \node[box, below=1cm of eval] (shap) {SHAP\\Interpretability};
-    \node[box, left=of shap] (maps) {Classification\\Maps};
-    
-    \draw[arrow] (dataset) -- (patch);
-    \draw[arrow] (patch) -- (train);
-    \draw[arrow] (train) -- (transfer);
-    \draw[arrow] (transfer) -- (eval);
-    \draw[arrow] (eval) -- (shap);
-    \draw[arrow] (shap) -- (maps);
-\end{tikzpicture}
-}
+\includegraphics[width=0.9\textwidth]{Figure1_Workflow.png}
 \caption{Overall Experimental Workflow Pipeline. The process spans from initial dataset acquisition through rigorous few-shot evaluation, concluding with physical interpretability mapping.}
 \label{fig:workflow}
 \end{figure*}
