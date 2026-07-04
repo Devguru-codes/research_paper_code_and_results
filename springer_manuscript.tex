@@ -93,13 +93,19 @@ A classic, widely recognized AVIRIS dataset over Northwestern Indiana, USA, capt
 
 \section{Methodology}\label{sec2}
 
-\begin{figure*}[h]
+\begin{figure*}[htbp]
 \centering
 \includegraphics[width=0.8\textwidth]{Figure1_Workflow.png}
 \caption{Overall Experimental Workflow Pipeline. The process spans from initial dataset acquisition through rigorous few-shot evaluation, concluding with physical interpretability mapping.}
 \label{fig:workflow}
 \end{figure*}
 
+\begin{figure*}[htbp]
+\centering
+\includegraphics[width=\textwidth]{Figure_Architecture.png}
+\caption{The Proposed Hybrid ConvStem-Transformer Architecture. A 3D-CNN stem extracts local spatial-spectral inductive biases from the hyperspectral data cube prior to tokenization. The sequential tokens, prefixed with a global [CLS] representation, are processed by a Pre-Layer Normalization Transformer encoder. A final Multilayer Perceptron (MLP) head projects the [CLS] token to the land cover class prediction.}
+\label{fig:architecture}
+\end{figure*}
 
 \subsection{Architectural Foundations}
 To comprehensively evaluate the sample complexity threshold across different learning paradigms, we benchmarked several distinct model families. For classical baselines, we utilized Support Vector Machines (SVM) with an RBF kernel, and Light Gradient Boosting Machine (LightGBM) \cite{b27}, which relies on discrete node splitting based on variance reduction. For deep learning approaches, we evaluated 1D-CNNs for raw spectral extraction, Graph Convolutional Networks (GCN) for non-Euclidean representation, and HybridSN (3D-CNN) \cite{b15} for joint spatial-spectral extraction utilizing strong local inductive biases. Finally, for sequence modeling, we evaluated a standard ViT (ViT) relying on global Multi-Head Self-Attention, and a domain-specific SpectralFormer-inspired \cite{b8} architecture optimized for hyperspectral images via Group-Wise Spectral Embeddings.
