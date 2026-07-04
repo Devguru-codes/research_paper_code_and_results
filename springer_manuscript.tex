@@ -283,31 +283,7 @@ Given the stark contrast between the abundant and data-starved regimes, we explo
 
 \begin{figure*}[h]
 \centering
-\begin{tikzpicture}[
-    node distance=1.0cm,
-    box/.style={draw, rectangle, rounded corners, fill=blue!10, text width=3.2cm, align=center, minimum height=1cm, font=\small},
-    arrow/.style={->, >=stealth, thick}
-]
-% Positive transfer learning
-\node[box] (ip1) {Indian Pines (Macro)};
-\node[box, below=of ip1] (pre1) {Source (Pretraining)};
-\node[box, below=of pre1] (fine1) {Target (Fine-tuning)};
-\node[box, below=of fine1, fill=green!10] (ls1) {Local Soil (Micro)};
-\draw[arrow] (ip1) -- (pre1);
-\draw[arrow] (pre1) -- (fine1);
-\draw[arrow] (fine1) -- (ls1);
-\node[above=0.2cm of ip1, font=\bfseries] {Positive Transfer};
-
-% Negative transfer learning
-\node[box, right=2cm of ip1, fill=blue!10] (ls2) {Local Soil (Micro)};
-\node[box, below=of ls2, fill=blue!10] (pre2) {Source (Pretraining)};
-\node[box, below=of pre2, fill=blue!10] (fine2) {Target (Fine-tuning)};
-\node[box, below=of fine2, fill=red!10] (ip2) {Indian Pines (Macro)};
-\draw[arrow] (ls2) -- (pre2);
-\draw[arrow] (pre2) -- (fine2);
-\draw[arrow] (fine2) -- (ip2);
-\node[above=0.2cm of ls2, font=\bfseries] {Negative Transfer};
-\end{tikzpicture}
+\includegraphics[width=\textwidth]{Figure7_TransferLearning.png}
 \caption{Bidirectional Transfer Learning framework illustrating the tested domain hierarchies.}
 \label{fig:transfer_diagram}
 \end{figure*}
