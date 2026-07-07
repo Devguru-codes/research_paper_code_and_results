@@ -44,8 +44,20 @@
 
 \author*[1]{\fnm{Swati} \sur{Hira}}\email{shira@iiitn.ac.in}
 \author[1]{\fnm{Devguru} \sur{Tiwari}}\email{bt23csd060@iiitn.ac.in}
+\author[2]{\fnm{Nagamani} \sur{Molakatala}}\email{manidcis@gmail.com}
+\author[3]{\fnm{R.} \sur{Kokila}}\email{kok.oc25@gmail.com}
+\author[4]{\fnm{Gururaja} \sur{H S}}\email{gururajhs.ise@bmsce.ac.in}
+\author[5]{\fnm{J.} \sur{Rajini}}\email{rajinimoorthydd@gmail.com}
 
 \affil[1]{\orgdiv{Department of Computer Science and Engineering}, \orgname{Indian Institute of Information Technology, Nagpur}, \orgaddress{\street{Waranga}, \city{Nagpur}, \postcode{441108}, \state{Maharashtra}, \country{India}}}
+
+\affil[2]{\orgdiv{School of Computer and Information Sciences}, \orgname{University of Hyderabad}, \orgaddress{\city{Hyderabad}, \state{Telangana}, \country{India}}}
+
+\affil[3]{\orgdiv{School of Computer Applications}, \orgname{Dayananda Sagar University}, \orgaddress{\street{Kudlu Campus}, \city{Bengaluru}, \state{Karnataka}, \country{India}}}
+
+\affil[4]{\orgdiv{Dept of Computer Science and Business Systems}, \orgname{B.M.S. College of Engineering}, \orgaddress{\street{Basavanagudi}, \city{Bangalore}, \state{Karnataka}, \country{India}}}
+
+\affil[5]{\orgdiv{Department of English}, \orgname{Kongu Engineering College}, \orgaddress{\city{Erode}, \state{Tamil Nadu}, \country{India}}}
 
 \abstract{
 The integration of deep learning architectures in hyperspectral imaging (HSI) has yielded exceptional results, yet a significant disconnect remains between standard benchmarking environments and the operational realities of remote sensing, where ground-truth labeling is extremely scarce. In this paper, we challenge the assumption that complex deep learning models are optimal for all scenarios by evaluating modern architectures against traditional gradient-boosting ensembles across strict annotation budgets. Our empirical analysis reveals a distinct crossover point: while standard deep sequence models exhibit severe degradation in extreme few-shot regimes ($<5\%$ training data), classical LightGBM models remain robust, outperforming domain-specific transformers. We then introduce an Asymmetric Cross-Domain Transfer Learning framework, demonstrating that, within the evaluated datasets, pre-training on an abundant macro-agriculture source domain substantially improves deep models in data-starved micro-soil target environments, whereas the reverse domain shift yields negative transfer. Ultimately, we provide an actionable framework for agricultural deployment, recommending traditional ensembles for off-the-shelf, low-resource drone applications, and reserving deep models for scenarios where hierarchical pre-training is feasible.
