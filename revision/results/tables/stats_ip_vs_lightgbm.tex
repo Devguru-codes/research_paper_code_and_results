@@ -1,0 +1,26 @@
+\begin{table}
+\caption{Indian Pines: model minus LightGBM OA (pp), paired over seeds; BH-FDR within this table.}
+\label{tab:stats_ip_vs_lightgbm}
+\begin{tabular}{llrrrrrrr}
+\toprule
+model & split & n & diff & ci\_low & ci\_high & d\_z & p & p\_fdr \\
+\midrule
+ViT & 1\% & 5 & -4.44 & -8.16 & -0.721 & -1.48 & 0.0295 & 0.0337 \\
+ViT & 5\% & 5 & -8.41 & -9.72 & -7.1 & -7.95 & 0.0001 & 0.0002 \\
+ViT & 10\% & 5 & -1.82 & -3.22 & -0.429 & -1.62 & 0.0221 & 0.0272 \\
+ViT & 20\% & 5 & -5.76 & -8.29 & -3.22 & -2.82 & 0.0032 & 0.0047 \\
+SpectralFormer & 1\% & 5 & -4.65 & -7.61 & -1.69 & -1.95 & 0.0121 & 0.0161 \\
+SpectralFormer & 5\% & 5 & -11.1 & -14.1 & -8.16 & -4.65 & 0.0005 & 0.0009 \\
+SpectralFormer & 10\% & 5 & -10.1 & -12.4 & -7.8 & -5.46 & 0.0003 & 0.0006 \\
+SpectralFormer & 20\% & 5 & -13 & -14.2 & -11.7 & -12.8 & 0 & 0 \\
+ConvStemViT & 1\% & 5 & -11.6 & -13.6 & -9.6 & -7.23 & 0.0001 & 0.0002 \\
+ConvStemViT & 5\% & 5 & 2.52 & -5.17 & 10.2 & 0.407 & 0.414 & 0.414 \\
+ConvStemViT & 10\% & 5 & 13.8 & 10.5 & 17.1 & 5.17 & 0.0003 & 0.0006 \\
+ConvStemViT & 20\% & 5 & 9.5 & 5.84 & 13.2 & 3.22 & 0.002 & 0.0031 \\
+HybridSN & 1\% & 5 & 2.06 & -2.82 & 6.94 & 0.524 & 0.307 & 0.327 \\
+HybridSN & 5\% & 5 & 19 & 17.1 & 20.8 & 12.8 & 0 & 0 \\
+HybridSN & 10\% & 5 & 20.6 & 20.1 & 21 & 58.6 & 0 & 0 \\
+HybridSN & 20\% & 5 & 16.6 & 15.7 & 17.5 & 23.8 & 0 & 0 \\
+\bottomrule
+\end{tabular}
+\end{table}

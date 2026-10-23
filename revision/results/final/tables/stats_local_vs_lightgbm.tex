@@ -1,0 +1,30 @@
+\begin{table}
+\caption{Local soil: model minus LightGBM OA (pp), paired over repeats; one BH-FDR family.}
+\label{tab:stats_local_vs_lightgbm}
+\begin{tabular}{lrrrrrrrr}
+\toprule
+model & samples\_per\_class & n & diff & ci\_low & ci\_high & d\_z & p & p\_fdr \\
+\midrule
+SVM & 1 & 5 & -11.5 & -13.6 & -9.32 & -6.67 & 0.0001 & 0.0024 \\
+Spectral transformer & 1 & 5 & -25.9 & -38.1 & -13.8 & -2.65 & 0.0041 & 0.0136 \\
+Grouped-band transformer & 1 & 5 & -22.4 & -37.3 & -7.54 & -1.87 & 0.0139 & 0.0347 \\
+Conv-stem transformer & 1 & 5 & -30.4 & -39.2 & -21.7 & -4.33 & 0.0006 & 0.0052 \\
+HybridSN & 1 & 5 & 2.88 & -17.2 & 23 & 0.178 & 0.711 & 0.711 \\
+SVM & 2 & 5 & -11.3 & -17.5 & -5.07 & -2.25 & 0.0073 & 0.0209 \\
+Spectral transformer & 2 & 5 & -6.14 & -27.2 & 14.9 & -0.363 & 0.463 & 0.514 \\
+Grouped-band transformer & 2 & 5 & 1.24 & -2.5 & 4.98 & 0.412 & 0.409 & 0.481 \\
+Conv-stem transformer & 2 & 5 & -11.5 & -39.9 & 17 & -0.5 & 0.326 & 0.408 \\
+HybridSN & 2 & 5 & 2.85 & -3.69 & 9.38 & 0.541 & 0.293 & 0.391 \\
+SVM & 3 & 5 & -7.52 & -9.92 & -5.12 & -3.89 & 0.001 & 0.0052 \\
+Spectral transformer & 3 & 5 & -5.24 & -16 & 5.54 & -0.604 & 0.248 & 0.391 \\
+Grouped-band transformer & 3 & 5 & 1.62 & -0.909 & 4.14 & 0.795 & 0.15 & 0.3 \\
+Conv-stem transformer & 3 & 5 & -3.37 & -20.7 & 13.9 & -0.242 & 0.617 & 0.65 \\
+HybridSN & 3 & 5 & 4.33 & -5.53 & 14.2 & 0.545 & 0.29 & 0.391 \\
+SVM & 4 & 5 & -6.56 & -8.69 & -4.42 & -3.82 & 0.001 & 0.0052 \\
+Spectral transformer & 4 & 5 & -11.4 & -33.6 & 10.8 & -0.637 & 0.228 & 0.391 \\
+Grouped-band transformer & 4 & 5 & 2.52 & 0.558 & 4.48 & 1.6 & 0.0234 & 0.0521 \\
+Conv-stem transformer & 4 & 5 & -17.7 & -57.8 & 22.5 & -0.547 & 0.289 & 0.391 \\
+HybridSN & 4 & 5 & 8.83 & 5.03 & 12.6 & 2.88 & 0.003 & 0.0119 \\
+\bottomrule
+\end{tabular}
+\end{table}

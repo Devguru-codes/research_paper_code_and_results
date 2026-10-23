@@ -1,0 +1,6 @@
+model,platform,params,ms_per_patch
+ViT,Tesla T4,2400016,1.47
+SpectralFormer,Tesla T4,204627,2.35
+ConvStemViT,Tesla T4,2408224,1.61
+HybridSN,Tesla T4,4323456,2.11
+LightGBM,cpu x4,100 trees,1.52

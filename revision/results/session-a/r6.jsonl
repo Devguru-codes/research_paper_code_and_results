@@ -1,0 +1,5 @@
+{"exp": "R6", "model": "ViT", "platform": "Tesla T4", "params": 2400016, "n": 1000, "total_s": 1.4653515350000816, "ms_per_patch": 1.4653515350000816}
+{"exp": "R6", "model": "SpectralFormer", "platform": "Tesla T4", "params": 204627, "n": 1000, "total_s": 2.3547382680008013, "ms_per_patch": 2.3547382680008013}
+{"exp": "R6", "model": "ConvStemViT", "platform": "Tesla T4", "params": 2408224, "n": 1000, "total_s": 1.6142988440005865, "ms_per_patch": 1.6142988440005865}
+{"exp": "R6", "model": "HybridSN", "platform": "Tesla T4", "params": 4323456, "n": 1000, "total_s": 2.1052485649997834, "ms_per_patch": 2.1052485649997834}
+{"exp": "R6", "model": "LightGBM", "platform": "cpu x4", "params": "100 trees", "n": 1000, "total_s": 1.5193616509986896, "ms_per_patch": 1.5193616509986896}

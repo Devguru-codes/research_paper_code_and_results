@@ -1,0 +1,23 @@
+dataset,model,init,unit,crossover,ci_low,ci_high,below_first,never
+Indian Pines,Spectral transformer,scratch,% labelled,16.451,13.719,18.947,0.0,0.077
+Indian Pines,Grouped-band transformer,scratch,% labelled,,18.706,19.954,0.0,0.843
+Indian Pines,Conv-stem transformer,scratch,% labelled,,,,0.0,1.0
+Indian Pines,HybridSN,scratch,% labelled,,8.129,19.58,0.0,0.932
+Indian Pines,HybridSN,Local-pretrained,% labelled,6.195,5.267,11.688,0.0,0.0
+Indian Pines,Grouped-band transformer,Local-pretrained,% labelled,,,,0.0,1.0
+Indian Pines,Spectral transformer,Local-pretrained,% labelled,,,,0.0,1.0
+Pavia University,Spectral transformer,scratch,% labelled,4.693,1.683,4.83,0.0,0.449
+Pavia University,Grouped-band transformer,scratch,% labelled,,,,0.0,1.0
+Pavia University,Conv-stem transformer,scratch,% labelled,0.5,0.5,1.18,0.94,0.001
+Pavia University,HybridSN,scratch,% labelled,0.5,0.5,0.5,1.0,0.0
+Salinas,Spectral transformer,scratch,% labelled,,1.863,4.971,0.0,0.738
+Salinas,Grouped-band transformer,scratch,% labelled,,3.829,4.994,0.0,0.797
+Salinas,Conv-stem transformer,scratch,% labelled,0.807,0.5,1.23,0.07,0.0
+Salinas,HybridSN,scratch,% labelled,0.5,0.5,0.5,0.992,0.0
+Local soil,Spectral transformer,scratch,samples/class,,3.979,3.979,0.0,1.0
+Local soil,Spectral transformer,IP-pretrained,samples/class,1.655,1.0,1.927,0.16,0.0
+Local soil,Grouped-band transformer,scratch,samples/class,1.947,1.839,3.069,0.0,0.0
+Local soil,Grouped-band transformer,IP-pretrained,samples/class,1.725,1.0,3.219,0.095,0.0
+Local soil,Conv-stem transformer,scratch,samples/class,,1.916,3.771,0.0,0.923
+Local soil,HybridSN,scratch,samples/class,1.0,1.0,3.242,0.612,0.0
+Local soil,HybridSN,IP-pretrained,samples/class,1.971,1.308,3.535,0.011,0.0

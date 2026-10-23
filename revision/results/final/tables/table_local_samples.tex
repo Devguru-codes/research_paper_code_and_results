@@ -1,0 +1,14 @@
+\begin{table}
+\caption{Local soil OA (%) by labelled samples per class; 5 repeated sample-level splits (2 test samples per class).}
+\label{tab:table_local_samples}
+\begin{tabular}{rrllllll}
+\toprule
+Samples per class & Train patches & LightGBM & SVM & Spectral transformer & Grouped-band transformer & Conv-stem transformer & HybridSN \\
+\midrule
+1 & 900 & 61.97 $\pm$ 3.14 & 50.51 $\pm$ 4.23 & 36.05 $\pm$ 10.15 & 39.56 $\pm$ 12.81 & 31.55 $\pm$ 4.82 & 64.85 $\pm$ 16.63 \\
+2 & 1800 & 75.66 $\pm$ 7.90 & 64.36 $\pm$ 6.17 & 69.51 $\pm$ 13.03 & 76.90 $\pm$ 5.79 & 64.19 $\pm$ 23.25 & 78.50 $\pm$ 9.27 \\
+3 & 2700 & 82.31 $\pm$ 8.67 & 74.79 $\pm$ 9.10 & 77.07 $\pm$ 10.14 & 83.93 $\pm$ 9.24 & 78.94 $\pm$ 22.40 & 86.64 $\pm$ 7.64 \\
+4 & 3600 & 87.84 $\pm$ 1.01 & 81.28 $\pm$ 2.37 & 76.43 $\pm$ 18.45 & 90.36 $\pm$ 1.86 & 70.16 $\pm$ 32.93 & 96.67 $\pm$ 3.57 \\
+\bottomrule
+\end{tabular}
+\end{table}
