@@ -1,0 +1,25 @@
+direction,model,budget,lightgbm,scratch,transfer,n,diff,ci_low,ci_high,d_z,p,p_fdr
+Local -> Indian Pines,HybridSN,1%,37.3845,34.9515,37.546,5,2.5945,-7.8081,12.9971,0.3097,0.5267,0.6654
+Local -> Indian Pines,HybridSN,5%,46.8972,42.2591,46.3525,5,4.0934,-1.7473,9.9341,0.8702,0.1235,0.2965
+Local -> Indian Pines,HybridSN,10%,46.8386,43.2504,48.5738,5,5.3234,-3.2888,13.9356,0.7675,0.1613,0.2977
+Local -> Indian Pines,HybridSN,20%,48.9885,45.1601,52.5733,5,7.4132,-0.3538,15.1801,1.1851,0.057,0.2735
+Local -> Indian Pines,Grouped-band transformer,1%,37.3845,35.153,38.3376,5,3.1846,-8.4236,14.7928,0.3406,0.4887,0.6516
+Local -> Indian Pines,Grouped-band transformer,5%,46.8972,35.5596,38.7219,5,3.1623,-0.7532,7.0778,1.0028,0.0884,0.2955
+Local -> Indian Pines,Grouped-band transformer,10%,46.8386,40.0304,39.5725,5,-0.4579,-5.3287,4.4129,-0.1167,0.807,0.8421
+Local -> Indian Pines,Grouped-band transformer,20%,48.9885,48.0301,43.9428,5,-4.0874,-7.523,-0.6517,-1.4772,0.0298,0.1791
+Local -> Indian Pines,Spectral transformer,1%,37.3845,32.8956,29.8882,5,-3.0074,-12.5866,6.5718,-0.3898,0.4326,0.6107
+Local -> Indian Pines,Spectral transformer,5%,46.8972,37.573,34.6979,5,-2.8752,-9.5468,3.7965,-0.5351,0.2976,0.4761
+Local -> Indian Pines,Spectral transformer,10%,46.8386,42.5212,36.4501,5,-6.0711,-10.3164,-1.8257,-1.7757,0.0165,0.1677
+Local -> Indian Pines,Spectral transformer,20%,48.9885,51.3633,36.4838,5,-14.8795,-18.4999,-11.2591,-5.1031,0.0003,0.0081
+Indian Pines -> Local,HybridSN,1 samples/class,61.9665,64.8467,50.7612,5,-14.0855,-32.4988,4.3277,-0.9498,0.1009,0.2955
+Indian Pines -> Local,HybridSN,2 samples/class,75.6561,78.5013,75.9952,5,-2.5061,-16.8395,11.8272,-0.2171,0.6527,0.7748
+Indian Pines -> Local,HybridSN,3 samples/class,82.3112,86.6394,84.3811,5,-2.2583,-26.198,21.6814,-0.1171,0.8063,0.8421
+Indian Pines -> Local,HybridSN,4 samples/class,87.842,96.6711,97.4247,5,0.7536,-3.9263,5.4335,0.1999,0.6779,0.7748
+Indian Pines -> Local,Grouped-band transformer,1 samples/class,61.9665,39.5635,52.5703,5,13.0068,-11.3089,37.3224,0.6642,0.2117,0.3629
+Indian Pines -> Local,Grouped-band transformer,2 samples/class,75.6561,76.8977,79.2204,5,2.3227,0.5766,4.0688,1.6517,0.021,0.1677
+Indian Pines -> Local,Grouped-band transformer,3 samples/class,82.3112,83.9285,83.7845,5,-0.144,-3.3291,3.0412,-0.0561,0.9062,0.9062
+Indian Pines -> Local,Grouped-band transformer,4 samples/class,87.842,90.3597,88.8377,5,-1.522,-3.5575,0.5134,-0.9285,0.1065,0.2955
+Indian Pines -> Local,Spectral transformer,1 samples/class,61.9665,36.0522,56.6113,5,20.5591,-7.4078,48.5259,0.9128,0.1108,0.2955
+Indian Pines -> Local,Spectral transformer,2 samples/class,75.6561,69.5131,78.4823,5,8.9692,-12.8683,30.8067,0.51,0.3178,0.4767
+Indian Pines -> Local,Spectral transformer,3 samples/class,82.3112,77.0692,84.6548,5,7.5856,-4.2013,19.3725,0.7991,0.1485,0.297
+Indian Pines -> Local,Spectral transformer,4 samples/class,87.842,76.4327,90.9121,5,14.4794,-7.9511,36.9099,0.8015,0.1476,0.297

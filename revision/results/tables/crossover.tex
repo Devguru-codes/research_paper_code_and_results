@@ -1,0 +1,20 @@
+\begin{table}
+\caption{Training share (%) where the model overtakes LightGBM; 95% CI from 5000 seed resamples. below_first_split / never = share of resamples where the model already wins at 1% / never wins.}
+\label{tab:crossover}
+\begin{tabular}{llrrrrr}
+\toprule
+setting & model & crossover & ci\_low & ci\_high & below\_first & never \\
+\midrule
+Indian Pines, scratch & HybridSN & 1 & 1 & 1.23 & 0.9 & 0 \\
+Indian Pines, scratch & ConvStemViT & 4.29 & 3.43 & 5.66 & 0 & 0 \\
+Indian Pines, scratch (R3) & HybridSN & 1 & 1 & 1.36 & 0.875 & 0 \\
+Indian Pines, transfer (R3) & HybridSN & 1 & 1 & 1 & 0.99 & 0 \\
+Local, scratch & HybridSN & 4.64 & 3.95 & 10.3 & 0 & 0 \\
+Local, transfer & HybridSN & 2.54 & 1 & 3.5 & 0.067 & 0 \\
+Local, scratch & SpectralFormer & NaN & 8.83 & 19.5 & 0 & 0.984 \\
+Local, transfer & SpectralFormer & NaN & NaN & NaN & 0 & 1 \\
+Local, scratch & ViT & NaN & 16.9 & 19.1 & 0 & 0.928 \\
+Local, transfer & ViT & NaN & 19.6 & 19.6 & 0 & 1 \\
+\bottomrule
+\end{tabular}
+\end{table}

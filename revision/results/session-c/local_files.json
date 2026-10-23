@@ -1,0 +1,44 @@
+{
+ "train": [
+  "/kaggle/input/local-soil-hyperspectral-dataset/Black Soil/Moist/1-2.bil",
+  "/kaggle/input/local-soil-hyperspectral-dataset/Black Soil/Moist/3-2.bil",
+  "/kaggle/input/local-soil-hyperspectral-dataset/Black Soil/Moist/5-1.bil",
+  "/kaggle/input/local-soil-hyperspectral-dataset/Black Soil/Moist/5-2.bil",
+  "/kaggle/input/local-soil-hyperspectral-dataset/Black Soil/Moist/8-2.bil",
+  "/kaggle/input/local-soil-hyperspectral-dataset/Black Soil/Moist/9-1.bil",
+  "/kaggle/input/local-soil-hyperspectral-dataset/Black Soil/Moist/9-2.bil",
+  "/kaggle/input/local-soil-hyperspectral-dataset/Red Soil/11-10-22/1-1.bil",
+  "/kaggle/input/local-soil-hyperspectral-dataset/Red Soil/11-10-22/1-2.bil",
+  "/kaggle/input/local-soil-hyperspectral-dataset/Red Soil/11-10-22/2-1.bil",
+  "/kaggle/input/local-soil-hyperspectral-dataset/Red Soil/11-10-22/2-2.bil",
+  "/kaggle/input/local-soil-hyperspectral-dataset/Red Soil/11-10-22/5-1.bil",
+  "/kaggle/input/local-soil-hyperspectral-dataset/Red Soil/11-10-22/5-2.bil",
+  "/kaggle/input/local-soil-hyperspectral-dataset/Red Soil/11-10-22/6-1.bil",
+  "/kaggle/input/local-soil-hyperspectral-dataset/Red Soil/11-10-22/6-2.bil",
+  "/kaggle/input/local-soil-hyperspectral-dataset/Red Soil/Moist/3-1.bil",
+  "/kaggle/input/local-soil-hyperspectral-dataset/Red Soil/Moist/3-2.bil",
+  "/kaggle/input/local-soil-hyperspectral-dataset/Red Soil/Moist/4f-2.bil",
+  "/kaggle/input/local-soil-hyperspectral-dataset/Yellow Soil/12-10-22/10-2.bil",
+  "/kaggle/input/local-soil-hyperspectral-dataset/Yellow Soil/12-10-22/2-1.bil",
+  "/kaggle/input/local-soil-hyperspectral-dataset/Yellow Soil/12-10-22/2-2.bil",
+  "/kaggle/input/local-soil-hyperspectral-dataset/Yellow Soil/12-10-22/3-1.bil",
+  "/kaggle/input/local-soil-hyperspectral-dataset/Yellow Soil/12-10-22/5-1.bil",
+  "/kaggle/input/local-soil-hyperspectral-dataset/Yellow Soil/12-10-22/5-2.bil",
+  "/kaggle/input/local-soil-hyperspectral-dataset/Yellow Soil/12-10-22/6-1.bil"
+ ],
+ "val": [
+  "/kaggle/input/local-soil-hyperspectral-dataset/Black Soil/Moist/7-1.bil",
+  "/kaggle/input/local-soil-hyperspectral-dataset/Red Soil/11-10-22/4-1.bil",
+  "/kaggle/input/local-soil-hyperspectral-dataset/Red Soil/11-10-22/4-2.bil",
+  "/kaggle/input/local-soil-hyperspectral-dataset/Red Soil/Moist/1-1.bil",
+  "/kaggle/input/local-soil-hyperspectral-dataset/Yellow Soil/12-10-22/1-1.bil",
+  "/kaggle/input/local-soil-hyperspectral-dataset/Yellow Soil/12-10-22/1-2.bil"
+ ],
+ "test": [
+  "/kaggle/input/local-soil-hyperspectral-dataset/Black Soil/Moist/4-1.bil",
+  "/kaggle/input/local-soil-hyperspectral-dataset/Red Soil/11-10-22/3-2.bil",
+  "/kaggle/input/local-soil-hyperspectral-dataset/Red Soil/Moist/5f-1.bil",
+  "/kaggle/input/local-soil-hyperspectral-dataset/Yellow Soil/12-10-22/4-1.bil",
+  "/kaggle/input/local-soil-hyperspectral-dataset/Yellow Soil/12-10-22/4-2.bil"
+ ]
+}

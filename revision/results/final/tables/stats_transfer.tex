@@ -1,0 +1,34 @@
+\begin{table}
+\caption{Transfer minus scratch OA (pp), paired over seeds; one BH-FDR family over both directions.}
+\label{tab:stats_transfer}
+\begin{tabular}{lllrrrrrrrrrr}
+\toprule
+direction & model & budget & lightgbm & scratch & transfer & n & diff & ci\_low & ci\_high & d\_z & p & p\_fdr \\
+\midrule
+Local -> Indian Pines & HybridSN & 1\% & 37.4 & 35 & 37.5 & 5 & 2.59 & -7.81 & 13 & 0.31 & 0.527 & 0.665 \\
+Local -> Indian Pines & HybridSN & 5\% & 46.9 & 42.3 & 46.4 & 5 & 4.09 & -1.75 & 9.93 & 0.87 & 0.123 & 0.296 \\
+Local -> Indian Pines & HybridSN & 10\% & 46.8 & 43.3 & 48.6 & 5 & 5.32 & -3.29 & 13.9 & 0.767 & 0.161 & 0.298 \\
+Local -> Indian Pines & HybridSN & 20\% & 49 & 45.2 & 52.6 & 5 & 7.41 & -0.354 & 15.2 & 1.19 & 0.057 & 0.274 \\
+Local -> Indian Pines & Grouped-band transformer & 1\% & 37.4 & 35.2 & 38.3 & 5 & 3.18 & -8.42 & 14.8 & 0.341 & 0.489 & 0.652 \\
+Local -> Indian Pines & Grouped-band transformer & 5\% & 46.9 & 35.6 & 38.7 & 5 & 3.16 & -0.753 & 7.08 & 1 & 0.0884 & 0.295 \\
+Local -> Indian Pines & Grouped-band transformer & 10\% & 46.8 & 40 & 39.6 & 5 & -0.458 & -5.33 & 4.41 & -0.117 & 0.807 & 0.842 \\
+Local -> Indian Pines & Grouped-band transformer & 20\% & 49 & 48 & 43.9 & 5 & -4.09 & -7.52 & -0.652 & -1.48 & 0.0298 & 0.179 \\
+Local -> Indian Pines & Spectral transformer & 1\% & 37.4 & 32.9 & 29.9 & 5 & -3.01 & -12.6 & 6.57 & -0.39 & 0.433 & 0.611 \\
+Local -> Indian Pines & Spectral transformer & 5\% & 46.9 & 37.6 & 34.7 & 5 & -2.88 & -9.55 & 3.8 & -0.535 & 0.298 & 0.476 \\
+Local -> Indian Pines & Spectral transformer & 10\% & 46.8 & 42.5 & 36.5 & 5 & -6.07 & -10.3 & -1.83 & -1.78 & 0.0165 & 0.168 \\
+Local -> Indian Pines & Spectral transformer & 20\% & 49 & 51.4 & 36.5 & 5 & -14.9 & -18.5 & -11.3 & -5.1 & 0.0003 & 0.0081 \\
+Indian Pines -> Local & HybridSN & 1 samples/class & 62 & 64.8 & 50.8 & 5 & -14.1 & -32.5 & 4.33 & -0.95 & 0.101 & 0.295 \\
+Indian Pines -> Local & HybridSN & 2 samples/class & 75.7 & 78.5 & 76 & 5 & -2.51 & -16.8 & 11.8 & -0.217 & 0.653 & 0.775 \\
+Indian Pines -> Local & HybridSN & 3 samples/class & 82.3 & 86.6 & 84.4 & 5 & -2.26 & -26.2 & 21.7 & -0.117 & 0.806 & 0.842 \\
+Indian Pines -> Local & HybridSN & 4 samples/class & 87.8 & 96.7 & 97.4 & 5 & 0.754 & -3.93 & 5.43 & 0.2 & 0.678 & 0.775 \\
+Indian Pines -> Local & Grouped-band transformer & 1 samples/class & 62 & 39.6 & 52.6 & 5 & 13 & -11.3 & 37.3 & 0.664 & 0.212 & 0.363 \\
+Indian Pines -> Local & Grouped-band transformer & 2 samples/class & 75.7 & 76.9 & 79.2 & 5 & 2.32 & 0.577 & 4.07 & 1.65 & 0.021 & 0.168 \\
+Indian Pines -> Local & Grouped-band transformer & 3 samples/class & 82.3 & 83.9 & 83.8 & 5 & -0.144 & -3.33 & 3.04 & -0.0561 & 0.906 & 0.906 \\
+Indian Pines -> Local & Grouped-band transformer & 4 samples/class & 87.8 & 90.4 & 88.8 & 5 & -1.52 & -3.56 & 0.513 & -0.928 & 0.106 & 0.295 \\
+Indian Pines -> Local & Spectral transformer & 1 samples/class & 62 & 36.1 & 56.6 & 5 & 20.6 & -7.41 & 48.5 & 0.913 & 0.111 & 0.295 \\
+Indian Pines -> Local & Spectral transformer & 2 samples/class & 75.7 & 69.5 & 78.5 & 5 & 8.97 & -12.9 & 30.8 & 0.51 & 0.318 & 0.477 \\
+Indian Pines -> Local & Spectral transformer & 3 samples/class & 82.3 & 77.1 & 84.7 & 5 & 7.59 & -4.2 & 19.4 & 0.799 & 0.148 & 0.297 \\
+Indian Pines -> Local & Spectral transformer & 4 samples/class & 87.8 & 76.4 & 90.9 & 5 & 14.5 & -7.95 & 36.9 & 0.801 & 0.148 & 0.297 \\
+\bottomrule
+\end{tabular}
+\end{table}

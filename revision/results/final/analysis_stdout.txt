@@ -1,0 +1,159 @@
+
+== table_scenes
+         Dataset Labelled  Test px Classes (train/test)     LightGBM Spectral transformer Grouped-band transformer Conv-stem transformer      HybridSN
+    Indian Pines       1%     2734                13/10 37.38 ± 6.49         32.90 ± 9.14             35.15 ± 9.97          33.01 ± 9.29  34.95 ± 7.86
+    Indian Pines       5%     2734                13/10 46.90 ± 5.31         37.57 ± 7.71             35.56 ± 8.67         31.10 ± 16.36  42.26 ± 7.84
+    Indian Pines      10%     2734                13/10 46.84 ± 5.56         42.52 ± 5.98             40.03 ± 6.57         37.89 ± 10.12 43.25 ± 10.61
+    Indian Pines      20%     2734                13/10 48.99 ± 6.23         51.36 ± 5.56             48.03 ± 5.24         40.95 ± 10.70  45.16 ± 6.43
+Pavia University     0.5%    16663                  9/9 72.34 ± 3.97         70.69 ± 2.85             70.10 ± 2.48          74.78 ± 5.12  80.71 ± 5.60
+Pavia University       1%    16663                  9/9 74.22 ± 5.83         72.04 ± 6.56             71.80 ± 5.49          79.90 ± 4.70  83.36 ± 3.03
+Pavia University       2%    16663                  9/9 79.15 ± 2.98         77.69 ± 5.24             73.69 ± 2.88          85.94 ± 4.95  86.01 ± 5.53
+Pavia University       5%    16663                  9/9 83.04 ± 3.57         83.21 ± 5.07             79.12 ± 3.09          87.36 ± 4.99  90.17 ± 4.41
+         Salinas     0.5%    18769                16/16 73.59 ± 2.97         64.97 ± 7.18             69.55 ± 5.77          70.28 ± 2.96  76.67 ± 2.55
+         Salinas       1%    18769                16/16 77.77 ± 3.08         72.77 ± 3.63             74.92 ± 2.42          79.85 ± 3.83  85.97 ± 3.00
+         Salinas       2%    18769                16/16 80.30 ± 1.47         78.13 ± 3.99             78.02 ± 0.87          83.04 ± 1.21  87.19 ± 3.36
+         Salinas       5%    18769                16/16 81.91 ± 1.79         81.49 ± 2.33             81.28 ± 2.46          86.59 ± 1.14  89.03 ± 1.22
+
+== stats_scenes_vs_lightgbm
+         dataset                    model split  n     diff   ci_low  ci_high     d_z      p  p_fdr
+    Indian Pines     Spectral transformer    1%  5  -4.4889  -9.5955   0.6178 -1.0915 0.0712 0.1485
+    Indian Pines Grouped-band transformer    1%  5  -2.2315  -8.5650   4.1020 -0.4375 0.3834 0.4279
+    Indian Pines    Conv-stem transformer    1%  5  -4.3727 -12.2484   3.5030 -0.6894 0.1980 0.2967
+    Indian Pines                 HybridSN    1%  5  -2.4330 -10.6971   5.8312 -0.3655 0.4596 0.4902
+    Indian Pines     Spectral transformer    5%  5  -9.3242 -13.3635  -5.2848 -2.8661 0.0030 0.0292
+    Indian Pines Grouped-band transformer    5%  5 -11.3376 -17.7834  -4.8917 -2.1840 0.0081 0.0393
+    Indian Pines    Conv-stem transformer    5%  5 -15.8016 -30.2659  -1.3373 -1.3565 0.0387 0.0887
+    Indian Pines                 HybridSN    5%  5  -4.6381 -11.0669   1.7907 -0.8958 0.1157 0.1851
+    Indian Pines     Spectral transformer   10%  5  -4.3174  -7.7615  -0.8733 -1.5565 0.0253 0.0786
+    Indian Pines Grouped-band transformer   10%  5  -6.8082 -13.0475  -0.5689 -1.3549 0.0388 0.0887
+    Indian Pines    Conv-stem transformer   10%  5  -8.9477 -16.4319  -1.4636 -1.4845 0.0294 0.0786
+    Indian Pines                 HybridSN   10%  5  -3.5882 -13.4532   6.2767 -0.4516 0.3697 0.4225
+    Indian Pines     Spectral transformer   20%  5   2.3748  -2.7620   7.5116  0.5740 0.2686 0.3393
+    Indian Pines Grouped-band transformer   20%  5  -0.9584  -3.8294   1.9127 -0.4145 0.4065 0.4434
+    Indian Pines    Conv-stem transformer   20%  5  -8.0363 -18.5381   2.4654 -0.9502 0.1008 0.1728
+    Indian Pines                 HybridSN   20%  5  -3.8284 -12.2909   4.6341 -0.5617 0.2775 0.3415
+Pavia University     Spectral transformer  0.5%  5  -1.6561  -3.8610   0.5488 -0.9326 0.1054 0.1744
+Pavia University Grouped-band transformer  0.5%  5  -2.2444  -4.9371   0.4482 -1.0350 0.0816 0.1540
+Pavia University    Conv-stem transformer  0.5%  5   2.4333  -0.5329   5.3995  1.0186 0.0850 0.1540
+Pavia University                 HybridSN  0.5%  5   8.3657   3.6011  13.1302  2.1801 0.0082 0.0393
+Pavia University     Spectral transformer    1%  5  -2.1771  -6.1632   1.8090 -0.6782 0.2040 0.2967
+Pavia University Grouped-band transformer    1%  5  -2.4195  -7.0157   2.1766 -0.6536 0.2177 0.3073
+Pavia University    Conv-stem transformer    1%  5   5.6824  -5.9603  17.3251  0.6060 0.2469 0.3283
+Pavia University                 HybridSN    1%  5   9.1381   1.8594  16.4168  1.5589 0.0252 0.0786
+Pavia University     Spectral transformer    2%  5  -1.4635  -5.2521   2.3252 -0.4796 0.3439 0.4026
+Pavia University Grouped-band transformer    2%  5  -5.4583  -7.5169  -3.3997 -3.2922 0.0018 0.0218
+Pavia University    Conv-stem transformer    2%  5   6.7885   2.9684  10.6087  2.2065 0.0079 0.0393
+Pavia University                 HybridSN    2%  5   6.8570   1.1170  12.5970  1.4833 0.0295 0.0786
+Pavia University     Spectral transformer    5%  5   0.1669  -3.4213   3.7551  0.0578 0.9035 0.9035
+Pavia University Grouped-band transformer    5%  5  -3.9244  -6.4048  -1.4441 -1.9646 0.0118 0.0470
+Pavia University    Conv-stem transformer    5%  5   4.3178   0.8203   7.8154  1.5329 0.0266 0.0786
+Pavia University                 HybridSN    5%  5   7.1329   3.4655  10.8004  2.4150 0.0057 0.0390
+         Salinas     Spectral transformer  0.5%  5  -8.6219 -17.5895   0.3458 -1.1938 0.0558 0.1218
+         Salinas Grouped-band transformer  0.5%  5  -4.0430 -11.0666   2.9806 -0.7147 0.1852 0.2868
+         Salinas    Conv-stem transformer  0.5%  5  -3.3128 -10.2070   3.5814 -0.5966 0.2530 0.3283
+         Salinas                 HybridSN  0.5%  5   3.0783  -0.7028   6.8594  1.0109 0.0866 0.1540
+         Salinas     Spectral transformer    1%  5  -4.9970  -9.4850  -0.5090 -1.3825 0.0365 0.0887
+         Salinas Grouped-band transformer    1%  5  -2.8496  -6.3147   0.6155 -1.0211 0.0845 0.1540
+         Salinas    Conv-stem transformer    1%  5   2.0763  -2.6633   6.8159  0.5439 0.2907 0.3489
+         Salinas                 HybridSN    1%  5   8.1998   7.1797   9.2199  9.9808 0.0000 0.0011
+         Salinas     Spectral transformer    2%  5  -2.1706  -6.5063   2.1652 -0.6216 0.2369 0.3249
+         Salinas Grouped-band transformer    2%  5  -2.2794  -4.1297  -0.4290 -1.5296 0.0268 0.0786
+         Salinas    Conv-stem transformer    2%  5   2.7441   1.0928   4.3955  2.0633 0.0099 0.0433
+         Salinas                 HybridSN    2%  5   6.8901   4.4781   9.3021  3.5469 0.0014 0.0218
+         Salinas     Spectral transformer    5%  5  -0.4142  -2.5623   1.7339 -0.2394 0.6208 0.6340
+         Salinas Grouped-band transformer    5%  5  -0.6325  -2.8681   1.6031 -0.3513 0.4761 0.4968
+         Salinas    Conv-stem transformer    5%  5   4.6773   2.3442   7.0104  2.4893 0.0051 0.0390
+         Salinas                 HybridSN    5%  5   7.1162   4.7257   9.5067  3.6963 0.0012 0.0218
+
+== table_local_samples
+ Samples per class  Train patches     LightGBM          SVM Spectral transformer Grouped-band transformer Conv-stem transformer      HybridSN
+                 1            900 61.97 ± 3.14 50.51 ± 4.23        36.05 ± 10.15            39.56 ± 12.81          31.55 ± 4.82 64.85 ± 16.63
+                 2           1800 75.66 ± 7.90 64.36 ± 6.17        69.51 ± 13.03             76.90 ± 5.79         64.19 ± 23.25  78.50 ± 9.27
+                 3           2700 82.31 ± 8.67 74.79 ± 9.10        77.07 ± 10.14             83.93 ± 9.24         78.94 ± 22.40  86.64 ± 7.64
+                 4           3600 87.84 ± 1.01 81.28 ± 2.37        76.43 ± 18.45             90.36 ± 1.86         70.16 ± 32.93  96.67 ± 3.57
+
+== stats_local_vs_lightgbm
+                   model  samples_per_class  n     diff   ci_low  ci_high     d_z      p  p_fdr
+                     SVM                  1  5 -11.4517 -13.5847  -9.3187 -6.6663 0.0001 0.0024
+    Spectral transformer                  1  5 -25.9143 -38.0749 -13.7537 -2.6460 0.0041 0.0136
+Grouped-band transformer                  1  5 -22.4030 -37.2687  -7.5373 -1.8712 0.0139 0.0347
+   Conv-stem transformer                  1  5 -30.4207 -39.1536 -21.6879 -4.3253 0.0006 0.0052
+                HybridSN                  1  5   2.8802 -17.2010  22.9614  0.1781 0.7108 0.7108
+                     SVM                  2  5 -11.2993 -17.5328  -5.0659 -2.2508 0.0073 0.0209
+    Spectral transformer                  2  5  -6.1430 -27.1600  14.8740 -0.3629 0.4626 0.5140
+Grouped-band transformer                  2  5   1.2416  -2.4965   4.9796  0.4124 0.4086 0.4807
+   Conv-stem transformer                  2  5 -11.4617 -39.9209  16.9976 -0.5001 0.3261 0.4076
+                HybridSN                  2  5   2.8452  -3.6878   9.3782  0.5408 0.2932 0.3909
+                     SVM                  3  5  -7.5167  -9.9174  -5.1161 -3.8878 0.0010 0.0052
+    Spectral transformer                  3  5  -5.2420 -16.0217   5.5377 -0.6038 0.2483 0.3909
+Grouped-band transformer                  3  5   1.6173  -0.9090   4.1436  0.7949 0.1501 0.3003
+   Conv-stem transformer                  3  5  -3.3667 -20.6555  13.9220 -0.2418 0.6174 0.6499
+                HybridSN                  3  5   4.3282  -5.5310  14.1874  0.5451 0.2899 0.3909
+                     SVM                  4  5  -6.5571  -8.6907  -4.4235 -3.8159 0.0010 0.0052
+    Spectral transformer                  4  5 -11.4093 -33.6488  10.8301 -0.6370 0.2275 0.3909
+Grouped-band transformer                  4  5   2.5177   0.5579   4.4774  1.5952 0.0234 0.0521
+   Conv-stem transformer                  4  5 -17.6808 -57.8419  22.4802 -0.5466 0.2887 0.3909
+                HybridSN                  4  5   8.8290   5.0266  12.6315  2.8831 0.0030 0.0119
+
+== stats_transfer
+            direction                    model          budget  lightgbm  scratch  transfer  n     diff   ci_low  ci_high     d_z      p  p_fdr
+Local -> Indian Pines                 HybridSN              1%   37.3845  34.9515   37.5460  5   2.5945  -7.8081  12.9971  0.3097 0.5267 0.6654
+Local -> Indian Pines                 HybridSN              5%   46.8972  42.2591   46.3525  5   4.0934  -1.7473   9.9341  0.8702 0.1235 0.2965
+Local -> Indian Pines                 HybridSN             10%   46.8386  43.2504   48.5738  5   5.3234  -3.2888  13.9356  0.7675 0.1613 0.2977
+Local -> Indian Pines                 HybridSN             20%   48.9885  45.1601   52.5733  5   7.4132  -0.3538  15.1801  1.1851 0.0570 0.2735
+Local -> Indian Pines Grouped-band transformer              1%   37.3845  35.1530   38.3376  5   3.1846  -8.4236  14.7928  0.3406 0.4887 0.6516
+Local -> Indian Pines Grouped-band transformer              5%   46.8972  35.5596   38.7219  5   3.1623  -0.7532   7.0778  1.0028 0.0884 0.2955
+Local -> Indian Pines Grouped-band transformer             10%   46.8386  40.0304   39.5725  5  -0.4579  -5.3287   4.4129 -0.1167 0.8070 0.8421
+Local -> Indian Pines Grouped-band transformer             20%   48.9885  48.0301   43.9428  5  -4.0874  -7.5230  -0.6517 -1.4772 0.0298 0.1791
+Local -> Indian Pines     Spectral transformer              1%   37.3845  32.8956   29.8882  5  -3.0074 -12.5866   6.5718 -0.3898 0.4326 0.6107
+Local -> Indian Pines     Spectral transformer              5%   46.8972  37.5730   34.6979  5  -2.8752  -9.5468   3.7965 -0.5351 0.2976 0.4761
+Local -> Indian Pines     Spectral transformer             10%   46.8386  42.5212   36.4501  5  -6.0711 -10.3164  -1.8257 -1.7757 0.0165 0.1677
+Local -> Indian Pines     Spectral transformer             20%   48.9885  51.3633   36.4838  5 -14.8795 -18.4999 -11.2591 -5.1031 0.0003 0.0081
+Indian Pines -> Local                 HybridSN 1 samples/class   61.9665  64.8467   50.7612  5 -14.0855 -32.4988   4.3277 -0.9498 0.1009 0.2955
+Indian Pines -> Local                 HybridSN 2 samples/class   75.6561  78.5013   75.9952  5  -2.5061 -16.8395  11.8272 -0.2171 0.6527 0.7748
+Indian Pines -> Local                 HybridSN 3 samples/class   82.3112  86.6394   84.3811  5  -2.2583 -26.1980  21.6814 -0.1171 0.8063 0.8421
+Indian Pines -> Local                 HybridSN 4 samples/class   87.8420  96.6711   97.4247  5   0.7536  -3.9263   5.4335  0.1999 0.6779 0.7748
+Indian Pines -> Local Grouped-band transformer 1 samples/class   61.9665  39.5635   52.5703  5  13.0068 -11.3089  37.3224  0.6642 0.2117 0.3629
+Indian Pines -> Local Grouped-band transformer 2 samples/class   75.6561  76.8977   79.2204  5   2.3227   0.5766   4.0688  1.6517 0.0210 0.1677
+Indian Pines -> Local Grouped-band transformer 3 samples/class   82.3112  83.9285   83.7845  5  -0.1440  -3.3291   3.0412 -0.0561 0.9062 0.9062
+Indian Pines -> Local Grouped-band transformer 4 samples/class   87.8420  90.3597   88.8377  5  -1.5220  -3.5575   0.5134 -0.9285 0.1065 0.2955
+Indian Pines -> Local     Spectral transformer 1 samples/class   61.9665  36.0522   56.6113  5  20.5591  -7.4078  48.5259  0.9128 0.1108 0.2955
+Indian Pines -> Local     Spectral transformer 2 samples/class   75.6561  69.5131   78.4823  5   8.9692 -12.8683  30.8067  0.5100 0.3178 0.4767
+Indian Pines -> Local     Spectral transformer 3 samples/class   82.3112  77.0692   84.6548  5   7.5856  -4.2013  19.3725  0.7991 0.1485 0.2970
+Indian Pines -> Local     Spectral transformer 4 samples/class   87.8420  76.4327   90.9121  5  14.4794  -7.9511  36.9099  0.8015 0.1476 0.2970
+
+== crossover
+         dataset                    model             init          unit  crossover  ci_low  ci_high  below_first  never
+    Indian Pines     Spectral transformer          scratch    % labelled     16.451  13.719   18.947        0.000  0.077
+    Indian Pines Grouped-band transformer          scratch    % labelled        NaN  18.706   19.954        0.000  0.843
+    Indian Pines    Conv-stem transformer          scratch    % labelled        NaN     NaN      NaN        0.000  1.000
+    Indian Pines                 HybridSN          scratch    % labelled        NaN   8.129   19.580        0.000  0.932
+    Indian Pines                 HybridSN Local-pretrained    % labelled      6.195   5.267   11.688        0.000  0.000
+    Indian Pines Grouped-band transformer Local-pretrained    % labelled        NaN     NaN      NaN        0.000  1.000
+    Indian Pines     Spectral transformer Local-pretrained    % labelled        NaN     NaN      NaN        0.000  1.000
+Pavia University     Spectral transformer          scratch    % labelled      4.693   1.683    4.830        0.000  0.449
+Pavia University Grouped-band transformer          scratch    % labelled        NaN     NaN      NaN        0.000  1.000
+Pavia University    Conv-stem transformer          scratch    % labelled      0.500   0.500    1.180        0.940  0.001
+Pavia University                 HybridSN          scratch    % labelled      0.500   0.500    0.500        1.000  0.000
+         Salinas     Spectral transformer          scratch    % labelled        NaN   1.863    4.971        0.000  0.738
+         Salinas Grouped-band transformer          scratch    % labelled        NaN   3.829    4.994        0.000  0.797
+         Salinas    Conv-stem transformer          scratch    % labelled      0.807   0.500    1.230        0.070  0.000
+         Salinas                 HybridSN          scratch    % labelled      0.500   0.500    0.500        0.992  0.000
+      Local soil     Spectral transformer          scratch samples/class        NaN   3.979    3.979        0.000  1.000
+      Local soil     Spectral transformer    IP-pretrained samples/class      1.655   1.000    1.927        0.160  0.000
+      Local soil Grouped-band transformer          scratch samples/class      1.947   1.839    3.069        0.000  0.000
+      Local soil Grouped-band transformer    IP-pretrained samples/class      1.725   1.000    3.219        0.095  0.000
+      Local soil    Conv-stem transformer          scratch samples/class        NaN   1.916    3.771        0.000  0.923
+      Local soil                 HybridSN          scratch samples/class      1.000   1.000    3.242        0.612  0.000
+      Local soil                 HybridSN    IP-pretrained samples/class      1.971   1.308    3.535        0.011  0.000
+
+== shap_top_bands
+dataset  band  wavelength_nm  mean_abs_shap
+  local    11          942.0         1.3161
+  local   107         1413.6         1.0929
+  local   167         1714.6         0.9513
+     ip     0          400.0         2.5750
+     ip   158         2083.0         2.1615
+     ip    36          735.1         1.5956
+
+wrote ['fig_local_samples.png', 'fig_scenes.png', 'fig_shap.png', 'fig_transfer_gain.png']
