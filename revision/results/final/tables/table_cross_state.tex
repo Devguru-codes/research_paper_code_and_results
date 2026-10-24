@@ -1,0 +1,18 @@
+\begin{table}
+\caption{Red test patches predicted Red / Black (%) when the other Red moisture state is in training (mean over 5 seeds).}
+\label{tab:table_cross_state}
+\begin{tabular}{lllll}
+\toprule
+Red test state & Model & raw: Red / Black & nowater: Red / Black & norm: Red / Black \\
+\midrule
+moist & LightGBM & 97 / 3 & 89 / 10 & 100 / 0 \\
+moist & SVM & 99 / 1 & 99 / 1 & 99 / 1 \\
+moist & HybridSN & 100 / 0 & 100 / 0 & 100 / 0 \\
+moist & Grouped-band transformer & 97 / 3 & 96 / 4 & 99 / 1 \\
+dry & LightGBM & 42 / 56 & 28 / 69 & 93 / 7 \\
+dry & SVM & 56 / 43 & 34 / 65 & 93 / 7 \\
+dry & HybridSN & 71 / 29 & 49 / 51 & 98 / 2 \\
+dry & Grouped-band transformer & 56 / 44 & 33 / 66 & 90 / 7 \\
+\bottomrule
+\end{tabular}
+\end{table}

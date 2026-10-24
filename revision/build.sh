@@ -9,7 +9,7 @@ mode=${1:?smoke or full}; shift
 smoke=$([ "$mode" = smoke ] && echo True || echo False)
 owner=${KAGGLE_OWNER:-devgurucodes}
 shape=$([ "${GPU:-true}" = true ] && echo " \"machine_shape\": \"${MACHINE:-NvidiaTeslaP100}\"," || true)
-declare -A runs=([a]="r1_fewshot r6_timing" [b]="r3_transfer_local_to_ip r5_linear_probe" [c]="r4_transfer_ip_to_local r2_local" [d]="r7_shap" [e]="r8_disjoint r8_ip" [f]="r8_disjoint r8_paviau" [g]="r8_disjoint r8_salinas" [h]="r11_local_samples" [fc]="r8_disjoint r8_paviau_cpu" [gc]="r8_disjoint r8_salinas_cpu" [l]="r8_disjoint r12_lightgbm")
+declare -A runs=([a]="r1_fewshot r6_timing" [b]="r3_transfer_local_to_ip r5_linear_probe" [c]="r4_transfer_ip_to_local r2_local" [d]="r7_shap" [e]="r8_disjoint r8_ip" [f]="r8_disjoint r8_paviau" [g]="r8_disjoint r8_salinas" [h]="r11_local_samples" [fc]="r8_disjoint r8_paviau_cpu" [gc]="r8_disjoint r8_salinas_cpu" [l]="r8_disjoint r12_lightgbm" [i]="r11b_masked" [j]="r13_moisture")
 
 for s in "${@:-a b c}"; do
   dir=build/session-$s; mkdir -p "$dir"
