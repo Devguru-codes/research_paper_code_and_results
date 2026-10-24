@@ -157,6 +157,13 @@ def local_sample_id(path):
     return os.path.join(os.path.dirname(path), os.path.basename(path).split('-')[0])
 
 
+def local_soil_id(path):
+    """'Red Soil/Moist/3-1.bil' and 'Red Soil/11-10-22/3-2.bil' -> '.../Red Soil/3': the moist and dry Red
+    folders reuse sample numbers and may hold the same soil, so they are never split apart (R11b)."""
+    m = re.search(r'(black|red|yellow) soil', path, re.I)
+    return path[:m.end()] + '/' + os.path.basename(path).split('-')[0]
+
+
 def local_files(root='/kaggle/input'):
     files = sorted(os.path.join(d, f) for d, _, fs in os.walk(root, followlinks=True)
                    for f in fs if f.endswith('.bil') and local_label(os.path.join(d, f)) >= 0)
@@ -164,11 +171,11 @@ def local_files(root='/kaggle/input'):
     return files
 
 
-def local_samples(root='/kaggle/input'):
+def local_samples(root='/kaggle/input', key=local_sample_id):
     """{sample_id: (class, [image files])} for the three labelled soil folders."""
     out = {}
     for f in local_files(root):
-        out.setdefault(local_sample_id(f), (local_label(f), []))[1].append(f)
+        out.setdefault(key(f), (local_label(f), []))[1].append(f)
     return out
 
 
@@ -194,8 +201,16 @@ def read_bil(path, samples=320, bands=168):
     return raw.reshape(int(lines), bands, samples).transpose(0, 2, 1) if lines.is_integer() else None
 
 
-def load_local_files(files, patch=15):
-    """Non-overlapping 15x15 patches from each image. Returns X (N,H,W,168) float32, y."""
+def soil_mask(img):
+    """Soil pixels of one image: the band-mean image divided by each column's 90th percentile (the bright
+    tray; removes the left-right vignetting) is below 0.6. Checked visually on 24 images."""
+    b = img.mean(2)
+    return b / np.percentile(b, 90, axis=0, keepdims=True) < 0.6
+
+
+def load_local_files(files, patch=15, soil=None):
+    """Non-overlapping 15x15 patches from each image. Returns X (N,H,W,168) float32, y.
+    soil=(lo, hi): keep only patches whose soil fraction (soil_mask) lies in [lo, hi]."""
     X, y = [], []
     for f in files:
         img = read_bil(f)
@@ -203,7 +218,9 @@ def load_local_files(files, patch=15):
             print('skip (bad size):', f)
             continue
         h, w, _ = img.shape
-        p = [img[i:i + patch, j:j + patch] for i in range(0, h - patch + 1, patch) for j in range(0, w - patch + 1, patch)]
+        keep = soil_mask(img) if soil else None
+        p = [img[i:i + patch, j:j + patch] for i in range(0, h - patch + 1, patch) for j in range(0, w - patch + 1, patch)
+             if not soil or soil[0] <= keep[i:i + patch, j:j + patch].mean() <= soil[1]]
         X += p
         y += [local_label(f)] * len(p)
     return np.asarray(X, dtype=np.float32), np.asarray(y, dtype=np.int64)
@@ -423,10 +440,14 @@ def test(model, loader):
 LGBM_STABLE = dict(max_delta_step=1)
 
 
+def classic(kind, seed):
+    return (lgb.LGBMClassifier(n_estimators=100, random_state=seed, verbose=-1, **LGBM_STABLE) if kind == 'LightGBM'
+            else make_pipeline(StandardScaler(), SVC(kernel='rbf', random_state=seed)))
+
+
 def run_classic(kind, Xtr, ytr, Xte, yte, seed):
     """LightGBM or RBF-SVM on the centre-pixel spectrum."""
-    clf = (lgb.LGBMClassifier(n_estimators=100, random_state=seed, verbose=-1, **LGBM_STABLE) if kind == 'LightGBM'
-           else make_pipeline(StandardScaler(), SVC(kernel='rbf', random_state=seed)))
+    clf = classic(kind, seed)
     t0 = time.time()
     clf.fit(centre(Xtr), ytr)
     return dict(model=kind, train_time=time.time() - t0, **metrics(yte, clf.predict(centre(Xte))))

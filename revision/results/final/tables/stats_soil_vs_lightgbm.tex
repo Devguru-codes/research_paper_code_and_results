@@ -1,0 +1,46 @@
+\begin{table}
+\caption{Local soil: model minus LightGBM OA (pp), paired over repeats; one BH-FDR family (all protocols).}
+\label{tab:stats_soil_vs_lightgbm}
+\begin{tabular}{lrlrrrrrrr}
+\toprule
+protocol & samples\_per\_class & model & n & diff & ci\_low & ci\_high & d\_z & p & p\_fdr \\
+\midrule
+Raw patches & 1 & SVM & 5 & -11.5 & -13.6 & -9.32 & -6.67 & 0.0001 & 0.0042 \\
+Raw patches & 1 & Grouped-band transformer & 5 & -22.4 & -37.3 & -7.54 & -1.87 & 0.0139 & 0.0503 \\
+Raw patches & 1 & HybridSN & 5 & 2.88 & -17.2 & 23 & 0.178 & 0.711 & 0.761 \\
+Raw patches & 2 & SVM & 5 & -11.3 & -17.5 & -5.07 & -2.25 & 0.0073 & 0.0376 \\
+Raw patches & 2 & Grouped-band transformer & 5 & 1.24 & -2.5 & 4.98 & 0.412 & 0.409 & 0.507 \\
+Raw patches & 2 & HybridSN & 5 & 2.85 & -3.69 & 9.38 & 0.541 & 0.293 & 0.377 \\
+Raw patches & 3 & SVM & 5 & -7.52 & -9.92 & -5.12 & -3.89 & 0.001 & 0.0093 \\
+Raw patches & 3 & Grouped-band transformer & 5 & 1.62 & -0.909 & 4.14 & 0.795 & 0.15 & 0.258 \\
+Raw patches & 3 & HybridSN & 5 & 4.33 & -5.53 & 14.2 & 0.545 & 0.29 & 0.377 \\
+Raw patches & 4 & SVM & 5 & -6.56 & -8.69 & -4.42 & -3.82 & 0.001 & 0.0093 \\
+Raw patches & 4 & Grouped-band transformer & 5 & 2.52 & 0.558 & 4.48 & 1.6 & 0.0234 & 0.0649 \\
+Raw patches & 4 & HybridSN & 5 & 8.83 & 5.03 & 12.6 & 2.88 & 0.003 & 0.0215 \\
+Soil-only patches & 1 & SVM & 5 & 6.44 & -2.9 & 15.8 & 0.856 & 0.128 & 0.258 \\
+Soil-only patches & 1 & Grouped-band transformer & 5 & -0.528 & -19.9 & 18.8 & -0.0339 & 0.943 & 0.943 \\
+Soil-only patches & 1 & HybridSN & 5 & 5.98 & -16.3 & 28.2 & 0.333 & 0.497 & 0.578 \\
+Soil-only patches & 2 & SVM & 5 & -0.621 & -7.82 & 6.58 & -0.107 & 0.822 & 0.846 \\
+Soil-only patches & 2 & Grouped-band transformer & 5 & -1.94 & -9.17 & 5.29 & -0.333 & 0.498 & 0.578 \\
+Soil-only patches & 2 & HybridSN & 5 & 9.86 & -5.82 & 25.5 & 0.781 & 0.156 & 0.258 \\
+Soil-only patches & 3 & SVM & 5 & 1.14 & 0.264 & 2.02 & 1.61 & 0.0226 & 0.0649 \\
+Soil-only patches & 3 & Grouped-band transformer & 5 & 0.501 & -0.107 & 1.11 & 1.02 & 0.0841 & 0.189 \\
+Soil-only patches & 3 & HybridSN & 5 & 2.11 & 0.698 & 3.53 & 1.85 & 0.0143 & 0.0503 \\
+Soil-only patches & 4 & SVM & 5 & 1.11 & 0.469 & 1.75 & 2.15 & 0.0086 & 0.0386 \\
+Soil-only patches & 4 & Grouped-band transformer & 5 & 0.914 & 0.113 & 1.72 & 1.42 & 0.034 & 0.0815 \\
+Soil-only patches & 4 & HybridSN & 5 & 2.2 & 1.19 & 3.21 & 2.7 & 0.0038 & 0.0227 \\
+Soil-only, brightness-normalised & 1 & SVM & 5 & -0.198 & -1.12 & 0.722 & -0.268 & 0.582 & 0.655 \\
+Soil-only, brightness-normalised & 1 & Grouped-band transformer & 5 & 0.617 & -3.82 & 5.06 & 0.173 & 0.719 & 0.761 \\
+Soil-only, brightness-normalised & 1 & HybridSN & 5 & 5.94 & -7.03 & 18.9 & 0.569 & 0.272 & 0.377 \\
+Soil-only, brightness-normalised & 2 & SVM & 5 & 0.292 & -0.174 & 0.757 & 0.778 & 0.157 & 0.258 \\
+Soil-only, brightness-normalised & 2 & Grouped-band transformer & 5 & -0.747 & -2.33 & 0.832 & -0.587 & 0.259 & 0.377 \\
+Soil-only, brightness-normalised & 2 & HybridSN & 5 & 1.03 & 0.788 & 1.27 & 5.3 & 0.0003 & 0.0052 \\
+Soil-only, brightness-normalised & 3 & SVM & 5 & 0.244 & -0.281 & 0.77 & 0.578 & 0.266 & 0.377 \\
+Soil-only, brightness-normalised & 3 & Grouped-band transformer & 5 & -0.364 & -1.02 & 0.292 & -0.689 & 0.198 & 0.31 \\
+Soil-only, brightness-normalised & 3 & HybridSN & 5 & 0.948 & 0.299 & 1.6 & 1.81 & 0.0154 & 0.0503 \\
+Soil-only, brightness-normalised & 4 & SVM & 5 & 0.154 & -0.0914 & 0.4 & 0.78 & 0.156 & 0.258 \\
+Soil-only, brightness-normalised & 4 & Grouped-band transformer & 5 & -0.832 & -2.16 & 0.499 & -0.776 & 0.158 & 0.258 \\
+Soil-only, brightness-normalised & 4 & HybridSN & 5 & 0.825 & 0.166 & 1.48 & 1.55 & 0.0255 & 0.0656 \\
+\bottomrule
+\end{tabular}
+\end{table}

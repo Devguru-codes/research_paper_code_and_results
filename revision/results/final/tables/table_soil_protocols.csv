@@ -1,0 +1,13 @@
+Patches,Samples per class,LightGBM,SVM,Grouped-band transformer,HybridSN
+Raw patches,1,61.97 ± 3.14,50.51 ± 4.23,39.56 ± 12.81,64.85 ± 16.63
+Raw patches,2,75.66 ± 7.90,64.36 ± 6.17,76.90 ± 5.79,78.50 ± 9.27
+Raw patches,3,82.31 ± 8.67,74.79 ± 9.10,83.93 ± 9.24,86.64 ± 7.64
+Raw patches,4,87.84 ± 1.01,81.28 ± 2.37,90.36 ± 1.86,96.67 ± 3.57
+Soil-only patches,1,61.34 ± 10.78,67.78 ± 10.33,60.81 ± 13.90,67.32 ± 22.49
+Soil-only patches,2,89.24 ± 12.25,88.61 ± 12.74,87.30 ± 13.06,99.10 ± 0.89
+Soil-only patches,3,97.29 ± 1.09,98.43 ± 0.44,97.79 ± 0.86,99.40 ± 0.09
+Soil-only patches,4,97.44 ± 0.95,98.55 ± 0.50,98.35 ± 0.73,99.64 ± 0.16
+"Soil-only, brightness-normalised",1,93.79 ± 10.60,93.60 ± 10.25,94.41 ± 7.05,99.73 ± 0.16
+"Soil-only, brightness-normalised",2,98.75 ± 0.31,99.04 ± 0.38,98.00 ± 1.44,99.78 ± 0.16
+"Soil-only, brightness-normalised",3,98.93 ± 0.60,99.18 ± 0.39,98.57 ± 0.79,99.88 ± 0.09
+"Soil-only, brightness-normalised",4,98.98 ± 0.54,99.13 ± 0.42,98.15 ± 1.42,99.80 ± 0.19

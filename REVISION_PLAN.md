@@ -112,3 +112,36 @@ Use incremental CSV saving per seed so a timeout loses nothing.
 | 10 | Co-author read-through → submit via ScholarOne |
 
 **Submission gate:** every number in the manuscript must trace to a CSV in the repo produced by the notebooks listed in the README.
+
+---
+
+## 7. Round 3 (answers to the second set of five reviews)
+
+Already done in the manuscript (no runs): AA and κ table (Appendix A1), dataset citations, Local budget curve in place of the transfer-gain figure, transfer table moved to the appendix, shorter title and abstract, 1715 nm edge band flagged.
+
+### Data check of the Red images (done 2026-10-23, 16 Red images downloaded)
+- **Same soil in `Red Soil/Moist/n` and `Red Soil/11-10-22/n`? Cannot be decided from the data.** Wetting changes the spectrum about 10x more than the difference between two dry samples, so every moist image is closest to the same dry image (6-2), not to its namesake. The preparations also look different (round wet patties vs. square dry piles). Decision: **merge them** (treat Moist/1 = dry/1, Moist/3 = dry/3) in R13/R14, so a possible leak cannot happen. Red then has 8 independent samples instead of 10. Ask the provider to confirm.
+- **New, more serious finding: most patches are background, labelled as soil.** Each image shows six soil spots on a bright tray. Measured on 24 images (4 Black, 4 Yellow, all 16 Red) with a vignetting-corrected mask (band-mean image divided by each column's 90th percentile; soil where < 0.6; masks checked visually): **38–72% of the non-overlapping 15x15 patches contain <=10% soil** (Black 53–61%, Yellow 38–55%, Red dry 43–60%, Red moist 61–72%), and only 16–40% are >=90% soil. Every one of these patches carries the soil label, and the tray brightness and vignetting differ between sessions (background DN: Black 5900–7250, Yellow 6600–7460 with one image at 12600, Red dry 6000–6850, Red moist 7900–8100), so a model can learn the session, and thus the class, from the tray. All Local results (R2, R4, R11, R12) are affected. (A plain global threshold fails on the vignetted dry Red images; use the per-column correction.)
+- No white/dark reference frames are in the dataset, and only the Mix folder has `.hdr` files: the data are raw digital numbers.
+
+### New runs
+| Run | What it answers | Design | Where | Est. |
+|---|---|---|---|---|
+| **R11b soil mask** (new, blocks everything Local) | Are the Local results driven by background? | Soil mask as above (band mean / per-column 90th percentile < 0.6); keep only patches with >=90% soil (about 90–250 per image); also train LightGBM on background-only patches as a leakage check (above-chance accuracy = the tray leaks the label); merge same-number Red samples; rerun R11 and the Local part of R12 on the same repeat design | GPU + CPU | GPU ~6 h, CPU 1 h |
+| **R13 moisture test** (reviewer 3.2) | Do the models classify soil or moisture? | Red is the only class in both states. (a) Train on Black (moist), Yellow (dry) and Red dry → test on Red moist; (b) train with Red moist → test on Red dry. Report the share of Red test patches called Red / Black / Yellow. If moist Red is called Black, the models key on moisture. (c) Repeat R11 with the water bands removed (930–1010 nm, 1340–1500 nm) and (d) with each spectrum divided by its mean (removes brightness). LightGBM, SVM, HybridSN, grouped-band transformer; 5 repeats. | LightGBM/SVM on CPU; HybridSN + grouped-band on GPU | CPU 1 h, GPU ~1.5 h |
+| **R14 leave-one-sample-out** (reviewer 3.3) | Accuracy per physical sample with all other samples for training | 24 folds; same models as R13; report per-sample accuracy and which samples fail | CPU + GPU | GPU ~2.5 h |
+| **R15 longer training** (reviewer 1.4) | Did the 50-epoch cap favour LightGBM? | Indian Pines (the scene where LightGBM wins), HybridSN and spectral transformer, 100 epochs, same splits | GPU | ~4 h |
+| **R17 maps** (reviewer 2.4) | Classification maps | Seed 42, 5% (IP) / 1% (Pavia U, Salinas): LightGBM + HybridSN over the whole scene; one figure in the supplement | GPU | ~0.5 h |
+| **R18 more classical baselines** (reviewer 2.2) | Is LightGBM the right baseline? | Add RBF-SVM and random forest to R12 on the same splits; zero-pad Pavia U to 104 bands and rerun the grouped-band transformer | CPU | ~2 h |
+| R16 wavelength-aligned transfer (reviewer 4.1), *optional* | Does transfer help when bands match physically? | Resample Local (168 bands) to the 82 Indian Pines band centres in 889–1715 nm; both directions; HybridSN + grouped-band | GPU | ~6 h |
+
+Required GPU: **~14.5 h** (R11b, R13–R15, R17); with R16 **~20.5 h**. R11b goes first; R13 and R14 reuse its mask. dev123123456 used ~15 h this week, devgurucodes ~27 h, so run R13/R14/R17 first and R15/R16 after the weekly reset. Standard published disjoint splits (reviewer 2.1) are left out unless an official Pavia U training set can be obtained; the paper justifies the tile design instead.
+
+### Code changes needed
+- `hsi_common.py`: `local_moisture(path)` (Moist vs dated folder), optional band mask and per-spectrum normalisation in `load_local_files`; zero-pad bands to a multiple of 4 in `SpectralFormer`; `predict_scene` for maps.
+- New scripts `r13_moisture.py`, `r14_loso.py`, `r15_long.py` (sets `EPOCHS=100`), `r17_maps.py`; extend `r12_lightgbm.py` with SVM and random forest; new sessions in `build.sh`.
+- `analysis.py`: confusion of Red test patches for R13, per-sample table for R14, epochs-100 vs 50 table for R15.
+
+### Manuscript after round 3
+- Section on the moisture test in Results; rewrite the Local limitation and the SHAP paragraph from its outcome.
+- If R15 changes the Indian Pines ranking, rewrite the Indian Pines paragraph, the abstract and the conclusion.

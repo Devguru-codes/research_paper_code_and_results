@@ -1,0 +1,3 @@
+model,mean,std,min,max
+LightGBM_background,87.08,2.04,84.12,88.87
+SVM_background,78.16,2.29,75.61,80.98
