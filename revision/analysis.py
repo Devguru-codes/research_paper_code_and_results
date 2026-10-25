@@ -3,7 +3,7 @@
 Airborne scenes: random pixel split (R1, Indian Pines only) vs spatially disjoint tiles (R8/R12, three scenes).
 Local soil: raw patches (R11 + R12 LightGBM) vs soil-only patches (R11b) vs soil-only + brightness-normalised (R13),
 plus the tray-only leakage check (R11b) and the moist/dry cross-state test (R13).
-Reads revision/results/session-{a,e,f,fc,g,gc,h,i,j,k,l,m}/ and writes revision/results/final/{tables,figures}/.
+Reads revision/results/session-{a,e,f,fc,g,gc,h,i,j,k,l,m,n,o,p,q,s,t,u,v}/ and writes revision/results/final/{tables,figures}/.
 FDR families (Benjamini-Hochberg): (1) every model-vs-LightGBM test on the airborne scenes, both split protocols;
 (2) every model-vs-LightGBM test on Local soil, all three patch protocols.
 Run: python revision/analysis.py
@@ -72,6 +72,8 @@ ip_random = pd.concat([r1[r1.model != 'LightGBM'], r18[r18.part == 'random']], i
 CLASSIC = ['LightGBM', 'RF', 'SVM']
 r11b = load('i', 'r11b')
 r13 = load('j', 'r13')
+r13b = load('q', 'r13b')  # grouped-band transformer, water bands removed, last group zero-padded (R13 dropped 3 bands)
+r13 = pd.concat([r13[~((r13.model == 'SpectralFormer') & (r13.variant == 'nowater'))], r13b], ignore_index=True)
 soil = {'Raw patches': scratch(with_r12(load('h', 'r11'), 'Local')),
         'Soil-only patches': scratch(r11b[~r11b.model.str.endswith('_background', na=False)]),
         'Soil-only, brightness-normalised': r13[(r13.part == 'budget') & (r13.variant == 'norm')]}
@@ -126,6 +128,25 @@ for (state, model), g in cs.groupby(['test_state', 'model'], sort=False):
 save(pd.DataFrame(rows), 'table_cross_state', 'Red test patches predicted Red / Black (%) when the other Red moisture state is in training (mean over 5 seeds).')
 
 # ---- Figures
+# ---- Robustness to training length: R15 reruns every deep model with up to 100 epochs on the same disjoint splits
+long = pd.concat([pd.read_csv(f) for s_ in 'nopstuv' for f in [os.path.join(RES, f'session-{s_}', n) for n in
+                  os.listdir(os.path.join(RES, f'session-{s_}'))] if '_long' in f and f.endswith('.csv')], ignore_index=True)
+long = long[long.init == 'scratch']
+rows, tests = [], []
+for sc, df in scenes.items():
+    for (s, m), g in long[long.dataset == sc].groupby(['split', 'model']):
+        h = df[(df.split == s) & (df.model == m)]
+        rows.append({'Dataset': SCENES[sc][1], 'Labelled': f'{s * 100:g}%', 'Model': NAME[m], 'OA, 50 epochs': fmt(h.OA.mean(), h.OA.std()),
+                     'OA, 100 epochs': fmt(g.OA.mean(), g.OA.std()), 'At cap (50)': f'{(h.epochs >= 50).mean():.0%}',
+                     'At cap (100)': f'{(g.epochs >= 100).mean():.0%}'})
+        ref = df[(df.split == s)]
+        key = dict(dataset=SCENES[sc][1], budget=f'{s * 100:g}%')
+        tests += vs_lightgbm(pd.concat([ref[ref.model.isin(['LightGBM', 'RF'])], g]), [m], **key)
+        if m == 'HybridSN':
+            tests += vs_lightgbm(pd.concat([ref[ref.model == 'RF'], g]), [m], ref='RF', **key)
+save(pd.DataFrame(rows), 'table_long_training', 'Disjoint splits: OA (%) with at most 50 vs 100 epochs (same splits and seeds), and share of runs stopped by the epoch cap.')
+save(bh(pd.DataFrame(tests)).round(4), 'stats_long_vs_baselines', '100-epoch models minus LightGBM (or RF for HybridSN), OA (pp); one BH-FDR family.')
+
 STY = {'LightGBM': 'k-o', 'SVM': '-x', 'ViT': '-v', 'SpectralFormer': '-d', 'ConvStemViT': '-^', 'HybridSN': '-s'}
 
 
@@ -154,6 +175,25 @@ for ax, (title, df, x, scale, lg) in zip(axes, panels):
     ax.set_xlabel('Labelled pixels (%)' if x == 'split' else 'Labelled samples per class')
 axes[0].set_ylabel('Overall accuracy (%)'); axes[0].legend(fontsize=7)
 fig.tight_layout(); fig.savefig(os.path.join(FIG, 'fig_protocols.png'), dpi=300); plt.close(fig)
+
+# ---- Classification maps (R17, seed 42): ground truth, LightGBM and HybridSN on every labelled pixel
+r17 = load('n', 'r17')
+fig, axes = plt.subplots(3, 3, figsize=(10, 11))
+for row, (sc, (_, title)) in zip(axes, SCENES.items()):
+    z = np.load(os.path.join(RES, 'session-n', f'map_{sc}.npz'))
+    for ax, (lab, key) in zip(row, [('Ground truth', 'gt'), ('LightGBM', 'LightGBM'), ('HybridSN', 'HybridSN')]):
+        img = np.full(z['gt'].shape, np.nan)
+        img[z['rows'], z['cols']] = z['gt'][z['rows'], z['cols']] if key == 'gt' else z[key] + 1
+        ax.imshow(img, cmap='tab20', vmin=1, vmax=20, interpolation='nearest')
+        if key == 'gt':
+            ax.scatter(z['train_c'], z['train_r'], s=1, c='k', marker='.', linewidths=0)
+            ax.set_title(f'{title}: ground truth', fontsize=9)
+        else:
+            oa = r17[(r17.dataset == sc) & (r17.model == key)].OA.iloc[0]
+            ax.set_title(f'{lab} (test OA {oa:.1f}%)', fontsize=9)
+        ax.axis('off')
+fig.tight_layout(); fig.savefig(os.path.join(FIG, 'fig_maps.png'), dpi=200); plt.close(fig)
+save(r17[['dataset', 'split', 'model', 'OA', 'AA', 'Kappa']].round(2), 'table_maps', 'Seed-42 map runs: accuracy on the disjoint test area.')
 
 # ---- SHAP against true band-centre wavelengths (soil-only patches; Indian Pines disjoint 5%)
 WL = {k: np.loadtxt(os.path.join(HERE, 'wavelengths', f), comments='#')

@@ -1,0 +1,7 @@
+dataset,split,model,OA,AA,Kappa
+IndianPines,0.05,LightGBM,45.25,39.48,0.37
+IndianPines,0.05,HybridSN,33.17,32.51,0.24
+PaviaU,0.01,LightGBM,78.91,73.82,0.66
+PaviaU,0.01,HybridSN,91.46,87.31,0.85
+Salinas,0.01,LightGBM,73.35,81.76,0.7
+Salinas,0.01,HybridSN,82.11,88.78,0.79

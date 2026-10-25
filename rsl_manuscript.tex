@@ -70,7 +70,7 @@ We measure how much each effect changes the ranking of five learners at small an
 \end{figure}
 
 \subsection{Models and training}
-\textbf{LightGBM} \citep{Ke2017}, a \textbf{random forest} (RF, 500 trees) and an RBF \textbf{SVM} use the centre-pixel spectrum (LightGBM: 100 trees, \texttt{max\_delta\_step}$=1$, which prevented divergence on one Salinas split). All deep models receive a $15\times15$ patch. The \textbf{spectral transformer} sees only the centre pixel, one token per band (128-d, 4 layers, 4 heads). The \textbf{grouped-band transformer}, inspired by SpectralFormer \citep{Hong2022} but without its cross-region fusion or patch-wise input, also sees only the centre pixel, with four adjacent bands per token (64-d, 4 layers); bands that do not fill the last group are zero-padded (Pavia University), except in the water-band-removed soil variant, where the last 3 of 119 bands are dropped. The \textbf{conv-stem transformer} is the spectral transformer with band tokens produced by two 3-D convolutions over the patch. \textbf{HybridSN} \citep{Roy2020} has three 3-D convolutions, one 2-D convolution and two dense layers. All deep models use AdamW (learning rate $5\times10^{-4}$, weight decay $10^{-4}$), cosine annealing, batch size 64 and at most 50 epochs with early stopping (patience 10) on validation loss. Inputs are standardised per band with training statistics. Runs used PyTorch 2.11, CUDA 12.8 and LightGBM 4.6 on Kaggle (NVIDIA Tesla T4 for the deep models).
+\textbf{LightGBM} \citep{Ke2017}, a \textbf{random forest} (RF, 500 trees) and an RBF \textbf{SVM} use the centre-pixel spectrum (LightGBM: 100 trees, \texttt{max\_delta\_step}$=1$, which prevented divergence on one Salinas split). All deep models receive a $15\times15$ patch. The \textbf{spectral transformer} sees only the centre pixel, one token per band (128-d, 4 layers, 4 heads). The \textbf{grouped-band transformer}, inspired by SpectralFormer \citep{Hong2022} but without its cross-region fusion or patch-wise input, also sees only the centre pixel, with four adjacent bands per token (64-d, 4 layers); bands that do not fill the last group are zero-padded (Pavia University and the water-band-removed soil variant). The \textbf{conv-stem transformer} is the spectral transformer with band tokens produced by two 3-D convolutions over the patch. \textbf{HybridSN} \citep{Roy2020} has three 3-D convolutions, one 2-D convolution and two dense layers. All deep models use AdamW (learning rate $5\times10^{-4}$, weight decay $10^{-4}$), cosine annealing, batch size 64 and at most 50 epochs with early stopping (patience 10) on validation loss; on the disjoint splits every deep model is also rerun with up to 100 epochs to check that the epoch limit does not drive the results. Inputs are standardised per band with training statistics. Runs used PyTorch 2.11, CUDA 12.8 and LightGBM 4.6 on Kaggle (NVIDIA Tesla T4 for the deep models).
 
 \subsection{Protocols}\label{sec:protocol}
 \emph{Random pixels (Indian Pines, leaky).} For budgets $p\in\{1,5,10,20\}\%$, $p$ of the labelled pixels are drawn by stratified sampling, 10\% of the rest form the validation set and the remainder the test set. Training and test windows overlap.
@@ -81,7 +81,7 @@ We measure how much each effect changes the ranking of five learners at small an
 
 \emph{Leakage checks.} \emph{Tray-only}: LightGBM and SVM are trained and tested on patches with $\le$10\% soil from the same samples (4 samples per class). \emph{Cross-state}: Red is the only class imaged both dry and moist; models are trained on Black, Yellow and one Red state and tested on the other Red state, with or without the water bands (932--1010 and 1344--1498\,nm) or brightness normalisation.
 
-\emph{Statistics.} For each model we report the mean paired difference from LightGBM over the five seeds, its 95\% confidence interval and the paired $t$-test $p$-value adjusted with the Benjamini--Hochberg procedure ($q$). On the airborne scenes HybridSN is also compared with the random forest, the strongest classical baseline. We correct within two families: every test on the airborne scenes (both split protocols, 100 tests), and every model-versus-LightGBM test on the soil data (all three patch protocols, 36 tests).
+\emph{Statistics.} For each model we report the mean paired difference from LightGBM over the five seeds, its 95\% confidence interval and the paired $t$-test $p$-value adjusted with the Benjamini--Hochberg procedure ($q$). On the airborne scenes HybridSN is also compared with the random forest, the strongest classical baseline. We correct within two families: every test on the airborne scenes (both split protocols, 100 tests), and every model-versus-LightGBM test on the soil data (all three patch protocols, 36 tests). The 100-epoch reruns form a third family (60 tests).
 
 \section{Results}\label{sec:results}
 
@@ -151,6 +151,17 @@ Scene & Labelled & LightGBM & RF & SVM & Spectral tr. & Grouped-band tr. & Conv-
 \label{fig:scenes}
 \end{figure}
 
+\emph{Training length.} At 50 epochs many deep runs stopped at the epoch limit (up to 100\% of the seeds in a configuration). With up to 100 epochs, at most 40\% did, and mean accuracy changed by $-4.1$ to $+8.3$\pp, most at the smallest budgets on Salinas. The conclusions did not change. On Indian Pines no deep model was significantly better than LightGBM, and HybridSN was now significantly worse at 5\% ($-7.3$\pp, $q=0.039$). On Pavia University and Salinas HybridSN was ahead of LightGBM at every budget ($+6.2$ to $+9.8$\pp, significant in six of eight cases) and of the random forest ($+5.3$ to $+9.4$\pp; $q\le0.041$ except Salinas at 0.5\%, $q=0.050$). The centre-pixel transformers were never significantly better than LightGBM. Per-configuration results are in the repository.
+
+\emph{Maps.} Figure~\ref{fig:maps} shows the predictions of one seed. LightGBM makes scattered pixel errors; HybridSN produces smooth regions, which helps on Pavia University and Salinas but on Indian Pines assigns whole test fields to the wrong class (test OA 33.2\% against 45.3\% for LightGBM).
+
+\begin{figure}
+\centering
+\includegraphics[width=0.9\textwidth]{fig_maps.png}
+\caption{Ground truth and predictions of LightGBM and HybridSN for every labelled pixel (seed 42; Indian Pines 5\%, Pavia University and Salinas 1\% labelled, disjoint tiles). Black dots in the ground-truth panels mark training pixels; accuracy is computed on the disjoint test area.}
+\label{fig:maps}
+\end{figure}
+
 \subsection{Acquisition leakage in laboratory soil images}
 In the soil images 38--72\% of the non-overlapping patches contain $\le$10\% soil (measured on 24 images). Trained and tested only on such tray patches, LightGBM reaches $87.1\pm2.0\%$ and the SVM $78.2\pm2.3\%$ (chance 33\%): the tray identifies the imaging session, and with it the class.
 
@@ -196,13 +207,13 @@ Red test state & Model & All bands & Water bands removed & Normalised \\
 \multirow{4}{*}{Moist}
  & LightGBM & 97 / 3 & 89 / 10 & 100 / 0 \\
  & SVM & 99 / 1 & 99 / 1 & 99 / 1 \\
- & Grouped-band tr. & 97 / 3 & 96 / 4 & 99 / 1 \\
+ & Grouped-band tr. & 97 / 3 & 98 / 2 & 99 / 1 \\
  & HybridSN & 100 / 0 & 100 / 0 & 100 / 0 \\
 \midrule
 \multirow{4}{*}{Dry}
  & LightGBM & 42 / 56 & 28 / 69 & 93 / 7 \\
  & SVM & 56 / 43 & 34 / 65 & 93 / 7 \\
- & Grouped-band tr. & 56 / 44 & 33 / 66 & 90 / 7 \\
+ & Grouped-band tr. & 56 / 44 & 40 / 60 & 90 / 7 \\
  & HybridSN & 71 / 29 & 49 / 51 & 98 / 2 \\
 \bottomrule
 \end{tabular}}
@@ -226,7 +237,7 @@ Exact TreeSHAP values \citep{Lundberg2020} for LightGBM, plotted at the band cen
 
 \emph{Checklist.} Before ranking models with few labels: (1) split spatially, with a buffer at least half the patch size; (2) for laboratory images, mask the background and report the share of background patches; (3) train a classifier on background-only patches, and treat above-chance accuracy as leakage; (4) report whether class is confounded with acquisition session, and test across sessions where any class allows it; (5) compare models under brightness normalisation or radiometric calibration; (6) include more than one classical baseline, since a random forest outperformed LightGBM at the smallest budgets.
 
-\emph{Limitations.} The soil dataset has 22 samples, raw digital numbers and class confounded with session; only Red allows a cross-session test. Five seeds give wide intervals. All models use one training protocol without per-model tuning; on the airborne scenes 58--85\% of deep runs reached the 50-epoch limit. On Indian Pines the disjoint split scores only the classes present in the training area.
+\emph{Limitations.} The soil dataset has 22 samples, raw digital numbers and class confounded with session; only Red allows a cross-session test. Five seeds give wide intervals. All models use one training protocol without per-model tuning; the 100-epoch check covers the disjoint splits but not the random split or the soil data. On Indian Pines the disjoint split scores only the classes present in the training area.
 
 \section{Conclusion}
 The ranking of hyperspectral classifiers with few labels depended on the evaluation design as much as on the models. A random pixel split made HybridSN 17--20\pp\ better than LightGBM on Indian Pines from 5\% labelled pixels; disjoint tiles removed the advantage, although HybridSN remained better on Pavia University and Salinas. In laboratory soil images, background and brightness cues let a tray-only classifier reach 87\%; after masking and normalisation all models scored at least 94\% with one labelled sample per class. Spatially disjoint splits, background masking and leakage checks should precede any claim that one model family needs fewer labels than another.
