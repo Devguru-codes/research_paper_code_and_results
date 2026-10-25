@@ -3,7 +3,7 @@
 Airborne scenes: random pixel split (R1, Indian Pines only) vs spatially disjoint tiles (R8/R12, three scenes).
 Local soil: raw patches (R11 + R12 LightGBM) vs soil-only patches (R11b) vs soil-only + brightness-normalised (R13),
 plus the tray-only leakage check (R11b) and the moist/dry cross-state test (R13).
-Reads revision/results/session-{a,e,f,fc,g,gc,h,i,j,l}/ and writes revision/results/final/{tables,figures}/.
+Reads revision/results/session-{a,e,f,fc,g,gc,h,i,j,k,l,m}/ and writes revision/results/final/{tables,figures}/.
 FDR families (Benjamini-Hochberg): (1) every model-vs-LightGBM test on the airborne scenes, both split protocols;
 (2) every model-vs-LightGBM test on Local soil, all three patch protocols.
 Run: python revision/analysis.py
@@ -21,7 +21,7 @@ FIG = os.path.join(RES, 'final', 'figures')
 os.makedirs(FIG, exist_ok=True)
 save = saver(os.path.join(RES, 'final', 'tables'))
 
-NAME = {'LightGBM': 'LightGBM', 'SVM': 'SVM', 'ViT': 'Spectral transformer', 'SpectralFormer': 'Grouped-band transformer',
+NAME = {'LightGBM': 'LightGBM', 'SVM': 'SVM', 'RF': 'Random forest', 'ViT': 'Spectral transformer', 'SpectralFormer': 'Grouped-band transformer',
         'ConvStemViT': 'Conv-stem transformer', 'HybridSN': 'HybridSN'}
 NETS = ['ViT', 'SpectralFormer', 'ConvStemViT', 'HybridSN']
 SOIL = ['LightGBM', 'SVM', 'SpectralFormer', 'HybridSN']  # models run under all three soil protocols
@@ -53,8 +53,23 @@ def scratch(df):
     return df[df.init.isin(['none', 'scratch'])]
 
 
-scenes = {k: scratch(with_r12(df, k)) for k, (s, _) in SCENES.items() if (df := load_scene_parts(k, s)) is not None}
-ip_random = load('a', 'r1').assign(init='none')
+# R18: stable LightGBM on the random split (replaces R1's default LightGBM rows), SVM and RF on the disjoint splits;
+# session m: grouped-band transformer on Pavia U with zero-padded bands (replaces the run that dropped 3 bands).
+r18 = load('k', 'r18')
+sf_pad = load('m', 'r8_paviau_sfpad')
+
+
+def assemble(k, df):
+    df = with_r12(df, k)
+    if k == 'PaviaU':
+        df = pd.concat([df[df.model != 'SpectralFormer'], sf_pad], ignore_index=True)
+    return scratch(pd.concat([df, r18[(r18.part == 'disjoint') & (r18.dataset == k)]], ignore_index=True))
+
+
+scenes = {k: assemble(k, df) for k, (s, _) in SCENES.items() if (df := load_scene_parts(k, s)) is not None}
+r1 = load('a', 'r1').assign(init='none')
+ip_random = pd.concat([r1[r1.model != 'LightGBM'], r18[r18.part == 'random']], ignore_index=True)
+CLASSIC = ['LightGBM', 'RF', 'SVM']
 r11b = load('i', 'r11b')
 r13 = load('j', 'r13')
 soil = {'Raw patches': scratch(with_r12(load('h', 'r11'), 'Local')),
@@ -62,10 +77,10 @@ soil = {'Raw patches': scratch(with_r12(load('h', 'r11'), 'Local')),
         'Soil-only, brightness-normalised': r13[(r13.part == 'budget') & (r13.variant == 'norm')]}
 
 
-def vs_lightgbm(g, models, **key):
-    lg = g[g.model == 'LightGBM'].sort_values('seed').OA
-    return [dict(**key, model=NAME[m], **paired(lg, g[g.model == m].sort_values('seed').OA))
-            for m in models if m != 'LightGBM' and (g.model == m).any()]
+def vs_lightgbm(g, models, ref='LightGBM', **key):
+    lg = g[g.model == ref].sort_values('seed').OA
+    return [dict(**key, model=NAME[m], reference=NAME[ref], **paired(lg, g[g.model == m].sort_values('seed').OA))
+            for m in models if m != ref and (g.model == m).any()]
 
 
 # ---- Airborne: Indian Pines random split vs disjoint split, and the three disjoint scenes
@@ -81,11 +96,12 @@ rows = []
 for sc, df in scenes.items():
     for s, g in df.groupby('split'):
         rows.append({'Dataset': SCENES[sc][1], 'Labelled': f'{s * 100:g}%', 'Test px': f'{int(g.n_test.min())}-{int(g.n_test.max())}',
-                     **{NAME[m]: fmt(v.mean(), v.std()) if len(v) else '–' for m in ['LightGBM'] + NETS for v in [g[g.model == m].OA]}})
-        if sc != 'IndianPines':
-            tests += vs_lightgbm(g, NETS, dataset=SCENES[sc][1], split='Disjoint tiles', budget=f'{s * 100:g}%')
+                     **{NAME[m]: fmt(v.mean(), v.std()) if len(v) else '–' for m in CLASSIC + NETS for v in [g[g.model == m].OA]}})
+        key = dict(dataset=SCENES[sc][1], split='Disjoint tiles', budget=f'{s * 100:g}%')
+        tests += vs_lightgbm(g, ['RF', 'SVM'] + ([] if sc == 'IndianPines' else NETS), **key)
+        tests += vs_lightgbm(g, ['HybridSN'], ref='RF', **key)  # against the strongest classical baseline
 save(pd.DataFrame(rows), 'table_scenes', 'Overall accuracy (%) on spatially disjoint test areas, mean ± SD over 5 seeds (tile splits).')
-save(bh(pd.DataFrame(tests)).round(4), 'stats_airborne_vs_lightgbm', 'Model minus LightGBM OA (pp), paired over seeds; one BH-FDR family (both split protocols).')
+save(bh(pd.DataFrame(tests)).round(4), 'stats_airborne_vs_lightgbm', 'Model minus reference (LightGBM, or RF for HybridSN) OA (pp), paired over seeds; one BH-FDR family (both split protocols).')
 
 # ---- Local soil: three patch protocols
 rows, tests = [], []

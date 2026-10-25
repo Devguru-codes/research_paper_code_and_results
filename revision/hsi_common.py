@@ -12,6 +12,7 @@ from sklearn.metrics import accuracy_score, cohen_kappa_score, f1_score, recall_
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
+from sklearn.ensemble import RandomForestClassifier
 import lightgbm as lgb
 
 SMOKE = globals().get('SMOKE', False)  # build.sh sets this; smoke = 1 seed, 1 split, 2 epochs
@@ -330,7 +331,7 @@ class SpectralFormer(nn.Module):
     """SpectralFormer-inspired: group-wise spectral tokens (4 bands each) + cross-layer adaptive fusion."""
     def __init__(self, bands, classes, group=4, dim=64, depth=4, heads=4):
         super().__init__()
-        self.group, self.tokens = group, bands // group
+        self.group, self.tokens = group, -(-bands // group)  # last group zero-padded (R18; earlier runs dropped it)
         self.group_embed = nn.Linear(group, dim)
         self.pos_embed = nn.Parameter(torch.randn(1, self.tokens, dim) * 0.02)
         self.blocks = nn.ModuleList(SFBlock(dim, heads) for _ in range(depth))
@@ -339,7 +340,7 @@ class SpectralFormer(nn.Module):
         self.fc = nn.Linear(dim, classes)
 
     def features(self, x):
-        s = mid(x)[:, :self.tokens * self.group]
+        s = F.pad(mid(x), (0, self.tokens * self.group - x.shape[2]))
         x = self.group_embed(s.view(len(s), self.tokens, self.group)) + self.pos_embed
         for i, block in enumerate(self.blocks):
             out = block(x)
@@ -441,12 +442,14 @@ LGBM_STABLE = dict(max_delta_step=1)
 
 
 def classic(kind, seed):
+    if kind == 'RF':
+        return RandomForestClassifier(n_estimators=500, n_jobs=-1, random_state=seed)
     return (lgb.LGBMClassifier(n_estimators=100, random_state=seed, verbose=-1, **LGBM_STABLE) if kind == 'LightGBM'
             else make_pipeline(StandardScaler(), SVC(kernel='rbf', random_state=seed)))
 
 
 def run_classic(kind, Xtr, ytr, Xte, yte, seed):
-    """LightGBM or RBF-SVM on the centre-pixel spectrum."""
+    """LightGBM, RBF-SVM or random forest on the centre-pixel spectrum."""
     clf = classic(kind, seed)
     t0 = time.time()
     clf.fit(centre(Xtr), ytr)
