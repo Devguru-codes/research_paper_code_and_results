@@ -1,0 +1,58 @@
+\begin{table}
+\caption{Disjoint splits: OA (%) with at most 50 vs 100 epochs (same splits and seeds), and share of runs stopped by the epoch cap.}
+\label{tab:table_long_training}
+\begin{tabular}{lllllll}
+\toprule
+Dataset & Labelled & Model & OA, 50 epochs & OA, 100 epochs & At cap (50) & At cap (100) \\
+\midrule
+Indian Pines & 1\% & Conv-stem transformer & 33.01 $\pm$ 9.29 & 31.94 $\pm$ 7.89 & 100\% & 20\% \\
+Indian Pines & 1\% & HybridSN & 34.95 $\pm$ 7.86 & 35.87 $\pm$ 7.16 & 80\% & 0\% \\
+Indian Pines & 1\% & Grouped-band transformer & 35.15 $\pm$ 9.97 & 34.52 $\pm$ 9.69 & 100\% & 0\% \\
+Indian Pines & 1\% & Spectral transformer & 32.90 $\pm$ 9.14 & 34.36 $\pm$ 9.93 & 80\% & 0\% \\
+Indian Pines & 5\% & Conv-stem transformer & 31.10 $\pm$ 16.36 & 35.94 $\pm$ 10.32 & 100\% & 20\% \\
+Indian Pines & 5\% & HybridSN & 42.26 $\pm$ 7.84 & 39.63 $\pm$ 8.84 & 40\% & 0\% \\
+Indian Pines & 5\% & Grouped-band transformer & 35.56 $\pm$ 8.67 & 37.28 $\pm$ 5.72 & 80\% & 0\% \\
+Indian Pines & 5\% & Spectral transformer & 37.57 $\pm$ 7.71 & 33.43 $\pm$ 14.17 & 100\% & 0\% \\
+Indian Pines & 10\% & Conv-stem transformer & 37.89 $\pm$ 10.12 & 35.84 $\pm$ 8.81 & 100\% & 40\% \\
+Indian Pines & 10\% & HybridSN & 43.25 $\pm$ 10.61 & 45.67 $\pm$ 5.88 & 20\% & 0\% \\
+Indian Pines & 10\% & Grouped-band transformer & 40.03 $\pm$ 6.57 & 45.09 $\pm$ 6.34 & 60\% & 20\% \\
+Indian Pines & 10\% & Spectral transformer & 42.52 $\pm$ 5.98 & 45.50 $\pm$ 6.26 & 80\% & 20\% \\
+Indian Pines & 20\% & Conv-stem transformer & 40.95 $\pm$ 10.70 & 41.63 $\pm$ 9.22 & 100\% & 0\% \\
+Indian Pines & 20\% & HybridSN & 45.16 $\pm$ 6.43 & 44.89 $\pm$ 7.68 & 20\% & 0\% \\
+Indian Pines & 20\% & Grouped-band transformer & 48.03 $\pm$ 5.24 & 51.09 $\pm$ 4.96 & 100\% & 0\% \\
+Indian Pines & 20\% & Spectral transformer & 51.36 $\pm$ 5.56 & 50.14 $\pm$ 5.11 & 80\% & 0\% \\
+Pavia University & 0.5\% & Conv-stem transformer & 74.78 $\pm$ 5.12 & 78.87 $\pm$ 5.28 & 100\% & 0\% \\
+Pavia University & 0.5\% & HybridSN & 80.71 $\pm$ 5.60 & 81.13 $\pm$ 5.87 & 0\% & 0\% \\
+Pavia University & 0.5\% & Grouped-band transformer & 69.52 $\pm$ 2.86 & 70.01 $\pm$ 3.35 & 80\% & 0\% \\
+Pavia University & 0.5\% & Spectral transformer & 70.69 $\pm$ 2.85 & 72.52 $\pm$ 1.64 & 100\% & 0\% \\
+Pavia University & 1\% & Conv-stem transformer & 79.90 $\pm$ 4.70 & 83.62 $\pm$ 2.06 & 100\% & 0\% \\
+Pavia University & 1\% & HybridSN & 83.36 $\pm$ 3.03 & 84.03 $\pm$ 4.21 & 0\% & 0\% \\
+Pavia University & 1\% & Grouped-band transformer & 71.78 $\pm$ 6.09 & 71.86 $\pm$ 3.46 & 80\% & 0\% \\
+Pavia University & 1\% & Spectral transformer & 72.04 $\pm$ 6.56 & 70.86 $\pm$ 3.22 & 60\% & 0\% \\
+Pavia University & 2\% & Conv-stem transformer & 85.94 $\pm$ 4.95 & 84.94 $\pm$ 3.37 & 100\% & 0\% \\
+Pavia University & 2\% & HybridSN & 86.01 $\pm$ 5.53 & 87.09 $\pm$ 5.50 & 0\% & 0\% \\
+Pavia University & 2\% & Grouped-band transformer & 73.57 $\pm$ 4.47 & 75.66 $\pm$ 4.95 & 60\% & 0\% \\
+Pavia University & 2\% & Spectral transformer & 77.69 $\pm$ 5.24 & 78.01 $\pm$ 4.60 & 80\% & 0\% \\
+Pavia University & 5\% & Conv-stem transformer & 87.36 $\pm$ 4.99 & 87.93 $\pm$ 5.58 & 60\% & 0\% \\
+Pavia University & 5\% & HybridSN & 90.17 $\pm$ 4.41 & 89.25 $\pm$ 4.83 & 0\% & 0\% \\
+Pavia University & 5\% & Grouped-band transformer & 79.37 $\pm$ 3.33 & 82.82 $\pm$ 2.41 & 100\% & 0\% \\
+Pavia University & 5\% & Spectral transformer & 83.21 $\pm$ 5.07 & 83.36 $\pm$ 4.26 & 100\% & 0\% \\
+Salinas & 0.5\% & Conv-stem transformer & 70.28 $\pm$ 2.96 & 78.52 $\pm$ 3.90 & 100\% & 20\% \\
+Salinas & 0.5\% & HybridSN & 76.67 $\pm$ 2.55 & 81.70 $\pm$ 2.77 & 100\% & 0\% \\
+Salinas & 0.5\% & Grouped-band transformer & 69.55 $\pm$ 5.77 & 73.26 $\pm$ 3.46 & 100\% & 0\% \\
+Salinas & 0.5\% & Spectral transformer & 64.97 $\pm$ 7.18 & 71.59 $\pm$ 4.40 & 100\% & 20\% \\
+Salinas & 1\% & Conv-stem transformer & 79.85 $\pm$ 3.83 & 81.42 $\pm$ 3.87 & 100\% & 20\% \\
+Salinas & 1\% & HybridSN & 85.97 $\pm$ 3.00 & 86.34 $\pm$ 1.65 & 80\% & 0\% \\
+Salinas & 1\% & Grouped-band transformer & 74.92 $\pm$ 2.42 & 77.30 $\pm$ 2.82 & 80\% & 0\% \\
+Salinas & 1\% & Spectral transformer & 72.77 $\pm$ 3.63 & 76.95 $\pm$ 1.75 & 100\% & 0\% \\
+Salinas & 2\% & Conv-stem transformer & 83.04 $\pm$ 1.21 & 83.54 $\pm$ 3.57 & 100\% & 0\% \\
+Salinas & 2\% & HybridSN & 87.19 $\pm$ 3.36 & 87.12 $\pm$ 1.21 & 40\% & 0\% \\
+Salinas & 2\% & Grouped-band transformer & 78.02 $\pm$ 0.87 & 78.77 $\pm$ 1.17 & 60\% & 0\% \\
+Salinas & 2\% & Spectral transformer & 78.13 $\pm$ 3.99 & 80.23 $\pm$ 3.27 & 80\% & 0\% \\
+Salinas & 5\% & Conv-stem transformer & 86.59 $\pm$ 1.14 & 87.97 $\pm$ 1.69 & 100\% & 20\% \\
+Salinas & 5\% & HybridSN & 89.03 $\pm$ 1.22 & 88.55 $\pm$ 2.48 & 20\% & 0\% \\
+Salinas & 5\% & Grouped-band transformer & 81.28 $\pm$ 2.46 & 81.17 $\pm$ 2.91 & 80\% & 0\% \\
+Salinas & 5\% & Spectral transformer & 81.49 $\pm$ 2.33 & 82.31 $\pm$ 1.34 & 100\% & 0\% \\
+\bottomrule
+\end{tabular}
+\end{table}

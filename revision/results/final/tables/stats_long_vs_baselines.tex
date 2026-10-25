@@ -1,0 +1,70 @@
+\begin{table}
+\caption{100-epoch models minus LightGBM (or RF for HybridSN), OA (pp); one BH-FDR family.}
+\label{tab:stats_long_vs_baselines}
+\begin{tabular}{llllrrrrrrr}
+\toprule
+dataset & budget & model & reference & n & diff & ci\_low & ci\_high & d\_z & p & p\_fdr \\
+\midrule
+Indian Pines & 1\% & Conv-stem transformer & LightGBM & 5 & -5.45 & -11.2 & 0.272 & -1.18 & 0.0573 & 0.103 \\
+Indian Pines & 1\% & HybridSN & LightGBM & 5 & -1.52 & -8.01 & 4.97 & -0.29 & 0.552 & 0.636 \\
+Indian Pines & 1\% & HybridSN & Random forest & 5 & -5.47 & -10.4 & -0.579 & -1.39 & 0.036 & 0.0721 \\
+Indian Pines & 1\% & Grouped-band transformer & LightGBM & 5 & -2.86 & -9.01 & 3.29 & -0.578 & 0.266 & 0.354 \\
+Indian Pines & 1\% & Spectral transformer & LightGBM & 5 & -3.03 & -8.86 & 2.81 & -0.644 & 0.223 & 0.311 \\
+Indian Pines & 5\% & Conv-stem transformer & LightGBM & 5 & -11 & -18.7 & -3.2 & -1.75 & 0.0172 & 0.0491 \\
+Indian Pines & 5\% & HybridSN & LightGBM & 5 & -7.27 & -11.8 & -2.77 & -2.01 & 0.0109 & 0.0385 \\
+Indian Pines & 5\% & HybridSN & Random forest & 5 & -5.67 & -9.8 & -1.55 & -1.71 & 0.0188 & 0.0491 \\
+Indian Pines & 5\% & Grouped-band transformer & LightGBM & 5 & -9.62 & -13.2 & -6.06 & -3.36 & 0.0017 & 0.0216 \\
+Indian Pines & 5\% & Spectral transformer & LightGBM & 5 & -13.5 & -27.9 & 0.932 & -1.16 & 0.0603 & 0.103 \\
+Indian Pines & 10\% & Conv-stem transformer & LightGBM & 5 & -11 & -15.2 & -6.84 & -3.29 & 0.0018 & 0.0216 \\
+Indian Pines & 10\% & HybridSN & LightGBM & 5 & -1.17 & -4.76 & 2.43 & -0.403 & 0.419 & 0.513 \\
+Indian Pines & 10\% & HybridSN & Random forest & 5 & -1.25 & -2.29 & -0.209 & -1.49 & 0.029 & 0.0621 \\
+Indian Pines & 10\% & Grouped-band transformer & LightGBM & 5 & -1.75 & -5.12 & 1.61 & -0.646 & 0.222 & 0.311 \\
+Indian Pines & 10\% & Spectral transformer & LightGBM & 5 & -1.34 & -7.38 & 4.7 & -0.275 & 0.572 & 0.646 \\
+Indian Pines & 20\% & Conv-stem transformer & LightGBM & 5 & -7.36 & -16.3 & 1.55 & -1.03 & 0.0834 & 0.139 \\
+Indian Pines & 20\% & HybridSN & LightGBM & 5 & -4.09 & -11.8 & 3.62 & -0.659 & 0.214 & 0.311 \\
+Indian Pines & 20\% & HybridSN & Random forest & 5 & -3.77 & -10.8 & 3.22 & -0.67 & 0.209 & 0.311 \\
+Indian Pines & 20\% & Grouped-band transformer & LightGBM & 5 & 2.1 & -2.27 & 6.46 & 0.597 & 0.253 & 0.345 \\
+Indian Pines & 20\% & Spectral transformer & LightGBM & 5 & 1.15 & -2.14 & 4.44 & 0.434 & 0.387 & 0.494 \\
+Pavia University & 0.5\% & Conv-stem transformer & LightGBM & 5 & 6.53 & 1.84 & 11.2 & 1.73 & 0.018 & 0.0491 \\
+Pavia University & 0.5\% & HybridSN & LightGBM & 5 & 8.78 & 5.17 & 12.4 & 3.02 & 0.0025 & 0.0216 \\
+Pavia University & 0.5\% & HybridSN & Random forest & 5 & 6.1 & 2.16 & 10 & 1.92 & 0.0127 & 0.041 \\
+Pavia University & 0.5\% & Grouped-band transformer & LightGBM & 5 & -2.33 & -3.54 & -1.12 & -2.4 & 0.0059 & 0.0376 \\
+Pavia University & 0.5\% & Spectral transformer & LightGBM & 5 & 0.182 & -3.91 & 4.27 & 0.0551 & 0.908 & 0.925 \\
+Pavia University & 1\% & Conv-stem transformer & LightGBM & 5 & 9.4 & 3.06 & 15.7 & 1.84 & 0.0147 & 0.044 \\
+Pavia University & 1\% & HybridSN & LightGBM & 5 & 9.81 & 2.45 & 17.2 & 1.65 & 0.0209 & 0.0501 \\
+Pavia University & 1\% & HybridSN & Random forest & 5 & 9.16 & 3.63 & 14.7 & 2.06 & 0.01 & 0.0376 \\
+Pavia University & 1\% & Grouped-band transformer & LightGBM & 5 & -2.35 & -5.55 & 0.841 & -0.915 & 0.11 & 0.179 \\
+Pavia University & 1\% & Spectral transformer & LightGBM & 5 & -3.36 & -8.69 & 1.98 & -0.781 & 0.156 & 0.246 \\
+Pavia University & 2\% & Conv-stem transformer & LightGBM & 5 & 5.79 & 2.39 & 9.2 & 2.11 & 0.0092 & 0.0376 \\
+Pavia University & 2\% & HybridSN & LightGBM & 5 & 7.94 & 3.39 & 12.5 & 2.17 & 0.0084 & 0.0376 \\
+Pavia University & 2\% & HybridSN & Random forest & 5 & 9.43 & 4.39 & 14.5 & 2.32 & 0.0065 & 0.0376 \\
+Pavia University & 2\% & Grouped-band transformer & LightGBM & 5 & -3.49 & -7.21 & 0.239 & -1.16 & 0.0602 & 0.103 \\
+Pavia University & 2\% & Spectral transformer & LightGBM & 5 & -1.14 & -4.82 & 2.54 & -0.385 & 0.438 & 0.525 \\
+Pavia University & 5\% & Conv-stem transformer & LightGBM & 5 & 4.89 & 0.82 & 8.96 & 1.49 & 0.029 & 0.0621 \\
+Pavia University & 5\% & HybridSN & LightGBM & 5 & 6.21 & -0.245 & 12.7 & 1.19 & 0.0557 & 0.103 \\
+Pavia University & 5\% & HybridSN & Random forest & 5 & 7.79 & 2.72 & 12.9 & 1.91 & 0.013 & 0.041 \\
+Pavia University & 5\% & Grouped-band transformer & LightGBM & 5 & -0.216 & -5.2 & 4.76 & -0.0539 & 0.91 & 0.925 \\
+Pavia University & 5\% & Spectral transformer & LightGBM & 5 & 0.317 & -1.89 & 2.53 & 0.178 & 0.711 & 0.762 \\
+Salinas & 0.5\% & Conv-stem transformer & LightGBM & 5 & 4.93 & 1.06 & 8.8 & 1.58 & 0.024 & 0.0555 \\
+Salinas & 0.5\% & HybridSN & LightGBM & 5 & 8.11 & 3.24 & 13 & 2.07 & 0.0099 & 0.0376 \\
+Salinas & 0.5\% & HybridSN & Random forest & 5 & 5.29 & 1.33 & 9.25 & 1.66 & 0.0207 & 0.0501 \\
+Salinas & 0.5\% & Grouped-band transformer & LightGBM & 5 & -0.336 & -1.92 & 1.25 & -0.263 & 0.589 & 0.646 \\
+Salinas & 0.5\% & Spectral transformer & LightGBM & 5 & -2.01 & -8.14 & 4.12 & -0.406 & 0.415 & 0.513 \\
+Salinas & 1\% & Conv-stem transformer & LightGBM & 5 & 3.65 & 0.236 & 7.06 & 1.33 & 0.0412 & 0.0797 \\
+Salinas & 1\% & HybridSN & LightGBM & 5 & 8.57 & 6.49 & 10.7 & 5.12 & 0.0003 & 0.01 \\
+Salinas & 1\% & HybridSN & Random forest & 5 & 7.34 & 5.84 & 8.85 & 6.07 & 0.0002 & 0.01 \\
+Salinas & 1\% & Grouped-band transformer & LightGBM & 5 & -0.47 & -6.28 & 5.34 & -0.1 & 0.833 & 0.877 \\
+Salinas & 1\% & Spectral transformer & LightGBM & 5 & -0.817 & -4.72 & 3.09 & -0.26 & 0.592 & 0.646 \\
+Salinas & 2\% & Conv-stem transformer & LightGBM & 5 & 3.24 & 0.385 & 6.1 & 1.41 & 0.0345 & 0.0714 \\
+Salinas & 2\% & HybridSN & LightGBM & 5 & 6.82 & 4.1 & 9.55 & 3.11 & 0.0023 & 0.0216 \\
+Salinas & 2\% & HybridSN & Random forest & 5 & 5.59 & 2.32 & 8.86 & 2.12 & 0.009 & 0.0376 \\
+Salinas & 2\% & Grouped-band transformer & LightGBM & 5 & -1.53 & -4.45 & 1.39 & -0.651 & 0.219 & 0.311 \\
+Salinas & 2\% & Spectral transformer & LightGBM & 5 & -0.0728 & -4.82 & 4.67 & -0.0191 & 0.968 & 0.968 \\
+Salinas & 5\% & Conv-stem transformer & LightGBM & 5 & 6.06 & 4.11 & 8 & 3.87 & 0.001 & 0.0197 \\
+Salinas & 5\% & HybridSN & LightGBM & 5 & 6.64 & 3.62 & 9.65 & 2.73 & 0.0036 & 0.0272 \\
+Salinas & 5\% & HybridSN & Random forest & 5 & 6.28 & 2.83 & 9.74 & 2.26 & 0.0072 & 0.0376 \\
+Salinas & 5\% & Grouped-band transformer & LightGBM & 5 & -0.735 & -2.39 & 0.918 & -0.552 & 0.285 & 0.371 \\
+Salinas & 5\% & Spectral transformer & LightGBM & 5 & 0.405 & -1.22 & 2.03 & 0.309 & 0.527 & 0.621 \\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -8,7 +8,10 @@ CAP, BUDGETS = 300, ([2] if SMOKE else [1, 2, 3, 4])
 WATER = np.r_[9:26, 93:125]  # band centres 932-1010 nm and 1344-1498 nm (wavelengths/local_pika_nir320.txt)
 VARIANTS = {'raw': lambda X: X, 'nowater': lambda X: np.delete(X, WATER, axis=-1),
             'norm': lambda X: X / X.mean(-1, keepdims=True)}
-NETS = ['HybridSN', 'SpectralFormer']
+NETS = globals().get('R13_NETS', ['HybridSN', 'SpectralFormer'])  # r13b_setup.py narrows the rerun
+CLASSIC13 = globals().get('R13_CLASSIC', ['LightGBM', 'SVM'])
+ONLY = globals().get('R13_VARIANTS')
+LOG13 = globals().get('R13_LOG', 'r13')
 
 files = local_files()
 patches = {f: load_local_files([f], soil=(0.9, 1)) for f in files}
@@ -38,15 +41,15 @@ def shares(p):
 def run(tr, va, te, seed, base):
     (Xtr, ytr), (Xva, yva), (Xte, yte) = tr, va, te
     base = {**base, 'seed': seed, 'n_train': len(ytr), 'n_test': len(yte), 'bands': Xtr.shape[-1]}
-    for kind in ['LightGBM', 'SVM']:
+    for kind in CLASSIC13:
         p = classic(kind, seed).fit(centre(Xtr), ytr).predict(centre(Xte))
-        log('r13', {**base, 'model': kind, **metrics(yte, p), **shares(p)})
+        log(LOG13, {**base, 'model': kind, **metrics(yte, p), **shares(p)})
     loaders = make_loaders([(Xtr, ytr, None), (Xva, yva, None), (Xte, yte, None)], seed)
     for name in NETS:
         set_seed(seed)
         m, info = train(MODELS[name](Xtr.shape[-1], 3), *loaders[:2])
         _, y, p = evaluate(m, loaders[2])
-        log('r13', {**base, 'model': name, **info, **metrics(y, p), **shares(p)})
+        log(LOG13, {**base, 'model': name, **info, **metrics(y, p), **shares(p)})
         free(m)
 
 
@@ -56,6 +59,8 @@ state_cap = cap(state)
 cls = {s: int(y[0]) for s, (_, y) in state.items()}
 red_moist = lambda s: cls[s] == 1 and re.search(r'[\\/]moist[\\/]', s, re.I) is not None
 for variant, f in VARIANTS.items():
+    if ONLY and variant not in ONLY:
+        continue
     for test_moist in [True, False]:
         te = sorted(s for s in state if cls[s] == 1 and red_moist(s) == test_moist)
         pool = sorted(s for s in state if s not in te)
@@ -70,7 +75,7 @@ for variant, f in VARIANTS.items():
 merged = group(local_soil_id)
 merged_cap = cap(merged)
 mcls = {s: int(y[0]) for s, (_, y) in merged.items()}
-for variant in ['nowater', 'norm']:
+for variant in [v for v in ['nowater', 'norm'] if not ONLY or v in ONLY]:
     f = VARIANTS[variant]
     for seed in SEEDS:
         rng = np.random.default_rng(seed)
@@ -81,4 +86,4 @@ for variant in ['nowater', 'norm']:
             tr = [s for c in range(3) for s in order[c][3:3 + k]]
             run(stack(tr, merged_cap, f), stack(va, merged_cap, f), stack(te, merged, f), seed,
                 dict(exp='R13', part='budget', variant=variant, budget_samples_per_class=k))
-finish('r13', cap_patches_per_sample=CAP, budgets=BUDGETS, water_bands=WATER.tolist(), min_soil_fraction=0.9)
+finish(LOG13, cap_patches_per_sample=CAP, budgets=BUDGETS, water_bands=WATER.tolist(), min_soil_fraction=0.9)
