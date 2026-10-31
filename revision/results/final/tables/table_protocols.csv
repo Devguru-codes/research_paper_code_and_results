@@ -1,0 +1,25 @@
+Dataset,Split,Labelled,LightGBM,Spectral transformer,Grouped-band transformer,Conv-stem transformer,HybridSN
+Indian Pines,Random pixels,1%,51.01 ± 2.29,46.69 ± 2.11,46.48 ± 1.68,39.53 ± 1.75,53.19 ± 2.28
+Indian Pines,Random pixels,5%,69.81 ± 0.64,61.62 ± 1.03,58.89 ± 2.20,72.55 ± 5.82,89.01 ± 1.16
+Indian Pines,Random pixels,10%,76.58 ± 0.85,74.64 ± 1.53,66.37 ± 1.26,90.25 ± 2.38,97.02 ± 0.47
+Indian Pines,Random pixels,20%,82.55 ± 0.59,76.84 ± 2.12,69.64 ± 1.35,92.10 ± 2.99,99.20 ± 0.23
+Indian Pines,Disjoint tiles,1%,37.38 ± 6.49,32.90 ± 9.14,35.15 ± 9.97,33.01 ± 9.29,34.95 ± 7.86
+Indian Pines,Disjoint tiles,5%,46.90 ± 5.31,37.57 ± 7.71,35.56 ± 8.67,31.10 ± 16.36,42.26 ± 7.84
+Indian Pines,Disjoint tiles,10%,46.84 ± 5.56,42.52 ± 5.98,40.03 ± 6.57,37.89 ± 10.12,43.25 ± 10.61
+Indian Pines,Disjoint tiles,20%,48.99 ± 6.23,51.36 ± 5.56,48.03 ± 5.24,40.95 ± 10.70,45.16 ± 6.43
+Pavia University,Random pixels,0.5%,76.15 ± 1.65,74.44 ± 1.65,74.33 ± 0.99,72.75 ± 4.47,83.94 ± 2.13
+Pavia University,Random pixels,1%,81.35 ± 0.26,78.98 ± 1.52,77.18 ± 0.73,85.62 ± 2.29,89.84 ± 1.56
+Pavia University,Random pixels,2%,85.94 ± 0.76,83.54 ± 2.49,79.91 ± 0.53,92.33 ± 0.75,95.68 ± 1.20
+Pavia University,Random pixels,5%,89.93 ± 0.27,90.64 ± 1.39,86.44 ± 1.88,97.81 ± 0.61,98.97 ± 0.39
+Pavia University,Disjoint tiles,0.5%,72.34 ± 3.97,70.69 ± 2.85,69.52 ± 2.86,74.78 ± 5.12,80.71 ± 5.60
+Pavia University,Disjoint tiles,1%,74.22 ± 5.83,72.04 ± 6.56,71.78 ± 6.09,79.90 ± 4.70,83.36 ± 3.03
+Pavia University,Disjoint tiles,2%,79.15 ± 2.98,77.69 ± 5.24,73.57 ± 4.47,85.94 ± 4.95,86.01 ± 5.53
+Pavia University,Disjoint tiles,5%,83.04 ± 3.57,83.21 ± 5.07,79.37 ± 3.33,87.36 ± 4.99,90.17 ± 4.41
+Salinas,Random pixels,0.5%,82.45 ± 1.69,74.55 ± 2.10,77.23 ± 0.93,76.26 ± 4.93,83.48 ± 2.23
+Salinas,Random pixels,1%,86.06 ± 0.96,81.02 ± 1.21,82.69 ± 1.19,88.30 ± 1.18,93.42 ± 2.15
+Salinas,Random pixels,2%,88.61 ± 0.40,85.77 ± 0.72,85.14 ± 0.42,93.82 ± 0.36,97.15 ± 0.86
+Salinas,Random pixels,5%,90.92 ± 0.18,89.09 ± 0.55,88.70 ± 0.72,97.20 ± 0.24,99.49 ± 0.07
+Salinas,Disjoint tiles,0.5%,73.59 ± 2.97,64.97 ± 7.18,69.55 ± 5.77,70.28 ± 2.96,76.67 ± 2.55
+Salinas,Disjoint tiles,1%,77.77 ± 3.08,72.77 ± 3.63,74.92 ± 2.42,79.85 ± 3.83,85.97 ± 3.00
+Salinas,Disjoint tiles,2%,80.30 ± 1.47,78.13 ± 3.99,78.02 ± 0.87,83.04 ± 1.21,87.19 ± 3.36
+Salinas,Disjoint tiles,5%,81.91 ± 1.79,81.49 ± 2.33,81.28 ± 2.46,86.59 ± 1.14,89.03 ± 1.22

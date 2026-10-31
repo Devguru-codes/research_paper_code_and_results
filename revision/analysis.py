@@ -1,9 +1,9 @@
 """Analysis for the letter: how evaluation design changes the model ranking.
 
-Airborne scenes: random pixel split (R1, Indian Pines only) vs spatially disjoint tiles (R8/R12, three scenes).
+Airborne scenes: random pixel split (R1/R18 Indian Pines, R19 Pavia U and Salinas) vs spatially disjoint tiles (R8/R12).
 Local soil: raw patches (R11 + R12 LightGBM) vs soil-only patches (R11b) vs soil-only + brightness-normalised (R13),
 plus the tray-only leakage check (R11b) and the moist/dry cross-state test (R13).
-Reads revision/results/session-{a,e,f,fc,g,gc,h,i,j,k,l,m,n,o,p,q,s,t,u,v}/ and writes revision/results/final/{tables,figures}/.
+Reads revision/results/session-{a,e,f,fc,g,gc,h,i,j,k,l,m,n,o,p,q,s,t,u,v,w,x,y,z}/ and writes revision/results/final/{tables,figures}/.
 FDR families (Benjamini-Hochberg): (1) every model-vs-LightGBM test on the airborne scenes, both split protocols;
 (2) every model-vs-LightGBM test on Local soil, all three patch protocols.
 Run: python revision/analysis.py
@@ -69,6 +69,9 @@ def assemble(k, df):
 scenes = {k: assemble(k, df) for k, (s, _) in SCENES.items() if (df := load_scene_parts(k, s)) is not None}
 r1 = load('a', 'r1').assign(init='none')
 ip_random = pd.concat([r1[r1.model != 'LightGBM'], r18[r18.part == 'random']], ignore_index=True)
+r19 = pd.concat([load(s_, n) for s_, n in [('w', 'r19_paviau_gpu'), ('x', 'r19_salinas_gpu_a'), ('y', 'r19_salinas_gpu_b'),
+                                           ('z', 'r19_paviau_cpu'), ('z', 'r19_salinas_cpu')]], ignore_index=True)
+random = {'IndianPines': ip_random, **{k: r19[r19.dataset == k] for k in ['PaviaU', 'Salinas']}}
 CLASSIC = ['LightGBM', 'RF', 'SVM']
 r11b = load('i', 'r11b')
 r13 = load('j', 'r13')
@@ -85,14 +88,16 @@ def vs_lightgbm(g, models, ref='LightGBM', **key):
             for m in models if m != ref and (g.model == m).any()]
 
 
-# ---- Airborne: Indian Pines random split vs disjoint split, and the three disjoint scenes
+# ---- Airborne: random pixel split vs disjoint split on each scene, and the three disjoint scenes
 rows, tests = [], []
-for proto, df in [('Random pixels', ip_random), ('Disjoint tiles', scenes['IndianPines'])]:
-    for s, g in df.groupby('split'):
-        rows.append({'Split': proto, 'Labelled': f'{s * 100:g}%',
-                     **{NAME[m]: fmt(v.mean(), v.std()) for m in ['LightGBM'] + NETS for v in [g[g.model == m].OA]}})
-        tests += vs_lightgbm(g, NETS, dataset='Indian Pines', split=proto, budget=f'{s * 100:g}%')
-save(pd.DataFrame(rows), 'table_ip_protocols', 'Indian Pines OA (%), random pixel split vs spatially disjoint tiles (mean ± SD over 5 seeds).')
+for sc in SCENES:
+    for proto, df in [('Random pixels', random[sc]), ('Disjoint tiles', scenes[sc])]:
+        for s, g in df.groupby('split'):
+            rows.append({'Dataset': SCENES[sc][1], 'Split': proto, 'Labelled': f'{s * 100:g}%',
+                         **{NAME[m]: fmt(v.mean(), v.std()) for m in ['LightGBM'] + NETS for v in [g[g.model == m].OA]}})
+            if proto == 'Random pixels' or sc == 'IndianPines':  # disjoint Pavia U / Salinas nets are tested below
+                tests += vs_lightgbm(g, NETS, dataset=SCENES[sc][1], split=proto, budget=f'{s * 100:g}%')
+save(pd.DataFrame(rows), 'table_protocols', 'OA (%), random pixel split vs spatially disjoint tiles (mean ± SD over 5 seeds).')
 
 rows = []
 for sc, df in scenes.items():
