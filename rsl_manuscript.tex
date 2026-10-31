@@ -5,8 +5,6 @@
 \usepackage{booktabs}
 \usepackage{multirow}
 \usepackage{amsmath,bm}
-\usepackage{tikz}
-\usetikzlibrary{arrows.meta, positioning}
 \usepackage{url}
 
 \usepackage{natbib}% Citation support using natbib.sty
@@ -20,7 +18,7 @@
 
 \articletype{LETTER}
 
-\title{Evaluation design decides the winner: spatial and acquisition leakage in few-label hyperspectral classification}
+\title{Evaluation design can decide the winner: spatial and acquisition leakage in few-label hyperspectral classification}
 
 \author{
 \name{Swati Hira\textsuperscript{a}\thanks{CONTACT Swati Hira. Email: shira@iiitn.ac.in}, Devguru Tiwari\textsuperscript{a}, Nagamani Molakatala\textsuperscript{b}, R. Kokila\textsuperscript{c}, Gururaja H S\textsuperscript{d} and J. Rajini\textsuperscript{e}}
@@ -30,7 +28,7 @@
 \maketitle
 
 \begin{abstract}
-Comparisons between deep models and gradient boosting for hyperspectral classification with few labels depend on how the data are split and prepared. We compare LightGBM with three transformers and the 3-D CNN HybridSN under leaky and controlled protocols, using five paired seeds and false-discovery-rate control. On Indian Pines, a random pixel split puts HybridSN 17--20 percentage points (pp) ahead of LightGBM from 5\% labelled pixels; on spatially disjoint tiles no deep model is significantly better than LightGBM. On Pavia University and Salinas, a random split raises the accuracy of LightGBM and HybridSN by 3--11\pp\ but leaves the ranking unchanged: HybridSN stays ahead under disjoint tiles (+3 to +9\pp\ over LightGBM), and a random forest is at least as strong a baseline as LightGBM. On laboratory images of Indian soils, 38--72\% of patches show only the sample tray, and a classifier trained on tray patches alone reaches 87\% accuracy (chance 33\%). Removing the tray and normalising brightness lifts every model to $\ge$94\% with one labelled sample per class and removes most differences between them. Spatially disjoint splits, background masking and a tray-only check should be standard before models are ranked.
+Few-label comparisons of deep models and gradient boosting for hyperspectral classification depend on how the data are split and prepared. We compare LightGBM with three transformers and the 3-D CNN HybridSN under leaky and controlled protocols, using five paired seeds and false-discovery-rate control. On Indian Pines, a random pixel split puts HybridSN 17--20 percentage points (pp) ahead of LightGBM from 5\% labelled pixels; on spatially disjoint tiles no deep model is significantly better than LightGBM. On Pavia University and Salinas, a random split raises the accuracy of LightGBM and HybridSN by 3--11\pp\ but leaves the ranking unchanged: HybridSN stays ahead under disjoint tiles (+3 to +9\pp\ over LightGBM; seven of eight budgets without extra validation labels). On laboratory images of Indian soils, 38--72\% of patches show only the sample tray, and a classifier trained on tray patches alone reaches 87\% accuracy (chance 33\%). Removing the tray and normalising brightness lifts every model to a mean of about 94\% or more with one labelled sample per class and removes most differences between them. Spatially disjoint splits, background masking and a tray-only check should precede any ranking.
 \end{abstract}
 
 \begin{keywords}
@@ -38,9 +36,9 @@ Hyperspectral imaging; data leakage; spatially disjoint split; LightGBM; transfo
 \end{keywords}
 
 \section{Introduction}
-Hyperspectral imaging (HSI) records hundreds of narrow spectral bands and is used for agricultural and soil surveys \citep{Bioucas2013}. Labels are expensive, so classifiers are usually trained on a small share of the pixels, and the choice between deep models \citep{Zhong2018,Roy2020,Hong2021,Hong2022} and simpler learners such as gradient-boosted trees \citep{Ke2017,Grinsztajn2022} matters in practice.
+Hyperspectral imaging (HSI) records hundreds of narrow spectral bands and is used for agricultural and soil surveys \citep{Bioucas2013}. Labels are expensive, so classifiers are usually trained on a small share of the pixels, and the choice between deep models \citep{Roy2020,Hong2022} and simpler learners such as gradient-boosted trees \citep{Ke2017,Grinsztajn2022} matters in practice.
 
-Such comparisons can be distorted in two ways. \emph{Spatial leakage}: with a random pixel split, training and test patches overlap, which favours patch-based models \citep{Nalepa2019}. \emph{Acquisition leakage}: in laboratory imaging, background pixels and session-specific illumination can carry the class label, so a model may recognise the imaging session rather than the material. The first effect is known but still common; the second is rarely checked.
+Such comparisons can be distorted in two ways. \emph{Spatial leakage}: with a random pixel split, training and test patches overlap, which favours patch-based models \citep{Liang2017,Nalepa2019}. \emph{Acquisition leakage}: in laboratory imaging, background pixels and session-specific illumination can carry the class label, so a model may recognise the imaging session rather than the material, a form of shortcut learning \citep{Lapuschkin2019,Geirhos2020}. The first effect is known but still common; the second is rarely checked.
 
 We measure how much each effect changes the ranking of five learners at small annotation budgets. Our contributions are: (i) the same models, seeds and statistics under a random and a spatially disjoint split of three airborne scenes; (ii) for a laboratory soil dataset, a comparison of raw, soil-only and brightness-normalised patches, a tray-only leakage check and a moist/dry cross-state test; and (iii) a short checklist for few-label HSI comparisons.
 
@@ -48,47 +46,31 @@ We measure how much each effect changes the ranking of five learners at small an
 
 \emph{Airborne scenes.} Indian Pines (AVIRIS; $145\times145$ pixels, 200 bands after water-band removal, 16 classes, 10\,249 labelled pixels; \citealt{Baumgardner2015}), Pavia University (ROSIS; $610\times340$ pixels, 103 bands, 9 classes, 42\,776 labelled pixels; \citealt{Gamba2004}) and Salinas (AVIRIS; $512\times217$ pixels, 204 bands, 16 classes, 54\,129 labelled pixels; \citealt{GIC2021}). Indian Pines band centres are taken from the 1992 AVIRIS calibration \citep{Baumgardner2015}.
 
-\emph{Local Indian soil.} Soil samples from Maharashtra, Gujarat and Hisar (Haryana), provided by the NBSS, were imaged in the laboratory with a Resonon Pika NIR-320 line-scan camera (320 spatial pixels, 168 bands, 888.7--1714.6\,nm). We use the Black, Red and Yellow soil folders (36 images). Each image shows six portions of one sample on a bright tray. Values are raw digital numbers: no white or dark reference frames are available. Soil type is confounded with acquisition session and moisture: all Black-soil images were acquired moist, all Yellow-soil images dry on one date, and Red soil both dry (one date) and moist. Moist and dry Red images share sample numbers, so images with the same number are treated as one sample (22 samples: 7 Black, 8 Red, 7 Yellow) in the soil-only protocols.
+\emph{Local Indian soil.} Soil samples from Maharashtra, Gujarat and Hisar (Haryana), provided by the ICAR-National Bureau of Soil Survey and Land Use Planning (NBSS\&LUP), were imaged in the laboratory with a Resonon Pika NIR-320 line-scan camera (320 spatial pixels, 168 bands, 888.7--1714.6\,nm). We use the Black, Red and Yellow soil folders (36 images). Each image shows six portions of one sample on a bright tray. Values are raw digital numbers: no white or dark reference frames are available. Soil type is confounded with acquisition session and moisture: all Black-soil images were acquired moist, all Yellow-soil images dry on one date, and Red soil both dry (one date) and moist. Moist and dry Red images share sample numbers, so images with the same number are treated as one sample (22 samples: 7 Black, 8 Red, 7 Yellow) in the soil-only protocols.
 
 \section{Methods}\label{sec:methods}
 
-\begin{figure}
-\centering
-\begin{tikzpicture}[node distance=3mm, every node/.style={font=\small, align=center},
-  box/.style={draw, rounded corners, minimum height=8mm, fill=gray!8},
-  arr/.style={-{Stealth[length=2mm]}}]
-\node[box, minimum width=5.75cm] (ip) {Airborne scenes\\ random pixels \emph{vs.} disjoint tiles};
-\node[box, minimum width=5.75cm, right=5mm of ip] (ls) {Laboratory soil\\ raw \emph{vs.} soil-only \emph{vs.} normalised};
-\node[box, minimum width=12cm, below=of ip, xshift=3.125cm] (mod) {LightGBM \quad RF\textsuperscript{*} \quad SVM \quad 3 transformers \quad HybridSN ($15\times15$ patches)};
-\node[box, minimum width=12cm, below=of mod] (bud) {4 annotation budgets $\times$ 5 paired seeds};
-\node[box, minimum width=12cm, below=of bud] (ev) {Held-out OA; paired $t$-test, 95\% CI, BH-FDR; tray-only and cross-state checks};
-\draw[arr] (ip) -- (ip|-mod.north); \draw[arr] (ls) -- (ls|-mod.north);
-\draw[arr] (mod) -- (bud); \draw[arr] (bud) -- (ev);
-\end{tikzpicture}
-\caption{Experimental design. Each dataset is evaluated under a leaky and a controlled protocol with the same models, seeds and statistics. \textsuperscript{*}Random forest on the airborne scenes only.}
-\label{fig:workflow}
-\end{figure}
 
 \subsection{Models and training}
-\textbf{LightGBM} \citep{Ke2017}, a \textbf{random forest} (RF, 500 trees) and an RBF \textbf{SVM} use the centre-pixel spectrum (LightGBM: 100 trees, \texttt{max\_delta\_step}$=1$, which prevented divergence on one Salinas split). All deep models receive a $15\times15$ patch. The \textbf{spectral transformer} sees only the centre pixel, one token per band (128-d, 4 layers, 4 heads). The \textbf{grouped-band transformer}, inspired by SpectralFormer \citep{Hong2022} but without its cross-region fusion or patch-wise input, also sees only the centre pixel, with four adjacent bands per token (64-d, 4 layers); bands that do not fill the last group are zero-padded (Pavia University and the water-band-removed soil variant). The \textbf{conv-stem transformer} is the spectral transformer with band tokens produced by two 3-D convolutions over the patch. \textbf{HybridSN} \citep{Roy2020} has three 3-D convolutions, one 2-D convolution and two dense layers. All deep models use AdamW (learning rate $5\times10^{-4}$, weight decay $10^{-4}$), cosine annealing, batch size 64 and at most 50 epochs with early stopping (patience 10) on validation loss; on the disjoint splits every deep model is also rerun with up to 100 epochs to check that the epoch limit does not drive the results. Inputs are standardised per band with training statistics. Runs used PyTorch 2.11, CUDA 12.8 and LightGBM 4.6 on Kaggle (NVIDIA Tesla T4 for the deep models).
+\textbf{LightGBM} \citep{Ke2017}, a \textbf{random forest} (RF, 500 trees) and an RBF \textbf{SVM} use the centre-pixel spectrum (LightGBM: 100 trees, \texttt{max\_delta\_step}$=1$, which prevented divergence on one Salinas split). Deep models receive a $15\times15$ patch. The \textbf{spectral transformer} uses only the centre pixel, one token per band (128-d, 4 layers, 4 heads). The \textbf{grouped-band transformer}, inspired by SpectralFormer \citep{Hong2022} without its cross-region fusion, also uses only the centre pixel, with four adjacent bands per token (64-d, 4 layers); bands that do not fill the last group are zero-padded (Pavia University and the water-band-removed soil variant). The \textbf{conv-stem transformer} is the spectral transformer with band tokens produced by two 3-D convolutions over the patch. \textbf{HybridSN} \citep{Roy2020} has three 3-D convolutions, one 2-D convolution and two dense layers; unlike the original, it uses all bands without PCA and a $15\times15$ window, so that every model sees the same input. All deep models use AdamW (learning rate $5\times10^{-4}$, weight decay $10^{-4}$), cosine annealing, batch size 64 and at most 50 epochs with early stopping (patience 10) on validation loss; on the disjoint splits every deep model is also rerun with up to 100 epochs. Inputs are standardised per band with training statistics. Runs used PyTorch 2.11, CUDA 12.8 and LightGBM 4.6 on Kaggle (NVIDIA Tesla T4 for the deep models).
 
 \subsection{Protocols}\label{sec:protocol}
 \emph{Random pixels (all scenes, leaky).} For each budget $p$ (as for the disjoint tiles below), $p$ of the labelled pixels are drawn by stratified sampling, 10\% of the rest (at most 3\,000 pixels on Pavia University and Salinas) form the validation set and the remainder the test set. Training and test windows overlap.
 
-\emph{Disjoint tiles (all scenes, controlled).} Each scene is divided into square tiles (24 pixels for Indian Pines, 32 for the others), half of which form the training area. For each seed, the best of 400 random assignments is kept, ranked by the number of classes with $\ge$25\% of their pixels in the training area and $\ge$10\% in the test area. Test pixels within 7 pixels of a training tile are dropped, so no test window contains a training-area pixel. Training pixels are drawn from the training area in proportion to its class frequencies, to a total of $p$ of all labelled pixels ($\{1,5,10,20\}\%$ for Indian Pines, $\{0.5,1,2,5\}\%$ for the larger scenes); up to 3\,000 other training-area pixels form the validation set. Only classes present in the training area are scored: 10--13 of 16 on Indian Pines, all classes on the other scenes.
+\emph{Disjoint tiles (all scenes, controlled).} Each scene is divided into square tiles (24 pixels for Indian Pines, 32 for the others), half of which form the training area. For each seed, the best of 400 random assignments is kept, ranked by the number of classes with $\ge$25\% of their pixels in the training area and $\ge$10\% in the test area. Test pixels within 7 pixels of a training tile are dropped, so no test window contains a training-area pixel. Training pixels are drawn from the training area in proportion to its class frequencies, to a total of $p$ of all labelled pixels ($\{1,5,10,20\}\%$ for Indian Pines, $\{0.5,1,2,5\}\%$ for the larger scenes); up to 3\,000 other training-area pixels form the validation set, used by the deep models for early stopping only. Because these are extra labels that the classical models do not use, HybridSN and the conv-stem transformer are also rerun with a matched budget: early stopping on 20\% of the $p$ training pixels (per class, rounded down), so that every model sees $p$ labels in total. Only classes present in the training area are scored: 10--13 of 16 on Indian Pines, all classes on the other scenes.
 
 \emph{Soil patches.} Images of one sample are never split. In each of five repeats, the samples of each class are shuffled; 2 go to the test set, 1 to validation, and the budget $k\in\{1,2,3,4\}$ is the first $k$ remaining samples per class. At most 300 patches per training or validation sample are used. \emph{Raw}: every non-overlapping $15\times15$ patch (the protocol of most HSI pipelines). \emph{Soil-only}: a soil mask is computed per image (band-mean image divided by its column-wise 90th percentile, which removes vignetting; soil where the ratio is below 0.6), and only patches with $\ge$90\% soil are kept. \emph{Normalised}: soil-only patches with each spectrum divided by its mean over bands, which removes overall brightness.
 
 \emph{Leakage checks.} \emph{Tray-only}: LightGBM and SVM are trained and tested on patches with $\le$10\% soil from the same samples (4 samples per class). \emph{Cross-state}: Red is the only class imaged both dry and moist; models are trained on Black, Yellow and one Red state and tested on the other Red state, with or without the water bands (932--1010 and 1344--1498\,nm) or brightness normalisation.
 
-\emph{Statistics.} For each model we report the mean paired difference from LightGBM over the five seeds, its 95\% confidence interval and the paired $t$-test $p$-value adjusted with the Benjamini--Hochberg procedure ($q$). On the airborne scenes HybridSN is also compared with the random forest, the strongest classical baseline. We correct within two families: every test on the airborne scenes (both split protocols, 132 tests), and every model-versus-LightGBM test on the soil data (all three patch protocols, 36 tests). The 100-epoch reruns form a third family (60 tests).
+\emph{Statistics.} For each model we report the mean paired difference from LightGBM over the five seeds, its 95\% confidence interval and the paired $t$-test $p$-value adjusted with the Benjamini--Hochberg procedure ($q$). On the airborne scenes HybridSN is also compared with the random forest, the strongest classical baseline. We correct within two families: every test on the airborne scenes (both split protocols, 132 tests), and every model-versus-LightGBM test on the soil data (all three patch protocols, 36 tests). The 100-epoch reruns form a third family (60 tests) and the matched-budget reruns a fourth (48 tests, against LightGBM and the random forest).
 
 \section{Results}\label{sec:results}
 
 \subsection{Spatial leakage}
-Table~\ref{tab:ip} and Figure~\ref{fig:protocols} (left) compare the two splits of Indian Pines. With random pixels, HybridSN is the most accurate model at every budget and 16.6--20.4\pp\ ahead of LightGBM from 5\% ($q<0.001$); the conv-stem transformer is 9.6--13.7\pp\ ahead from 10\% ($q\le0.010$). With disjoint tiles, accuracy drops to 31--51\% and the ranking changes: LightGBM has the highest mean at 1--10\%, no deep model is significantly better than it at any budget, the two centre-pixel transformers are significantly worse at 5\% ($-9.3$ and $-11.3$\pp, $q\le0.020$), and at 1\% the random forest (41.3\%) is significantly more accurate than HybridSN ($+6.4$\pp, $q=0.016$). HybridSN falls from 99.2\% to 45.2\% at 20\%. Part of the drop reflects a harder test set (classes that cannot be split are not scored, and test pixels are spatially separated), but the reversal of the ranking is the effect of the protocol.
+Table~\ref{tab:ip} and Figure~\ref{fig:protocols} (left) compare the two splits of Indian Pines. With random pixels, HybridSN is the most accurate model at every budget and 16.6--20.4\pp\ ahead of LightGBM from 5\% ($q<0.001$); the conv-stem transformer is 9.6--13.7\pp\ ahead from 10\% ($q\le0.010$). With disjoint tiles, accuracy drops to 31--51\% and the ranking changes: LightGBM has the highest mean at 1--10\%, no deep model is significantly better than it at any budget, the two centre-pixel transformers are significantly worse at 5\% ($-9.3$ and $-11.3$\pp, $q\le0.020$), and at 1\% the random forest (41.3\%) is significantly more accurate than HybridSN ($+6.4$\pp, $q=0.016$). HybridSN falls from 99.2\% to 45.2\% at 20\%. Part of the drop reflects a harder test set (classes that cannot be split are not scored, and test pixels are spatially separated), but the loss of HybridSN's advantage is an effect of the protocol.
 
-On Pavia University and Salinas the random split also inflates accuracy (Appendix, Table~\ref{tab:random}), by 3.8--9.0\pp\ for LightGBM and 3.2--10.5\pp\ for HybridSN, and it shrinks the seed-to-seed SD from 1.2--5.6\pp\ to 0.1--2.2\pp\ for HybridSN. Here, however, the ranking holds: HybridSN is the most accurate model under both protocols, and its lead over LightGBM is similar (random: $+1.0$ to $+9.7$\pp; disjoint: $+3.1$ to $+9.1$\pp). Spatial leakage therefore changed the conclusion only on Indian Pines, plausibly because its large homogeneous fields put most randomly drawn test windows next to training pixels of the same field.
+On Pavia University and Salinas the random split also inflates accuracy (Supplementary Table~S2), by 3.8--9.0\pp\ for LightGBM and 3.2--10.5\pp\ for HybridSN, and it shrinks the seed-to-seed SD from 1.2--5.6\pp\ to 0.1--2.2\pp\ for HybridSN. Here, however, the ranking holds: HybridSN is the most accurate model under both protocols, and its lead over LightGBM is similar (random: $+1.0$ to $+9.7$\pp; disjoint: $+3.1$ to $+9.1$\pp). Spatial leakage therefore changed the conclusion only on Indian Pines, plausibly because its large homogeneous fields put most randomly drawn test windows next to training pixels of the same field.
 
 \begin{table}
 \tbl{Indian Pines overall accuracy (\%) under a random pixel split and spatially disjoint tiles (mean $\pm$ SD over 5 seeds).}
@@ -121,7 +103,7 @@ Split & Labelled & LightGBM & Spectral tr. & Grouped-band tr. & Conv-stem tr. & 
 \end{figure}
 
 \subsection{Disjoint benchmark on three scenes}
-Under disjoint tiles the advantage of patch-based models depends on the scene (Table~\ref{tab:scenes}, Figure~\ref{fig:scenes}). On Pavia University and Salinas, HybridSN is the most accurate model at every budget, 6.9--9.1\pp\ above LightGBM on Pavia University and 3.1--8.2\pp\ on Salinas (significant in six of eight cases, $q\le0.049$). It is also significantly ahead of the random forest at every budget on Pavia University ($+5.7$ to $+8.7$\pp) and from 1\% on Salinas ($+5.7$ to $+7.0$\pp), but level with it at 0.5\% on Salinas ($+0.3$\pp). The random forest matches or exceeds LightGBM at the smallest budgets (significantly on Salinas at 0.5\% and 1\%), and the SVM is the weakest classical model. The conv-stem transformer is significantly ahead of LightGBM at 2\% on both scenes and at 5\% on Salinas. The centre-pixel transformers are never significantly better than LightGBM; the grouped-band transformer is significantly worse on Pavia University at 0.5\%, 2\% and 5\%. Average accuracy and Cohen's $\kappa$ give the same best model in every row except Salinas at 0.5\%, where LightGBM has a slightly higher AA (Appendix, Table~\ref{tab:aa}).
+Under disjoint tiles the advantage of patch-based models depends on the scene (Table~\ref{tab:scenes}, Figure~\ref{fig:scenes}). On Pavia University and Salinas, HybridSN is the most accurate model at every budget, 6.9--9.1\pp\ above LightGBM on Pavia University and 3.1--8.2\pp\ on Salinas (significant in six of eight cases, $q\le0.049$). It is also significantly ahead of the random forest at every budget on Pavia University ($+5.7$ to $+8.7$\pp) and from 1\% on Salinas ($+5.7$ to $+7.0$\pp), but level with it at 0.5\% on Salinas ($+0.3$\pp). The random forest matches or exceeds LightGBM at the smallest budgets (significantly on Salinas at 0.5\% and 1\%), and the SVM is the weakest classical model. The conv-stem transformer is significantly ahead of LightGBM at 2\% on both scenes and at 5\% on Salinas. The centre-pixel transformers are never significantly better than LightGBM; the grouped-band transformer is significantly worse on Pavia University at 0.5\%, 2\% and 5\%. Average accuracy and Cohen's $\kappa$ give the same best model in every row except one (Supplementary Table~S1).
 
 \begin{table}
 \tbl{Overall accuracy (\%) on spatially disjoint test areas (mean $\pm$ SD over 5 seeds).}
@@ -153,19 +135,21 @@ Scene & Labelled & LightGBM & RF & SVM & Spectral tr. & Grouped-band tr. & Conv-
 \label{fig:scenes}
 \end{figure}
 
-\emph{Training length.} At 50 epochs many deep runs stopped at the epoch limit (up to 100\% of the seeds in a configuration). With up to 100 epochs, at most 40\% did, and mean accuracy changed by $-4.1$ to $+8.3$\pp, most at the smallest budgets on Salinas. The conclusions did not change. On Indian Pines no deep model was significantly better than LightGBM, and HybridSN was now significantly worse at 5\% ($-7.3$\pp, $q=0.039$). On Pavia University and Salinas HybridSN was ahead of LightGBM at every budget ($+6.2$ to $+9.8$\pp, significant in six of eight cases) and of the random forest ($+5.3$ to $+9.4$\pp; $q\le0.041$ except Salinas at 0.5\%, $q=0.050$). The centre-pixel transformers were never significantly better than LightGBM. Per-configuration results are in the repository.
+\emph{Training length.} Many 50-epoch runs stopped at the epoch limit; with up to 100 epochs at most 40\% did, and mean accuracy changed by $-4.1$ to $+8.3$\pp. The conclusions did not change: on Indian Pines no deep model was significantly better than LightGBM (HybridSN was now significantly worse at 5\%, $-7.3$\pp, $q=0.039$); on Pavia University and Salinas HybridSN led LightGBM at every budget ($+6.2$ to $+9.8$\pp, significant in six of eight cases) and the random forest ($+5.3$ to $+9.4$\pp).
+
+\emph{Matched label budget.} Without the extra validation pixels, HybridSN remained ahead of LightGBM on Pavia University and Salinas at seven of eight budgets ($+5.1$ to $+8.3$\pp; significant at four, $q\le0.030$) and of the random forest at the same seven ($+3.9$ to $+7.4$\pp; significant at six, $q\le0.044$). At 0.5\% on Salinas it fell to the level of LightGBM ($-0.7$\pp) and behind the random forest ($-3.5$\pp, $q=0.14$). The conv-stem transformer lost most of its advantage: it was significantly ahead of LightGBM only at 5\% on Salinas ($+4.1$\pp, $q=0.037$). On Indian Pines, HybridSN was again not significantly different from LightGBM, and the conv-stem transformer was significantly worse at 5\% and 10\% ($-12.0$ and $-10.6$\pp, $q=0.044$).
 
 \emph{Maps.} Figure~\ref{fig:maps} shows the predictions of one seed. LightGBM makes scattered pixel errors; HybridSN produces smooth regions, which helps on Pavia University and Salinas but on Indian Pines assigns whole test fields to the wrong class (test OA 33.2\% against 45.3\% for LightGBM).
 
 \begin{figure}
 \centering
-\includegraphics[width=0.9\textwidth]{fig_maps.png}
+\includegraphics[width=0.56\textwidth]{fig_maps.png}
 \caption{Ground truth and predictions of LightGBM and HybridSN for every labelled pixel (seed 42; Indian Pines 5\%, Pavia University and Salinas 1\% labelled, disjoint tiles). Black dots in the ground-truth panels mark training pixels; accuracy is computed on the disjoint test area.}
 \label{fig:maps}
 \end{figure}
 
 \subsection{Acquisition leakage in laboratory soil images}
-In the soil images 38--72\% of the non-overlapping patches contain $\le$10\% soil (measured on 24 images). Trained and tested only on such tray patches, LightGBM reaches $87.1\pm2.0\%$ and the SVM $78.2\pm2.3\%$ (chance 33\%): the tray identifies the imaging session, and with it the class.
+In the soil images 38--72\% of the non-overlapping patches contain $\le$10\% soil (measured on 24 of the 36 images: 4 Black, 4 Yellow and all 16 Red). Trained and tested only on such tray patches, LightGBM reaches $87.1\pm2.0\%$ and the SVM $78.2\pm2.3\%$ (chance 33\%): the tray identifies the imaging session, and with it the class.
 
 The patch protocol changes both accuracy and ranking (Table~\ref{tab:soil}, Figure~\ref{fig:protocols}, right). With raw patches, accuracy rises slowly with the budget, HybridSN is significantly ahead of LightGBM with four samples per class ($+8.8$\pp, $q=0.022$), and the SVM is significantly worse than LightGBM at every budget ($-6.6$ to $-11.5$\pp). With soil-only patches every model exceeds 97\% from three samples per class; HybridSN's lead shrinks to $+2.2$\pp, and the SVM is now slightly ahead of LightGBM ($+1.1$\pp, $q=0.039$). After brightness normalisation every model reaches at least 93.6\% with one sample per class and 98\% with two, and the only remaining significant difference is HybridSN at two samples per class ($+1.0$\pp, $q=0.005$).
 
@@ -198,7 +182,7 @@ Patches & Samples/class & LightGBM & SVM & Grouped-band tr. & HybridSN \\
 \label{tab:soil}
 \end{table}
 
-Brightness, more than moisture absorption, links class to session (Table~\ref{tab:cross}). With dry Red in training, moist Red is still recognised (89--100\%). With moist Red in training, 29--56\% of dry-Red patches are called Black, the other class imaged moist. Removing the water bands makes this worse (51--69\% Black), whereas brightness normalisation largely removes it (90--98\% Red). The soil types are therefore separable by spectral shape across moisture states, at least for Red, while absolute brightness carries session information.
+Overall brightness, more than the water-absorption features, links class to session (Table~\ref{tab:cross}). With dry Red in training, moist Red is still recognised (89--100\%). With moist Red in training, 29--56\% of dry-Red patches are called Black, the other class imaged moist. Removing the water bands makes this worse (51--69\% Black), whereas brightness normalisation largely removes it (90--98\% Red). The soil types are therefore separable by spectral shape across moisture states, at least for Red, while absolute brightness, which both moisture and illumination change, carries session information.
 
 \begin{table}
 \tbl{Cross-state test: share (\%) of Red test patches predicted Red / Black when the other Red moisture state is in training (mean over 5 seeds; soil-only patches).}
@@ -227,25 +211,28 @@ Exact TreeSHAP values \citep{Lundberg2020} for LightGBM, plotted at the band cen
 
 \begin{figure}
 \centering
-\includegraphics[width=0.85\textwidth]{fig_shap.png}
+\includegraphics[width=0.58\textwidth]{fig_shap.png}
 \caption{Mean absolute TreeSHAP value per band for LightGBM (summed over classes) on held-out test sets, against band-centre wavelength from the sensor metadata. Gaps mark removed water-absorption bands.}
 \label{fig:shap}
 \end{figure}
 
 \section{Discussion}\label{sec:discussion}
-\emph{The protocol can reverse the conclusion.} On Indian Pines the random split supports the familiar claim that 3-D CNNs outperform gradient boosting by about 20\pp; the disjoint split does not. On Pavia University and Salinas the random split inflates every model by similar amounts and keeps the ranking, so the size of the leak depends on the scene and cannot be assumed small in advance. On the soil images, raw patches suggest that HybridSN pays off at larger budgets and that the SVM is a poor choice; once the tray is removed and brightness normalised, all learners are within about one point of each other from two samples per class. Neither leak is specific to one model: spatial leakage favours patch-based models, while acquisition leakage rewards any model that can read session cues.
+\emph{The protocol can overturn the conclusion.} On Indian Pines the random split supports the familiar claim that 3-D CNNs outperform gradient boosting by about 20\pp; the disjoint split does not. On Pavia University and Salinas the random split inflates every model by similar amounts and keeps the ranking, so the size of the leak depends on the scene and cannot be assumed small in advance. On the soil images, raw patches suggest that HybridSN pays off at larger budgets and that the SVM is a poor choice; once the tray is removed and brightness normalised, all learners are within about one point of each other from two samples per class. Neither leak is specific to one model: spatial leakage favours patch-based models, while acquisition leakage rewards any model that can read session cues.
 
-\emph{What survives controlled evaluation.} Models that convolve over the patch (HybridSN and the conv-stem transformer) beat LightGBM on Pavia University and Salinas under disjoint tiles, and HybridSN also beats the stronger random forest in seven of eight cases, consistent with the value of a local inductive bias \citep{Hassani2021}. Transformers that see only the centre spectrum never beat LightGBM significantly, consistent with the strength of tree ensembles on per-pixel input \citep{Grinsztajn2022}.
+\emph{What survives controlled evaluation.} HybridSN beats LightGBM and the random forest on Pavia University and Salinas under disjoint tiles, also when it gets no labels beyond the training budget (except at the smallest Salinas budget), consistent with the value of a local inductive bias \citep{Hassani2021}. The conv-stem transformer's advantage largely depended on the extra validation labels, so the size of the validation set should be counted in the label budget. Transformers that see only the centre spectrum never beat LightGBM significantly, consistent with the strength of tree ensembles on per-pixel input \citep{Grinsztajn2022}.
 
-\emph{Checklist.} Before ranking models with few labels: (1) split spatially, with a buffer at least half the patch size; (2) for laboratory images, mask the background and report the share of background patches; (3) train a classifier on background-only patches, and treat above-chance accuracy as leakage; (4) report whether class is confounded with acquisition session, and test across sessions where any class allows it; (5) compare models under brightness normalisation or radiometric calibration; (6) include more than one classical baseline, since a random forest outperformed LightGBM at the smallest budgets.
+\emph{Checklist.} Before ranking models with few labels: (1) split spatially, with a buffer at least half the patch size; (2) for laboratory images, mask the background and report the share of background patches; (3) train a classifier on background-only patches, and treat above-chance accuracy as leakage; (4) report whether class is confounded with acquisition session, and test across sessions where any class allows it; (5) compare models under brightness normalisation or radiometric calibration; (6) include more than one classical baseline, since a random forest outperformed LightGBM at the smallest budgets; (7) count validation labels used for early stopping or tuning in the label budget.
 
-\emph{Limitations.} The soil dataset has 22 samples, raw digital numbers and class confounded with session; only Red allows a cross-session test. Five seeds give wide intervals. All models use one training protocol without per-model tuning; the 100-epoch check covers the disjoint splits but not the random split or the soil data. On Indian Pines the disjoint split scores only the classes present in the training area.
+\emph{Limitations.} The soil dataset has 22 samples, raw digital numbers and class confounded with session; only Red allows a cross-session test. Five seeds give wide intervals, and because repeated splits share data, the paired $t$-tests are approximate \citep{Nadeau2003}; a non-significant difference is not evidence of equal accuracy. All models use one training protocol without per-model tuning; the 100-epoch check covers the disjoint splits but not the random split or the soil data. On Indian Pines the disjoint split scores only the classes present in the training area.
 
 \section{Conclusion}
-The ranking of hyperspectral classifiers with few labels depended on the evaluation design as much as on the models. A random pixel split made HybridSN 17--20\pp\ better than LightGBM on Indian Pines from 5\% labelled pixels; disjoint tiles removed the advantage. On Pavia University and Salinas the random split inflated accuracy by up to 11\pp\ without changing the ranking, and HybridSN remained better under disjoint tiles. In laboratory soil images, background and brightness cues let a tray-only classifier reach 87\%; after masking and normalisation all models scored at least 94\% with one labelled sample per class. Spatially disjoint splits, background masking and leakage checks should precede any claim that one model family needs fewer labels than another.
+The ranking of hyperspectral classifiers with few labels depended on the evaluation design as much as on the models. A random pixel split made HybridSN 17--20\pp\ better than LightGBM on Indian Pines from 5\% labelled pixels; disjoint tiles removed the advantage. On Pavia University and Salinas the random split inflated accuracy by up to 11\pp\ without changing the ranking, and HybridSN remained better under disjoint tiles. In laboratory soil images, background and brightness cues let a tray-only classifier reach 87\%; after masking and normalisation all models averaged about 94\% or more with one labelled sample per class. Spatially disjoint splits, background masking and leakage checks should precede any claim that one model family needs fewer labels than another.
 
 \section*{Declaration of generative AI use}
 During this work the authors used Claude (Anthropic), a large language model, to help write and refactor the experiment and analysis code, to run and monitor the experiments on Kaggle, to compute the statistics and figures from the logged results, and to draft and edit the manuscript text. The authors designed the study, checked the code, verified every reported number against the logged per-seed results in the repository, and revised the text; they take full responsibility for the content of the publication. No figure was generated by an AI image model.
+
+\section*{Acknowledgements}
+The authors thank ICAR-NBSS\&LUP for providing the soil samples.
 
 \section*{Disclosure statement}
 The authors report there are no competing interests to declare.
@@ -258,63 +245,5 @@ The Local Indian Soil images are available at \url{https://www.kaggle.com/datase
 
 \bibliographystyle{tfcad}
 \bibliography{references}
-
-\appendix
-
-\section{Average accuracy and Cohen's kappa}
-
-\begin{table}[!h]
-\tbl{Average accuracy (AA, \%) / Cohen's $\kappa$ on spatially disjoint test areas (mean over 5 seeds).}
-{\resizebox{\textwidth}{!}{\begin{tabular}{llccccc}
-\toprule
-Scene & Labelled & LightGBM & Spectral tr. & Grouped-band tr. & Conv-stem tr. & HybridSN \\
-\midrule
-\multirow{4}{*}{Indian Pines}
- & 1\% & \textbf{36.5} / \textbf{0.28} & 29.2 / 0.23 & 31.7 / 0.26 & 20.7 / 0.19 & 31.6 / 0.25 \\
- & 5\% & \textbf{42.9} / \textbf{0.39} & 34.6 / 0.28 & 33.2 / 0.26 & 28.7 / 0.22 & 38.4 / 0.33 \\
- & 10\% & \textbf{44.6} / \textbf{0.39} & 40.5 / 0.33 & 39.7 / 0.31 & 32.4 / 0.27 & 40.3 / 0.34 \\
- & 20\% & 47.3 / 0.41 & \textbf{47.7} / \textbf{0.44} & 44.9 / 0.40 & 37.0 / 0.31 & 43.0 / 0.36 \\
-\midrule
-\multirow{4}{*}{Pavia Univ.}
- & 0.5\% & 64.6 / 0.58 & 61.9 / 0.55 & 58.5 / 0.53 & 53.8 / 0.59 & \textbf{71.3} / \textbf{0.69} \\
- & 1\% & 68.2 / 0.61 & 64.6 / 0.57 & 63.9 / 0.57 & 68.6 / 0.68 & \textbf{80.0} / \textbf{0.74} \\
- & 2\% & 73.5 / 0.68 & 73.9 / 0.66 & 70.3 / 0.60 & 80.9 / \textbf{0.78} & \textbf{82.8} / \textbf{0.78} \\
- & 5\% & 79.7 / 0.74 & 82.0 / 0.75 & 77.5 / 0.69 & 86.6 / 0.81 & \textbf{89.1} / \textbf{0.85} \\
-\midrule
-\multirow{4}{*}{Salinas}
- & 0.5\% & \textbf{79.3} / 0.70 & 68.9 / 0.61 & 73.7 / 0.66 & 65.9 / 0.66 & 79.0 / \textbf{0.73} \\
- & 1\% & 82.9 / 0.75 & 80.3 / 0.69 & 82.8 / 0.72 & 79.4 / 0.77 & \textbf{89.8} / \textbf{0.84} \\
- & 2\% & 84.9 / 0.78 & 85.2 / 0.75 & 85.9 / 0.75 & 85.3 / 0.81 & \textbf{91.4} / \textbf{0.85} \\
- & 5\% & 87.0 / 0.79 & 88.0 / 0.79 & 88.4 / 0.79 & 90.2 / 0.85 & \textbf{93.0} / \textbf{0.88} \\
-\bottomrule
-\end{tabular}}}
-\tabnote{The best value per row is in bold.}
-\label{tab:aa}
-\end{table}
-
-\section{Random pixel split on Pavia University and Salinas}
-
-\begin{table}[!h]
-\tbl{Overall accuracy (\%) under a random pixel split (mean $\pm$ SD over 5 seeds); compare Table~\ref{tab:scenes}.}
-{\resizebox{\textwidth}{!}{\begin{tabular}{llccccc}
-\toprule
-Scene & Labelled & LightGBM & Spectral tr. & Grouped-band tr. & Conv-stem tr. & HybridSN \
-\midrule
-\multirow{4}{*}{Pavia Univ.}
- & 0.5\% & $76.15 \pm 1.65$ & $74.44 \pm 1.65$\textsuperscript{a} & $74.33 \pm 0.99$\textsuperscript{a} & $72.75 \pm 4.47$ & $\mathbf{83.94 \pm 2.13}$\textsuperscript{a} \\
- & 1\% & $81.35 \pm 0.26$ & $78.98 \pm 1.52$ & $77.18 \pm 0.73$\textsuperscript{a} & $85.62 \pm 2.29$\textsuperscript{a} & $\mathbf{89.84 \pm 1.56}$\textsuperscript{a} \\
- & 2\% & $85.94 \pm 0.76$ & $83.54 \pm 2.49$ & $79.91 \pm 0.53$\textsuperscript{a} & $92.33 \pm 0.75$\textsuperscript{a} & $\mathbf{95.68 \pm 1.20}$\textsuperscript{a} \\
- & 5\% & $89.93 \pm 0.27$ & $90.64 \pm 1.39$ & $86.44 \pm 1.88$\textsuperscript{a} & $97.81 \pm 0.61$\textsuperscript{a} & $\mathbf{98.97 \pm 0.39}$\textsuperscript{a} \\
-\midrule
-\multirow{4}{*}{Salinas}
- & 0.5\% & $82.45 \pm 1.69$ & $74.55 \pm 2.10$\textsuperscript{a} & $77.23 \pm 0.93$\textsuperscript{a} & $76.26 \pm 4.93$ & $\mathbf{83.48 \pm 2.23}$ \\
- & 1\% & $86.06 \pm 0.96$ & $81.02 \pm 1.21$\textsuperscript{a} & $82.69 \pm 1.19$\textsuperscript{a} & $88.30 \pm 1.18$ & $\mathbf{93.42 \pm 2.15}$\textsuperscript{a} \\
- & 2\% & $88.61 \pm 0.40$ & $85.77 \pm 0.72$\textsuperscript{a} & $85.14 \pm 0.42$\textsuperscript{a} & $93.82 \pm 0.36$\textsuperscript{a} & $\mathbf{97.15 \pm 0.86}$\textsuperscript{a} \\
- & 5\% & $90.92 \pm 0.18$ & $89.09 \pm 0.55$\textsuperscript{a} & $88.70 \pm 0.72$\textsuperscript{a} & $97.20 \pm 0.24$\textsuperscript{a} & $\mathbf{99.49 \pm 0.07}$\textsuperscript{a} \\
-\bottomrule
-\end{tabular}}}
-\tabnote{Test sets contain 37\,638--39\,563 (Pavia University) and 48\,423--50\,859 (Salinas) pixels. \textsuperscript{a}Paired difference from LightGBM significant ($q<0.05$, same family as Table~\ref{tab:ip}).}
-\label{tab:random}
-\end{table}
 
 \end{document}

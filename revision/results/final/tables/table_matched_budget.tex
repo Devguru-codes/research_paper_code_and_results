@@ -1,0 +1,34 @@
+\begin{table}
+\caption{Disjoint splits: deep models with up to 3,000 extra validation pixels (R8) vs early stopping on 20% of the p labelled pixels (R20); LightGBM and RF use the p pixels.}
+\label{tab:table_matched_budget}
+\begin{tabular}{lllllll}
+\toprule
+Dataset & Labelled & Model & OA, extra validation & OA, matched budget & LightGBM & RF \\
+\midrule
+Indian Pines & 1\% & Conv-stem transformer & 33.01 $\pm$ 9.29 & 32.29 $\pm$ 8.88 & 37.38 $\pm$ 6.49 & 41.34 $\pm$ 7.63 \\
+Indian Pines & 1\% & HybridSN & 34.95 $\pm$ 7.86 & 34.53 $\pm$ 11.13 & 37.38 $\pm$ 6.49 & 41.34 $\pm$ 7.63 \\
+Indian Pines & 5\% & Conv-stem transformer & 31.10 $\pm$ 16.36 & 34.85 $\pm$ 10.80 & 46.90 $\pm$ 5.31 & 45.30 $\pm$ 6.21 \\
+Indian Pines & 5\% & HybridSN & 42.26 $\pm$ 7.84 & 42.12 $\pm$ 8.76 & 46.90 $\pm$ 5.31 & 45.30 $\pm$ 6.21 \\
+Indian Pines & 10\% & Conv-stem transformer & 37.89 $\pm$ 10.12 & 36.26 $\pm$ 9.34 & 46.84 $\pm$ 5.56 & 46.92 $\pm$ 6.01 \\
+Indian Pines & 10\% & HybridSN & 43.25 $\pm$ 10.61 & 43.67 $\pm$ 9.18 & 46.84 $\pm$ 5.56 & 46.92 $\pm$ 6.01 \\
+Indian Pines & 20\% & Conv-stem transformer & 40.95 $\pm$ 10.70 & 40.62 $\pm$ 9.69 & 48.99 $\pm$ 6.23 & 48.67 $\pm$ 6.51 \\
+Indian Pines & 20\% & HybridSN & 45.16 $\pm$ 6.43 & 43.46 $\pm$ 8.73 & 48.99 $\pm$ 6.23 & 48.67 $\pm$ 6.51 \\
+Pavia University & 0.5\% & Conv-stem transformer & 74.78 $\pm$ 5.12 & 64.53 $\pm$ 14.08 & 72.34 $\pm$ 3.97 & 75.03 $\pm$ 3.55 \\
+Pavia University & 0.5\% & HybridSN & 80.71 $\pm$ 5.60 & 80.63 $\pm$ 4.88 & 72.34 $\pm$ 3.97 & 75.03 $\pm$ 3.55 \\
+Pavia University & 1\% & Conv-stem transformer & 79.90 $\pm$ 4.70 & 78.26 $\pm$ 3.06 & 74.22 $\pm$ 5.83 & 74.87 $\pm$ 5.74 \\
+Pavia University & 1\% & HybridSN & 83.36 $\pm$ 3.03 & 82.13 $\pm$ 3.22 & 74.22 $\pm$ 5.83 & 74.87 $\pm$ 5.74 \\
+Pavia University & 2\% & Conv-stem transformer & 85.94 $\pm$ 4.95 & 82.22 $\pm$ 6.20 & 79.15 $\pm$ 2.98 & 77.66 $\pm$ 1.95 \\
+Pavia University & 2\% & HybridSN & 86.01 $\pm$ 5.53 & 84.76 $\pm$ 4.60 & 79.15 $\pm$ 2.98 & 77.66 $\pm$ 1.95 \\
+Pavia University & 5\% & Conv-stem transformer & 87.36 $\pm$ 4.99 & 87.27 $\pm$ 4.48 & 83.04 $\pm$ 3.57 & 81.46 $\pm$ 3.19 \\
+Pavia University & 5\% & HybridSN & 90.17 $\pm$ 4.41 & 88.81 $\pm$ 5.42 & 83.04 $\pm$ 3.57 & 81.46 $\pm$ 3.19 \\
+Salinas & 0.5\% & Conv-stem transformer & 70.28 $\pm$ 2.96 & 68.02 $\pm$ 5.03 & 73.59 $\pm$ 2.97 & 76.41 $\pm$ 3.11 \\
+Salinas & 0.5\% & HybridSN & 76.67 $\pm$ 2.55 & 72.93 $\pm$ 5.63 & 73.59 $\pm$ 2.97 & 76.41 $\pm$ 3.11 \\
+Salinas & 1\% & Conv-stem transformer & 79.85 $\pm$ 3.83 & 77.04 $\pm$ 3.07 & 77.77 $\pm$ 3.08 & 79.00 $\pm$ 2.76 \\
+Salinas & 1\% & HybridSN & 85.97 $\pm$ 3.00 & 82.88 $\pm$ 3.89 & 77.77 $\pm$ 3.08 & 79.00 $\pm$ 2.76 \\
+Salinas & 2\% & Conv-stem transformer & 83.04 $\pm$ 1.21 & 83.26 $\pm$ 2.38 & 80.30 $\pm$ 1.47 & 81.53 $\pm$ 1.54 \\
+Salinas & 2\% & HybridSN & 87.19 $\pm$ 3.36 & 86.44 $\pm$ 1.91 & 80.30 $\pm$ 1.47 & 81.53 $\pm$ 1.54 \\
+Salinas & 5\% & Conv-stem transformer & 86.59 $\pm$ 1.14 & 86.05 $\pm$ 1.27 & 81.91 $\pm$ 1.79 & 82.27 $\pm$ 2.49 \\
+Salinas & 5\% & HybridSN & 89.03 $\pm$ 1.22 & 89.44 $\pm$ 1.28 & 81.91 $\pm$ 1.79 & 82.27 $\pm$ 2.49 \\
+\bottomrule
+\end{tabular}
+\end{table}

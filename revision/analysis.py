@@ -3,7 +3,7 @@
 Airborne scenes: random pixel split (R1/R18 Indian Pines, R19 Pavia U and Salinas) vs spatially disjoint tiles (R8/R12).
 Local soil: raw patches (R11 + R12 LightGBM) vs soil-only patches (R11b) vs soil-only + brightness-normalised (R13),
 plus the tray-only leakage check (R11b) and the moist/dry cross-state test (R13).
-Reads revision/results/session-{a,e,f,fc,g,gc,h,i,j,k,l,m,n,o,p,q,s,t,u,v,w,x,y,z}/ and writes revision/results/final/{tables,figures}/.
+Reads revision/results/session-{a,e,f,fc,g,gc,h,i,j,k,l,m,n,o,p,q,s,t,u,v,w,x,y,z,r20a-d}/ and writes revision/results/final/{tables,figures}/.
 FDR families (Benjamini-Hochberg): (1) every model-vs-LightGBM test on the airborne scenes, both split protocols;
 (2) every model-vs-LightGBM test on Local soil, all three patch protocols.
 Run: python revision/analysis.py
@@ -151,6 +151,23 @@ for sc, df in scenes.items():
             tests += vs_lightgbm(pd.concat([ref[ref.model == 'RF'], g]), [m], ref='RF', **key)
 save(pd.DataFrame(rows), 'table_long_training', 'Disjoint splits: OA (%) with at most 50 vs 100 epochs (same splits and seeds), and share of runs stopped by the epoch cap.')
 save(bh(pd.DataFrame(tests)).round(4), 'stats_long_vs_baselines', '100-epoch models minus LightGBM (or RF for HybridSN), OA (pp); one BH-FDR family.')
+
+# ---- Matched label budget: R20 reruns HybridSN and the conv-stem transformer with early stopping on 20% of the p
+# training pixels (no extra validation labels), on the R8 splits, so R12 LightGBM and R18 RF stay paired baselines
+r20 = pd.concat([pd.read_csv(f) for s_ in 'abcd' for f in [os.path.join(RES, f'session-r20{s_}', n) for n in
+                 os.listdir(os.path.join(RES, f'session-r20{s_}'))] if f.endswith('.csv')], ignore_index=True)
+rows, tests = [], []
+for sc, df in scenes.items():
+    for (s, m), g in r20[r20.dataset == sc].groupby(['split', 'model']):
+        h, ref = df[(df.split == s) & (df.model == m)], df[df.split == s]
+        rows.append({'Dataset': SCENES[sc][1], 'Labelled': f'{s * 100:g}%', 'Model': NAME[m], 'OA, extra validation': fmt(h.OA.mean(), h.OA.std()),
+                     'OA, matched budget': fmt(g.OA.mean(), g.OA.std()), 'LightGBM': fmt(*(lambda v: (v.mean(), v.std()))(ref[ref.model == 'LightGBM'].OA)),
+                     'RF': fmt(*(lambda v: (v.mean(), v.std()))(ref[ref.model == 'RF'].OA))})
+        key = dict(dataset=SCENES[sc][1], budget=f'{s * 100:g}%')
+        tests += vs_lightgbm(pd.concat([ref[ref.model == 'LightGBM'], g]), [m], **key)
+        tests += vs_lightgbm(pd.concat([ref[ref.model == 'RF'], g]), [m], ref='RF', **key)
+save(pd.DataFrame(rows), 'table_matched_budget', 'Disjoint splits: deep models with up to 3,000 extra validation pixels (R8) vs early stopping on 20% of the p labelled pixels (R20); LightGBM and RF use the p pixels.')
+save(bh(pd.DataFrame(tests)).round(4), 'stats_matched_vs_baselines', 'Matched-budget models minus LightGBM or RF, OA (pp); one BH-FDR family.')
 
 STY = {'LightGBM': 'k-o', 'SVM': '-x', 'ViT': '-v', 'SpectralFormer': '-d', 'ConvStemViT': '-^', 'HybridSN': '-s'}
 

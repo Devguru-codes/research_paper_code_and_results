@@ -1,0 +1,49 @@
+dataset,budget,model,reference,n,diff,ci_low,ci_high,d_z,p,p_fdr
+Indian Pines,1%,Conv-stem transformer,LightGBM,5,-5.0961,-13.3217,3.1296,-0.7693,0.1605,0.2083
+Indian Pines,1%,Conv-stem transformer,Random forest,5,-9.0497,-17.8285,-0.2708,-1.28,0.0458,0.0982
+Indian Pines,1%,HybridSN,LightGBM,5,-2.8507,-13.3643,7.6629,-0.3367,0.4934,0.5149
+Indian Pines,1%,HybridSN,Random forest,5,-6.8043,-13.8003,0.1917,-1.2076,0.0541,0.0998
+Indian Pines,5%,Conv-stem transformer,LightGBM,5,-12.0444,-19.3769,-4.7119,-2.0396,0.0103,0.0435
+Indian Pines,5%,Conv-stem transformer,Random forest,5,-10.4503,-16.9208,-3.9797,-2.0054,0.011,0.0435
+Indian Pines,5%,HybridSN,LightGBM,5,-4.7765,-10.5357,0.9828,-1.0298,0.0827,0.1369
+Indian Pines,5%,HybridSN,Random forest,5,-3.1823,-10.4483,4.0836,-0.5438,0.2908,0.3102
+Indian Pines,10%,Conv-stem transformer,LightGBM,5,-10.5822,-17.5622,-3.6021,-1.8824,0.0136,0.0435
+Indian Pines,10%,Conv-stem transformer,Random forest,5,-10.6674,-15.7755,-5.5594,-2.5931,0.0044,0.0302
+Indian Pines,10%,HybridSN,LightGBM,5,-3.1695,-9.6229,3.2839,-0.6098,0.2444,0.2793
+Indian Pines,10%,HybridSN,Random forest,5,-3.2548,-7.3983,0.8887,-0.9753,0.0946,0.142
+Indian Pines,20%,Conv-stem transformer,LightGBM,5,-8.3724,-16.9683,0.2236,-1.2094,0.0539,0.0998
+Indian Pines,20%,Conv-stem transformer,Random forest,5,-8.0507,-15.5363,-0.5652,-1.3354,0.0405,0.0972
+Indian Pines,20%,HybridSN,LightGBM,5,-5.5328,-13.5483,2.4826,-0.8571,0.1278,0.181
+Indian Pines,20%,HybridSN,Random forest,5,-5.2112,-12.8219,2.3994,-0.8502,0.1301,0.181
+Pavia University,0.5%,Conv-stem transformer,LightGBM,5,-7.8144,-24.3905,8.7617,-0.5854,0.2607,0.2844
+Pavia University,0.5%,Conv-stem transformer,Random forest,5,-10.5015,-29.087,8.0839,-0.7016,0.1918,0.236
+Pavia University,0.5%,HybridSN,LightGBM,5,8.2869,4.6593,11.9146,2.8364,0.0032,0.0302
+Pavia University,0.5%,HybridSN,Random forest,5,5.5998,2.9379,8.2618,2.612,0.0043,0.0302
+Pavia University,1%,Conv-stem transformer,LightGBM,5,4.0446,-4.4211,12.5103,0.5932,0.2553,0.2844
+Pavia University,1%,Conv-stem transformer,Random forest,5,3.3891,-3.4408,10.219,0.6161,0.2404,0.2793
+Pavia University,1%,HybridSN,LightGBM,5,7.91,-0.8664,16.6865,1.1191,0.0666,0.1184
+Pavia University,1%,HybridSN,Random forest,5,7.2545,0.3217,14.1874,1.2993,0.0439,0.0982
+Pavia University,2%,Conv-stem transformer,LightGBM,5,3.07,-2.1078,8.2478,0.7362,0.1751,0.2211
+Pavia University,2%,Conv-stem transformer,Random forest,5,4.5615,-1.1032,10.2262,0.9998,0.089,0.142
+Pavia University,2%,HybridSN,LightGBM,5,5.6127,1.1334,10.092,1.5558,0.0254,0.0677
+Pavia University,2%,HybridSN,Random forest,5,7.1041,3.0562,11.152,2.1791,0.0082,0.0435
+Pavia University,5%,Conv-stem transformer,LightGBM,5,4.2336,0.0595,8.4078,1.2594,0.048,0.0982
+Pavia University,5%,Conv-stem transformer,Random forest,5,5.8144,1.4697,10.1591,1.6617,0.0206,0.0617
+Pavia University,5%,HybridSN,LightGBM,5,5.7728,0.0362,11.5094,1.2495,0.0491,0.0982
+Pavia University,5%,HybridSN,Random forest,5,7.3535,2.6244,12.0827,1.9307,0.0125,0.0435
+Salinas,0.5%,Conv-stem transformer,LightGBM,5,-5.5771,-13.7761,2.6218,-0.8446,0.132,0.181
+Salinas,0.5%,Conv-stem transformer,Random forest,5,-8.3957,-16.0986,-0.6929,-1.3534,0.0389,0.0972
+Salinas,0.5%,HybridSN,LightGBM,5,-0.6608,-6.1221,4.8006,-0.1502,0.7538,0.7538
+Salinas,0.5%,HybridSN,Random forest,5,-3.4793,-7.8578,0.8991,-0.9867,0.092,0.142
+Salinas,1%,Conv-stem transformer,LightGBM,5,-0.7281,-4.4088,2.9525,-0.2456,0.612,0.6251
+Salinas,1%,Conv-stem transformer,Random forest,5,-1.9555,-4.9673,1.0563,-0.8062,0.1458,0.1944
+Salinas,1%,HybridSN,LightGBM,5,5.1132,2.9308,7.2956,2.9091,0.0029,0.0302
+Salinas,1%,HybridSN,Random forest,5,3.8859,1.3348,6.4369,1.8913,0.0134,0.0435
+Salinas,2%,Conv-stem transformer,LightGBM,5,2.9595,-0.4336,6.3525,1.083,0.0726,0.1245
+Salinas,2%,Conv-stem transformer,Random forest,5,1.7315,-1.5657,5.0287,0.652,0.2186,0.2623
+Salinas,2%,HybridSN,LightGBM,5,6.1382,4.0372,8.2392,3.6276,0.0013,0.025
+Salinas,2%,HybridSN,Random forest,5,4.9102,1.8056,8.0149,1.9638,0.0118,0.0435
+Salinas,5%,Conv-stem transformer,LightGBM,5,4.1452,1.9592,6.3312,2.3545,0.0062,0.0374
+Salinas,5%,Conv-stem transformer,Random forest,5,3.789,0.8328,6.7452,1.5914,0.0236,0.0667
+Salinas,5%,HybridSN,LightGBM,5,7.5342,5.8713,9.1971,5.6256,0.0002,0.011
+Salinas,5%,HybridSN,Random forest,5,7.1779,4.5756,9.7803,3.4248,0.0016,0.025

@@ -1,0 +1,58 @@
+\begin{table}
+\caption{Matched-budget models minus LightGBM or RF, OA (pp); one BH-FDR family.}
+\label{tab:stats_matched_vs_baselines}
+\begin{tabular}{llllrrrrrrr}
+\toprule
+dataset & budget & model & reference & n & diff & ci\_low & ci\_high & d\_z & p & p\_fdr \\
+\midrule
+Indian Pines & 1\% & Conv-stem transformer & LightGBM & 5 & -5.1 & -13.3 & 3.13 & -0.769 & 0.161 & 0.208 \\
+Indian Pines & 1\% & Conv-stem transformer & Random forest & 5 & -9.05 & -17.8 & -0.271 & -1.28 & 0.0458 & 0.0982 \\
+Indian Pines & 1\% & HybridSN & LightGBM & 5 & -2.85 & -13.4 & 7.66 & -0.337 & 0.493 & 0.515 \\
+Indian Pines & 1\% & HybridSN & Random forest & 5 & -6.8 & -13.8 & 0.192 & -1.21 & 0.0541 & 0.0998 \\
+Indian Pines & 5\% & Conv-stem transformer & LightGBM & 5 & -12 & -19.4 & -4.71 & -2.04 & 0.0103 & 0.0435 \\
+Indian Pines & 5\% & Conv-stem transformer & Random forest & 5 & -10.5 & -16.9 & -3.98 & -2.01 & 0.011 & 0.0435 \\
+Indian Pines & 5\% & HybridSN & LightGBM & 5 & -4.78 & -10.5 & 0.983 & -1.03 & 0.0827 & 0.137 \\
+Indian Pines & 5\% & HybridSN & Random forest & 5 & -3.18 & -10.4 & 4.08 & -0.544 & 0.291 & 0.31 \\
+Indian Pines & 10\% & Conv-stem transformer & LightGBM & 5 & -10.6 & -17.6 & -3.6 & -1.88 & 0.0136 & 0.0435 \\
+Indian Pines & 10\% & Conv-stem transformer & Random forest & 5 & -10.7 & -15.8 & -5.56 & -2.59 & 0.0044 & 0.0302 \\
+Indian Pines & 10\% & HybridSN & LightGBM & 5 & -3.17 & -9.62 & 3.28 & -0.61 & 0.244 & 0.279 \\
+Indian Pines & 10\% & HybridSN & Random forest & 5 & -3.25 & -7.4 & 0.889 & -0.975 & 0.0946 & 0.142 \\
+Indian Pines & 20\% & Conv-stem transformer & LightGBM & 5 & -8.37 & -17 & 0.224 & -1.21 & 0.0539 & 0.0998 \\
+Indian Pines & 20\% & Conv-stem transformer & Random forest & 5 & -8.05 & -15.5 & -0.565 & -1.34 & 0.0405 & 0.0972 \\
+Indian Pines & 20\% & HybridSN & LightGBM & 5 & -5.53 & -13.5 & 2.48 & -0.857 & 0.128 & 0.181 \\
+Indian Pines & 20\% & HybridSN & Random forest & 5 & -5.21 & -12.8 & 2.4 & -0.85 & 0.13 & 0.181 \\
+Pavia University & 0.5\% & Conv-stem transformer & LightGBM & 5 & -7.81 & -24.4 & 8.76 & -0.585 & 0.261 & 0.284 \\
+Pavia University & 0.5\% & Conv-stem transformer & Random forest & 5 & -10.5 & -29.1 & 8.08 & -0.702 & 0.192 & 0.236 \\
+Pavia University & 0.5\% & HybridSN & LightGBM & 5 & 8.29 & 4.66 & 11.9 & 2.84 & 0.0032 & 0.0302 \\
+Pavia University & 0.5\% & HybridSN & Random forest & 5 & 5.6 & 2.94 & 8.26 & 2.61 & 0.0043 & 0.0302 \\
+Pavia University & 1\% & Conv-stem transformer & LightGBM & 5 & 4.04 & -4.42 & 12.5 & 0.593 & 0.255 & 0.284 \\
+Pavia University & 1\% & Conv-stem transformer & Random forest & 5 & 3.39 & -3.44 & 10.2 & 0.616 & 0.24 & 0.279 \\
+Pavia University & 1\% & HybridSN & LightGBM & 5 & 7.91 & -0.866 & 16.7 & 1.12 & 0.0666 & 0.118 \\
+Pavia University & 1\% & HybridSN & Random forest & 5 & 7.25 & 0.322 & 14.2 & 1.3 & 0.0439 & 0.0982 \\
+Pavia University & 2\% & Conv-stem transformer & LightGBM & 5 & 3.07 & -2.11 & 8.25 & 0.736 & 0.175 & 0.221 \\
+Pavia University & 2\% & Conv-stem transformer & Random forest & 5 & 4.56 & -1.1 & 10.2 & 1 & 0.089 & 0.142 \\
+Pavia University & 2\% & HybridSN & LightGBM & 5 & 5.61 & 1.13 & 10.1 & 1.56 & 0.0254 & 0.0677 \\
+Pavia University & 2\% & HybridSN & Random forest & 5 & 7.1 & 3.06 & 11.2 & 2.18 & 0.0082 & 0.0435 \\
+Pavia University & 5\% & Conv-stem transformer & LightGBM & 5 & 4.23 & 0.0595 & 8.41 & 1.26 & 0.048 & 0.0982 \\
+Pavia University & 5\% & Conv-stem transformer & Random forest & 5 & 5.81 & 1.47 & 10.2 & 1.66 & 0.0206 & 0.0617 \\
+Pavia University & 5\% & HybridSN & LightGBM & 5 & 5.77 & 0.0362 & 11.5 & 1.25 & 0.0491 & 0.0982 \\
+Pavia University & 5\% & HybridSN & Random forest & 5 & 7.35 & 2.62 & 12.1 & 1.93 & 0.0125 & 0.0435 \\
+Salinas & 0.5\% & Conv-stem transformer & LightGBM & 5 & -5.58 & -13.8 & 2.62 & -0.845 & 0.132 & 0.181 \\
+Salinas & 0.5\% & Conv-stem transformer & Random forest & 5 & -8.4 & -16.1 & -0.693 & -1.35 & 0.0389 & 0.0972 \\
+Salinas & 0.5\% & HybridSN & LightGBM & 5 & -0.661 & -6.12 & 4.8 & -0.15 & 0.754 & 0.754 \\
+Salinas & 0.5\% & HybridSN & Random forest & 5 & -3.48 & -7.86 & 0.899 & -0.987 & 0.092 & 0.142 \\
+Salinas & 1\% & Conv-stem transformer & LightGBM & 5 & -0.728 & -4.41 & 2.95 & -0.246 & 0.612 & 0.625 \\
+Salinas & 1\% & Conv-stem transformer & Random forest & 5 & -1.96 & -4.97 & 1.06 & -0.806 & 0.146 & 0.194 \\
+Salinas & 1\% & HybridSN & LightGBM & 5 & 5.11 & 2.93 & 7.3 & 2.91 & 0.0029 & 0.0302 \\
+Salinas & 1\% & HybridSN & Random forest & 5 & 3.89 & 1.33 & 6.44 & 1.89 & 0.0134 & 0.0435 \\
+Salinas & 2\% & Conv-stem transformer & LightGBM & 5 & 2.96 & -0.434 & 6.35 & 1.08 & 0.0726 & 0.124 \\
+Salinas & 2\% & Conv-stem transformer & Random forest & 5 & 1.73 & -1.57 & 5.03 & 0.652 & 0.219 & 0.262 \\
+Salinas & 2\% & HybridSN & LightGBM & 5 & 6.14 & 4.04 & 8.24 & 3.63 & 0.0013 & 0.025 \\
+Salinas & 2\% & HybridSN & Random forest & 5 & 4.91 & 1.81 & 8.01 & 1.96 & 0.0118 & 0.0435 \\
+Salinas & 5\% & Conv-stem transformer & LightGBM & 5 & 4.15 & 1.96 & 6.33 & 2.35 & 0.0062 & 0.0374 \\
+Salinas & 5\% & Conv-stem transformer & Random forest & 5 & 3.79 & 0.833 & 6.75 & 1.59 & 0.0236 & 0.0667 \\
+Salinas & 5\% & HybridSN & LightGBM & 5 & 7.53 & 5.87 & 9.2 & 5.63 & 0.0002 & 0.011 \\
+Salinas & 5\% & HybridSN & Random forest & 5 & 7.18 & 4.58 & 9.78 & 3.42 & 0.0016 & 0.025 \\
+\bottomrule
+\end{tabular}
+\end{table}
