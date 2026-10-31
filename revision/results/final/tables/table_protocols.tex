@@ -1,0 +1,34 @@
+\begin{table}
+\caption{OA (%), random pixel split vs spatially disjoint tiles (mean $\pm$ SD over 5 seeds).}
+\label{tab:table_protocols}
+\begin{tabular}{llllllll}
+\toprule
+Dataset & Split & Labelled & LightGBM & Spectral transformer & Grouped-band transformer & Conv-stem transformer & HybridSN \\
+\midrule
+Indian Pines & Random pixels & 1\% & 51.01 $\pm$ 2.29 & 46.69 $\pm$ 2.11 & 46.48 $\pm$ 1.68 & 39.53 $\pm$ 1.75 & 53.19 $\pm$ 2.28 \\
+Indian Pines & Random pixels & 5\% & 69.81 $\pm$ 0.64 & 61.62 $\pm$ 1.03 & 58.89 $\pm$ 2.20 & 72.55 $\pm$ 5.82 & 89.01 $\pm$ 1.16 \\
+Indian Pines & Random pixels & 10\% & 76.58 $\pm$ 0.85 & 74.64 $\pm$ 1.53 & 66.37 $\pm$ 1.26 & 90.25 $\pm$ 2.38 & 97.02 $\pm$ 0.47 \\
+Indian Pines & Random pixels & 20\% & 82.55 $\pm$ 0.59 & 76.84 $\pm$ 2.12 & 69.64 $\pm$ 1.35 & 92.10 $\pm$ 2.99 & 99.20 $\pm$ 0.23 \\
+Indian Pines & Disjoint tiles & 1\% & 37.38 $\pm$ 6.49 & 32.90 $\pm$ 9.14 & 35.15 $\pm$ 9.97 & 33.01 $\pm$ 9.29 & 34.95 $\pm$ 7.86 \\
+Indian Pines & Disjoint tiles & 5\% & 46.90 $\pm$ 5.31 & 37.57 $\pm$ 7.71 & 35.56 $\pm$ 8.67 & 31.10 $\pm$ 16.36 & 42.26 $\pm$ 7.84 \\
+Indian Pines & Disjoint tiles & 10\% & 46.84 $\pm$ 5.56 & 42.52 $\pm$ 5.98 & 40.03 $\pm$ 6.57 & 37.89 $\pm$ 10.12 & 43.25 $\pm$ 10.61 \\
+Indian Pines & Disjoint tiles & 20\% & 48.99 $\pm$ 6.23 & 51.36 $\pm$ 5.56 & 48.03 $\pm$ 5.24 & 40.95 $\pm$ 10.70 & 45.16 $\pm$ 6.43 \\
+Pavia University & Random pixels & 0.5\% & 76.15 $\pm$ 1.65 & 74.44 $\pm$ 1.65 & 74.33 $\pm$ 0.99 & 72.75 $\pm$ 4.47 & 83.94 $\pm$ 2.13 \\
+Pavia University & Random pixels & 1\% & 81.35 $\pm$ 0.26 & 78.98 $\pm$ 1.52 & 77.18 $\pm$ 0.73 & 85.62 $\pm$ 2.29 & 89.84 $\pm$ 1.56 \\
+Pavia University & Random pixels & 2\% & 85.94 $\pm$ 0.76 & 83.54 $\pm$ 2.49 & 79.91 $\pm$ 0.53 & 92.33 $\pm$ 0.75 & 95.68 $\pm$ 1.20 \\
+Pavia University & Random pixels & 5\% & 89.93 $\pm$ 0.27 & 90.64 $\pm$ 1.39 & 86.44 $\pm$ 1.88 & 97.81 $\pm$ 0.61 & 98.97 $\pm$ 0.39 \\
+Pavia University & Disjoint tiles & 0.5\% & 72.34 $\pm$ 3.97 & 70.69 $\pm$ 2.85 & 69.52 $\pm$ 2.86 & 74.78 $\pm$ 5.12 & 80.71 $\pm$ 5.60 \\
+Pavia University & Disjoint tiles & 1\% & 74.22 $\pm$ 5.83 & 72.04 $\pm$ 6.56 & 71.78 $\pm$ 6.09 & 79.90 $\pm$ 4.70 & 83.36 $\pm$ 3.03 \\
+Pavia University & Disjoint tiles & 2\% & 79.15 $\pm$ 2.98 & 77.69 $\pm$ 5.24 & 73.57 $\pm$ 4.47 & 85.94 $\pm$ 4.95 & 86.01 $\pm$ 5.53 \\
+Pavia University & Disjoint tiles & 5\% & 83.04 $\pm$ 3.57 & 83.21 $\pm$ 5.07 & 79.37 $\pm$ 3.33 & 87.36 $\pm$ 4.99 & 90.17 $\pm$ 4.41 \\
+Salinas & Random pixels & 0.5\% & 82.45 $\pm$ 1.69 & 74.55 $\pm$ 2.10 & 77.23 $\pm$ 0.93 & 76.26 $\pm$ 4.93 & 83.48 $\pm$ 2.23 \\
+Salinas & Random pixels & 1\% & 86.06 $\pm$ 0.96 & 81.02 $\pm$ 1.21 & 82.69 $\pm$ 1.19 & 88.30 $\pm$ 1.18 & 93.42 $\pm$ 2.15 \\
+Salinas & Random pixels & 2\% & 88.61 $\pm$ 0.40 & 85.77 $\pm$ 0.72 & 85.14 $\pm$ 0.42 & 93.82 $\pm$ 0.36 & 97.15 $\pm$ 0.86 \\
+Salinas & Random pixels & 5\% & 90.92 $\pm$ 0.18 & 89.09 $\pm$ 0.55 & 88.70 $\pm$ 0.72 & 97.20 $\pm$ 0.24 & 99.49 $\pm$ 0.07 \\
+Salinas & Disjoint tiles & 0.5\% & 73.59 $\pm$ 2.97 & 64.97 $\pm$ 7.18 & 69.55 $\pm$ 5.77 & 70.28 $\pm$ 2.96 & 76.67 $\pm$ 2.55 \\
+Salinas & Disjoint tiles & 1\% & 77.77 $\pm$ 3.08 & 72.77 $\pm$ 3.63 & 74.92 $\pm$ 2.42 & 79.85 $\pm$ 3.83 & 85.97 $\pm$ 3.00 \\
+Salinas & Disjoint tiles & 2\% & 80.30 $\pm$ 1.47 & 78.13 $\pm$ 3.99 & 78.02 $\pm$ 0.87 & 83.04 $\pm$ 1.21 & 87.19 $\pm$ 3.36 \\
+Salinas & Disjoint tiles & 5\% & 81.91 $\pm$ 1.79 & 81.49 $\pm$ 2.33 & 81.28 $\pm$ 2.46 & 86.59 $\pm$ 1.14 & 89.03 $\pm$ 1.22 \\
+\bottomrule
+\end{tabular}
+\end{table}
