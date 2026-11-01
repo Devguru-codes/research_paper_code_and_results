@@ -1,35 +1,54 @@
-# Annotation Budget Matters: A Systematic Evaluation of Deep Learning and Gradient Boosting for Hyperspectral Soil Classification
+# Evaluation design can decide the winner: spatial and acquisition leakage in few-label hyperspectral classification
 
-This repository contains the source code, experimental notebooks, and resulting metrics for the paper:
-**"Annotation Budget Matters: A Systematic Evaluation of Deep Learning and Gradient Boosting for Hyperspectral Soil Classification"**
+Code, split definitions, per-seed results and manuscript for the letter submitted to *Remote Sensing Letters*.
 
-## Overview
-This study challenges the assumption that complex deep learning architectures are universally optimal for hyperspectral imaging (HSI) classification, particularly under severe annotation starvation. We pit modern deep sequence models (Vision Transformers, SpectralFormers, GCNs, 3D-CNNs) against robust traditional gradient-boosting ensembles (LightGBM).
+The letter compares LightGBM, a random forest, an RBF-SVM, three transformers and the 3-D CNN HybridSN
+under leaky and controlled evaluation protocols:
 
-**Key Findings:**
-1. **The Crossover Point:** Under extreme few-shot regimes (e.g., $<5\%$ training data), classical LightGBM remains robust and outperforms attention-based mechanisms. As the annotation budget increases, deep models with local inductive biases (HybridSN) rapidly overtake LightGBM.
-2. **Asymmetric Cross-Domain Transfer:** Pre-training on abundant macro-agriculture data successfully rescues deep models in data-starved micro-soil scenarios. However, the reverse yields negative transfer due to severe domain shift.
-3. **Physical Interpretability:** Utilizing SHAP (SHapley Additive exPlanations), we verified that models ground their decisions in physically meaningful absorption bands (e.g., water absorption at 1400nm, clay content).
+- **Spatial leakage.** On Indian Pines, a random pixel split puts HybridSN 17-20 percentage points ahead
+  of LightGBM; on spatially disjoint tiles no deep model is significantly better. On Pavia University and
+  Salinas the random split inflates accuracy by up to 11 points but keeps the ranking, and HybridSN stays
+  ahead under disjoint tiles, also when early stopping uses only the labelled budget.
+- **Acquisition leakage.** In laboratory soil images, 38-72% of patches show only the sample tray, and a
+  classifier trained on tray patches alone reaches 87% (chance 33%). After masking the tray and normalising
+  brightness, every model averages about 94% or more with one labelled sample per class.
 
-## Repository Structure
+## Repository structure
 
 ```
 .
-├── notebooks/                # Jupyter notebooks for model training, transfer learning, and ablations
-├── results_from_notebook/    # Output metrics, classification maps, and SHAP analyses
-├── *.png                     # High-resolution figures generated for the manuscript
-└── springer_manuscript.tex   # The LaTeX source file for the final manuscript
+├── rsl_manuscript.tex / .pdf     # the letter (Taylor & Francis Interact template, interact.cls)
+├── rsl_supplementary.tex / .pdf  # supplementary tables S1-S2
+├── references.bib
+├── results/figures/              # figures used by the letter (copies of revision/results/final/figures)
+├── revision/                     # all code and results for the letter
+│   ├── hsi_common.py             # shared protocol: data loading, splits, models, training, logging
+│   ├── r*_*.py                   # one script per experiment (R1-R20, see REVISION_PLAN.md)
+│   ├── build.sh                  # packs a session's scripts into one Kaggle kernel and pushes it
+│   ├── analysis.py               # tables, statistics and figures from the logged results
+│   ├── stats_utils.py            # paired t-test, Benjamini-Hochberg FDR, table writer
+│   ├── wavelengths/              # band-centre wavelengths (soil camera, Indian Pines)
+│   └── results/session-*/        # per-seed CSV/JSONL logs and run manifests from each Kaggle session
+├── notebooks/, results_from_notebook/  # earlier version of the study (superseded, kept for the record)
+└── REVISION_PLAN.md              # experiment plan and data-check notes
 ```
 
-## Abstract
-The integration of deep learning architectures in hyperspectral imaging (HSI) has yielded exceptional results, yet a significant disconnect remains between standard benchmarking environments and the operational realities of remote sensing, where ground-truth labeling is extremely scarce. In this paper, we challenge the assumption that complex deep learning models are optimal for all scenarios by evaluating modern architectures against traditional gradient-boosting ensembles across strict annotation budgets. Our empirical analysis reveals a distinct crossover point: while standard deep sequence models exhibit severe degradation in extreme few-shot regimes ($<5\%$ training data), classical LightGBM models remain robust, outperforming domain-specific transformers. We then introduce an Asymmetric Cross-Domain Transfer Learning framework, demonstrating that pre-training on an abundant macro-agriculture source domain successfully rescues deep models in data-starved micro-soil target environments, whereas the reverse domain shift yields negative transfer. Ultimately, we provide an actionable framework for agricultural deployment, recommending traditional ensembles for off-the-shelf, low-resource drone applications, and reserving deep models for scenarios where hierarchical pre-training is feasible.
+## Reproducing
 
-## Models Evaluated
-* **LightGBM** (Gradient Boosting Decision Trees)
-* **HybridSN** (3D-CNN with strong local inductive biases)
-* **Vanilla ViT** (Standard Vision Transformer)
-* **SpectralFormer-inspired** (Domain-specific Vision Transformer)
-* **1D-CNN** & **GCN** (Baselines)
+All experiments ran on Kaggle (NVIDIA Tesla T4 for the deep models). The airborne scenes are downloaded by
+`hsi_common.load_scene`; the soil images are the Kaggle dataset
+[local-soil-hyperspectral-dataset](https://www.kaggle.com/datasets/dev123123456/local-soil-hyperspectral-dataset).
 
-## Getting Started
-The notebooks can be executed independently. Ensure that you have the appropriate Python environment with PyTorch (for deep models) and LightGBM installed. Wait for the dataset paths to be properly configured before running the notebooks locally.
+```bash
+cd revision
+bash build.sh smoke f    # 1 seed, 1 budget, 2 epochs
+bash build.sh full f     # full run; GPU=false for a CPU kernel, KAGGLE_OWNER=<user> for another account
+```
+
+Download a finished kernel's output into `revision/results/session-<id>/`, then rebuild every table and figure:
+
+```bash
+python revision/analysis.py
+```
+
+Outputs go to `revision/results/final/{tables,figures}/`.

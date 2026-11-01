@@ -96,7 +96,10 @@ def disjoint_tiles(gt, seed, tile, margin=7, tries=400, big=50):
                sum(n_pool[c] >= 10 and n_test[c] > 0 for c in total), test.sum())
         if best is None or key > best[0]:
             best = (key, pool, test)
-    return best[1], best[2]
+    pool, test = best[1], best[2]
+    # the paper's no-leakage claim: no test window (15x15) reaches a training-area pixel
+    assert not (test & binary_dilation(pool, structure=np.ones((2 * margin + 1, 2 * margin + 1)))).any()
+    return pool, test
 
 
 def disjoint_split(gt, frac, seed, tile, val_cap=3000):
@@ -115,6 +118,8 @@ def disjoint_split(gt, frac, seed, tile, val_cap=3000):
     va = np.argwhere(rest)
     va = va[rng.choice(len(va), min(val_cap, len(va)), replace=False)]
     te = np.argwhere(test & np.isin(gt, np.unique(gt[pool])))  # score only classes the training area contains
+    ids = [set(map(tuple, a)) for a in (tr, va, te)]
+    assert not (ids[0] & ids[1] or ids[0] & ids[2] or ids[1] & ids[2]), 'train/val/test overlap'
     return (tr[:, 0], tr[:, 1]), (va[:, 0], va[:, 1]), (te[:, 0], te[:, 1])
 
 

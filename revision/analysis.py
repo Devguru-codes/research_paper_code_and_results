@@ -83,9 +83,13 @@ soil = {'Raw patches': scratch(with_r12(load('h', 'r11'), 'Local')),
 
 
 def vs_lightgbm(g, models, ref='LightGBM', **key):
-    lg = g[g.model == ref].sort_values('seed').OA
-    return [dict(**key, model=NAME[m], reference=NAME[ref], **paired(lg, g[g.model == m].sort_values('seed').OA))
-            for m in models if m != ref and (g.model == m).any()]
+    """Paired over the seeds both models have (joined on seed, so a missing run cannot shift the pairing)."""
+    out = []
+    for m in models:
+        if m != ref and (g.model == m).any():
+            j = g[g.model == ref][['seed', 'OA']].merge(g[g.model == m][['seed', 'OA']], on='seed', validate='1:1')
+            out.append(dict(**key, model=NAME[m], reference=NAME[ref], **paired(j.OA_x, j.OA_y)))
+    return out
 
 
 # ---- Airborne: random pixel split vs disjoint split on each scene, and the three disjoint scenes
