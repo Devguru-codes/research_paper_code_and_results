@@ -29,3 +29,17 @@ env/
 *.mat
 *.h5
 *.hdf5
+
+# Manuscript and submission files are kept locally, not in this repository
+/*.tex
+/*.bib
+/*.cls
+/*.bst
+/*.pdf
+/cover_letter.md
+/REVISION_PLAN.md
+
+# Local scratch: Kaggle kernel builds, smoke-test outputs, local run output
+code/build/
+results/smoke/
+out/
